@@ -17,13 +17,13 @@
 	        <col style="width:45%">
             <col style="width:10%">
             <tr>
-                <th><strong>Question</th>
-                <th><strong>Submission time</th>
-                <th><strong>View number</th>
-                <th><strong>Vote number</th>
-                <th><strong>Title</th>
-                <th><strong>Message</th>
-                <th><strong>Image</th>
+                <th><strong>Question</strong></th>
+                <th><strong>Submission time</strong></th>
+                <th><strong>View number</strong></th>
+                <th><strong>Vote number</strong></th>
+                <th><strong>Title</strong></th>
+                <th><strong>Message</strong></th>
+                <th><strong>Image</strong></th>
             </tr>
 
                 {% for question in range(0, len_of_list_of_questions) %}
@@ -34,7 +34,7 @@
                         <td>{{ list_of_questions[question]['vote_number']}}</td>
                         <td>{{ list_of_questions[question]['title']}}</td>
                         <td>{{ list_of_questions[question]['message']}}</td>
-                        <td><a href="list_of_questions[question]['image']]}}"> {{ list_of_questions[question]['image']}}</td>
+                        <td><a href="list_of_questions[question]['image']]}}"></a> {{ list_of_questions[question]['image']}}</td>
                     </tr>
                 {% endfor %}
             </tr>
