@@ -17,9 +17,12 @@ def list_questions():
     return render_template('list.html', list_of_questions=list_of_questions, len_of_list_of_questions=len_of_list_of_questions)
 
 
-@app.route('/add-question')
+@app.route('/add-question', methods=['POST', 'GET'])
 def route_form_question():
-    return render_template('form.html', form_type=1)
+    if request.method == 'GET':
+        return render_template('form.html', form_type=1)
+    if request.method == 'POST':
+        return redirect('/question/<question_id>')
 
 
 @app.route('/question/<question_id>/new-answer)')
