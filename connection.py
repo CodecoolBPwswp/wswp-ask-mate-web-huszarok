@@ -9,7 +9,7 @@ def get_data_from_file(data):
     list_of_questions = []
     filename = "%s" % data
     with open(filename, "r") as file:
-        questions = csv.reader(file)
+        questions = csv.DictReader(file)
         for line in questions:
             list_of_questions.append(line)
     return list_of_questions
