@@ -12,7 +12,7 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/list')
 def list_questions():
-    list_of_questions = data_manager.get_questions_from_file()
+    list_of_questions = data_manager.sort_questions_by_date()
     len_of_list_of_questions = len(list_of_questions)
     return render_template('list.html', list_of_questions=list_of_questions, len_of_list_of_questions=len_of_list_of_questions)
 
