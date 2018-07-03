@@ -4,15 +4,15 @@ In this case, we use CSV files, but later on we'll change this to SQL database. 
 
 import csv
 
-#using CSV Reader, not Dictreader
+
 def get_data_from_file(data):
-    list_of_questions = []
+    list_of_entries = []
     filename = "%s" % data
     with open(filename, "r") as file:
-        questions = csv.DictReader(file)
-        for line in questions:
-            list_of_questions.append(line)
-    return list_of_questions
+        entries = csv.DictReader(file)
+        for line in entries:
+            list_of_entries.append(line)
+    return list_of_entries
 
 
 
