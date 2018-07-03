@@ -11,6 +11,16 @@ def get_questions_from_file():
     return list_of_questions
 
 
+def append_question_from_server():
+    pass
+
+def generate_id():
+    pass
+
+def generate_timestamp():
+    pass
+
+
 def get_answers_from_file():
     list_of_answers = connection.get_data_from_file('sample_data/answer.csv')
     return list_of_answers
