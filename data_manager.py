@@ -14,7 +14,7 @@ def get_questions_from_file():
 
 def append_question_from_server():
     pass
-    id = util.generate id('question')    #megnézi, hogy questionhöz vagy answershez kell új id-t generálni
+    id = util.generate_id('question')   #megnézi, hogy questionhöz vagy answershez kell új id-t generálni
     #date = generate_timestamp()   aktuális dátum adatait lekéri majd UNIX formátumba konvertálja
     #0: egyelőre default érték a Vote-hoz és a View-hoz
     # title, message: a servertől érkező adatok
