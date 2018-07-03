@@ -24,6 +24,6 @@ def route_form_question():
 
 if __name__ == '__main__':
     app.run(
-        debug=True,  # as in the tutorial --> to ask!!
-        port=5000  # Set port
+        debug=True,
+        port=5000
     )
