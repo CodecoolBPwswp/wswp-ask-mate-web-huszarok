@@ -6,7 +6,7 @@ from flask import Flask, render_template, redirect, request
 app = Flask(__name__)
 
 
-@app.route('/add-question)')
+@app.route('/add-question')
 def route_form_question():
     return render_template('form.html', form_type=1)
 
@@ -16,4 +16,4 @@ if __name__ == '__main__':
     app.run(
         host="0.0.0.0",
         debug=True,
-        port=5000
+        port=5000)
