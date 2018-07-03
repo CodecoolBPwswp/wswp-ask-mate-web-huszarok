@@ -17,6 +17,11 @@ def list_questions():
     return render_template('list.html', list_of_questions=list_of_questions, len_of_list_of_questions=len_of_list_of_questions)
 
 
+@app.route('/add-question')
+def route_form_question():
+    return render_template('form.html', form_type=1)
+
+
 if __name__ == '__main__':
     app.run(
         debug=True,  # as in the tutorial --> to ask!!

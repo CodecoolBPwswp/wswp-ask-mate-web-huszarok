@@ -2,9 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>No title yet</title>
+    {% if form_type == 1 %}
+            <title>Ask a Question | AskMate</title>
+    {% elif form_type == 2%}
+            <title>Edit Question | AskMate</title>
+    {% elif form_type == 3%}
+            <title>Answer Question | AskMate</title>
+    {% endif %}
 </head>
 <body>
-
+    {% if form_type == 1 %}
+            <h2>Ask a Question</h2>
+            <label for="question_input">Ask a question:</label>
+            <textarea id="question_input" name="question" rows="8" cols="80" required></textarea>
+            <button id="submit_button" style="position:relative; top:35px; left:-90px;" type="submit">Submit Question</button>
+    {% elif form_type == 2%}
+            <h2>Edit Question</h2>
+    {% elif form_type == 3%}
+            <h2>Answer Question</h2>
+    {% endif %}
 </body>
 </html>
