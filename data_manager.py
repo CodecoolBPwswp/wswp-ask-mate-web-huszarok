@@ -14,8 +14,10 @@ def get_questions_from_file():
 def append_question_from_server():
     pass
 
+
 def generate_id():
     pass
+
 
 def generate_timestamp():
     pass
