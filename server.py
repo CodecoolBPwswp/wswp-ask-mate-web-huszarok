@@ -22,6 +22,11 @@ def route_form_question():
     return render_template('form.html', form_type=1)
 
 
+@app.route('/question/<question_id>/new-answer)')
+def answer_question():
+    return render_template('form.html', form_type=3)
+
+
 if __name__ == '__main__':
     app.run(
         debug=True,  # as in the tutorial --> to ask!!
