@@ -8,7 +8,14 @@
     <body>
 
         <h1><strong>AskMate</strong></h1>
-        <table>
+        <table border="0" width="1400">
+	        <col style="width:5%">
+	        <col style="width:10%">
+	        <col style="width:5%">
+            <col style="width:5%">
+	        <col style="width:20%">
+	        <col style="width:45%">
+            <col style="width:10%">
             <tr>
                 <th><strong>Question</th>
                 <th><strong>Submission time</th>
@@ -22,7 +29,7 @@
                 {% for question in range(0, len_of_list_of_questions) %}
                     <tr>
                         <td>{{ list_of_questions[question]['id']}}</td>
-                        <td>{{ list_of_questions[question]['submission_time']}}</a></td>
+                        <td>{{ list_of_questions[question]['submission_time']}}</td>
                         <td>{{ list_of_questions[question]['view_number']}}</td>
                         <td>{{ list_of_questions[question]['vote_number']}}</td>
                         <td>{{ list_of_questions[question]['title']}}</td>
