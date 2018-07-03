@@ -2,7 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>No title yet</title>
+    {% if form_type == 1 %}
+            <title>Ask a Question | AskMate</title>
+    {% elif form_type == 2%}
+            <title>Edit Question | AskMate</title>
+    {% elif form_type == 3%}
+            <title>Answer Question | AskMate</title>
+    {% endif %}
 </head>
 <body>
 
