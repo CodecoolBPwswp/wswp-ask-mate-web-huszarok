@@ -21,13 +21,13 @@
 
                 {% for question in range(0, len_of_list_of_questions) %}
                     <tr>
-                        <td>{{ list_of_questions[question][0]}}</td>
-                        <td>{{ list_of_questions[question][1]}}</a></td>
-                        <td>{{ list_of_questions[question][2]}}</td>
-                        <td>{{ list_of_questions[question][3]}}</td>
-                        <td>{{ list_of_questions[question][4]}}</td>
-                        <td>{{ list_of_questions[question][5]}}</td>
-                        <td><a href="list_of_questions[question][6]]}}"> {{ list_of_questions[question][6]}}</td>
+                        <td>{{ list_of_questions[question]['id']}}</td>
+                        <td>{{ list_of_questions[question]['submission_time']}}</a></td>
+                        <td>{{ list_of_questions[question]['view_number']}}</td>
+                        <td>{{ list_of_questions[question]['vote_number']}}</td>
+                        <td>{{ list_of_questions[question]['title']}}</td>
+                        <td>{{ list_of_questions[question]['message']}}</td>
+                        <td><a href="list_of_questions[question]['image']]}}"> {{ list_of_questions[question]['image']}}</td>
                     </tr>
                 {% endfor %}
             </tr>
