@@ -25,15 +25,15 @@
     {% elif form_type == 4%}
         <h1>Display question</h1>
         <table style="width: 60%">
-        {%  for dict_item in get_question %}
-            {% for key, values in dict_item.items() %}
+
+            {% for key, values in get_question.items() %}
         <tr>
                 <th>{{ key }}</th>
         </tr>
         <tr>
                 <td>{{ values }}</td>
         </tr>
-        {% endfor %}
+
         {% endfor %}
         </table>
     {% endif %}
