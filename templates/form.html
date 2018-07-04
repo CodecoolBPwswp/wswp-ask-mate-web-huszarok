@@ -12,12 +12,14 @@
 </head>
 <body>
     {% if form_type == 1 %}
+        <form action="/add-question", method="post">
             <h2>Ask a Question</h2>
             <label for="title_input">Title:</label>
-            <input id="title_input" type="text" name="text">
+            <input id="title_input" name="title" type="text" name="text">
             <label for="question_input">Ask a question:</label>
             <textarea id="question_input" name="question" rows="8" cols="80" required></textarea>
             <button id="submit_button" style="position:relative; top:35px; left:-90px;" type="submit">Submit Question</button>
+        </form>
     {% elif form_type == 2%}
             <h2>Edit Question</h2>
     {% elif form_type == 3%}
