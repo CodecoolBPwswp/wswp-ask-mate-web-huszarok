@@ -23,39 +23,33 @@
                 <option value="vote_number,1" >Number of votes - desc</option>
                 <option value="title,0" >Title - asc</option>
                 <option value="title,1" >Title - desc</option>
-                <option value="message,0" >Message - asc</option>
-                <option value="message,1" >Message - desc</option>
+
             </select>
                 <button id="sort_button", type="submit">Sort</button>
         </form>
 
-        <table border="0" width="1400">
-	        <col style="width:5%">
+        <table border="0" width="1100">
 	        <col style="width:10%">
-	        <col style="width:5%">
-            <col style="width:5%">
 	        <col style="width:20%">
-	        <col style="width:45%">
-            <col style="width:10%">
+	        <col style="width:15%">
+            <col style="width:15%">
+	        <col style="width:40%">
             <tr>
                 <th><strong>Question</strong></th>
                 <th><strong>Submission time</strong></th>
                 <th><strong>View number</strong></th>
                 <th><strong>Vote number</strong></th>
                 <th><strong>Title</strong></th>
-                <th><strong>Message</strong></th>
-                <th><strong>Image</strong></th>
             </tr>
 
                 {% for question in range(0, len_of_list_of_questions) %}
                     <tr>
-                        <td>{{ list_of_questions[question]['id']}}</td>
-                        <td>{{ list_of_questions[question]['submission_time']}}</td>
-                        <td>{{ list_of_questions[question]['view_number']}}</td>
-                        <td>{{ list_of_questions[question]['vote_number']}}</td>
-                        <td>{{ list_of_questions[question]['title']}}</td>
-                        <td>{{ list_of_questions[question]['message']}}</td>
-                        <td><a href="list_of_questions[question]['image']]}}"></a> {{ list_of_questions[question]['image']}}</td>
+                        <td align="center">{{ list_of_questions[question]['id']}}</td>
+                        <td align="center">{{ list_of_questions[question]['submission_time']}}</td>
+                        <td align="center">{{ list_of_questions[question]['view_number']}}</td>
+                        <td align="center">{{ list_of_questions[question]['vote_number']}}</td>
+                        <td align="left">{{ list_of_questions[question]['title']}}</td>
+
                     </tr>
                 {% endfor %}
             </tr>
