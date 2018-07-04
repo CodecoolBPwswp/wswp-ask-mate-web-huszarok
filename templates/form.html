@@ -20,6 +20,20 @@
             <h2>Edit Question</h2>
     {% elif form_type == 3%}
             <h2>Answer Question</h2>
+    {% elif form_type == 4%}
+        <h1>Display question</h1>
+        <table style="width: 60%">
+        {%  for dict_item in get_question %}
+            {% for key, values in dict_item.items() %}
+        <tr>
+                <th>{{ key }}</th>
+        </tr>
+        <tr>
+                <td>{{ values }}</td>
+        </tr>
+        {% endfor %}
+        {% endfor %}
+        </table>
     {% endif %}
 </body>
 </html>
