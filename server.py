@@ -54,9 +54,11 @@ def answer_question(question_id):
 def display_questions(question_id):
     get_question = data_manager.get_questions_from_file()
     get_answer = data_manager.get_answers_from_file()
-
-    return render_template("form.html", form_type=4,
-                           id=question_id, get_question=get_question, get_answer=get_answer)
+    for dict_items in get_question:
+        for key, value in dict_items.items():
+            if dict_items['id'] == question_id:
+                return render_template("form.html", form_type=4,
+                                       id=question_id, get_question=dict_items, get_answer=get_answer)
 
 
 if __name__ == '__main__':
