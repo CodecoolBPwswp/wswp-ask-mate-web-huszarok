@@ -35,6 +35,7 @@ def update_data_in_file(data, updated_question_data):
     with open(filename, "w") as file:
         fieldnames = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
         writer.writerows(list_of_entries)
 
 
