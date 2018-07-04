@@ -21,7 +21,13 @@
             <button id="submit_button" style="position:relative; top:35px; left:-90px;" type="submit">Submit Question</button>
         </form>
     {% elif form_type == 2%}
+            <form action="/question/<question_id>/edit", method="post">
             <h2>Edit Question</h2>
+            <label for="title_input">Title:</label>
+            <input id="title_input" name="title" type="text" name="text">
+            <label for="question_input">Edit the question:</label>
+            <textarea id="question_input" name="question" rows="8" cols="80" required></textarea>
+            <button id="submit_button" style="position:relative; top:35px; left:-90px;" type="submit">Submit Question</button>
     {% elif form_type == 3%}
             <h2>Answer Question</h2>
     {% elif form_type == 4%}
