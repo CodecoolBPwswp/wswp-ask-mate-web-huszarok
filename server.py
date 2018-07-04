@@ -25,12 +25,12 @@ def add_question():
         return render_template('form.html', form_type=1)
     if request.method == 'POST':
         title = request.form['title']
-        question = request.form['question']
-        question_id = data_manager.append_question_from_server(title, question)
+        message = request.form['message']
+        question_id = data_manager.append_question_from_server(title, message)
         return redirect('/question/' + str(question_id))
 
 
-@app.route('/question/<int:question_id>/edit', methods=['POST', 'GET'])
+@app.route('/question/<question_id>/edit', methods=['POST', 'GET'])
 def edit_question(question_id):
     list_of_questions = data_manager.get_questions_from_file()
     for question in list_of_questions:
@@ -40,12 +40,12 @@ def edit_question(question_id):
         return render_template('form.html', form_type=2, question_data=question_data)
     if request.method == 'POST':
         title = request.form['title']
-        question = request.form['question']
-        question_id = data_manager.append_question_from_server(title, question)
+        message = request.form['message']
+        data_manager.update_question_from_server(title, message, question_data)
         return redirect('/question/' + str(question_id))
 
 
-@app.route('/question/<int:question_id>/new-answer)')
+@app.route('/question/<question_id>/new-answer)')
 def answer_question(question_id):
     return render_template('form.html', form_type=3)
 
