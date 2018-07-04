@@ -32,16 +32,48 @@
             <h2>Answer Question</h2>
     {% elif form_type == 4%}
         <h1>Display question</h1>
-        <table style="width: 60%">
-
+        <table border="0" style=" width="1400">
+            <col style="width:5%">
+	        <col style="width:10%">
+	        <col style="width:5%">
+            <col style="width:5%">
+	        <col style="width:20%">
+	        <col style="width:45%">
+            <col style="width:10%">
             {% for key, values in get_question.items() %}
+
         <tr>
-                <th>{{ key }}</th>
+                <th><storng>{{ key }}</storng></th>
+        {% endfor %}
+
         </tr>
+                {% for key, values in get_question.items() %}
         <tr>
-                <td>{{ values }}</td>
+            <td>{{ values }}</td>
         </tr>
 
+        {% endfor %}
+        </table>
+        <table border="0" style=" width="1400">
+            <col style="width:5%">
+	        <col style="width:10%">
+	        <col style="width:5%">
+            <col style="width:5%">
+	        <col style="width:20%">
+	        <col style="width:45%">
+            <col style="width:10%">
+
+            {% for dict_item in get_answer %}
+                {% for key, values in dict_item.items()  %}
+                <tr>
+                <th><storng>{{ key }}</storng></th>
+
+        </tr>
+        <tr>
+            <td>{{ values }}</td>
+        </tr>
+
+        {% endfor %}
         {% endfor %}
         </table>
     {% endif %}
