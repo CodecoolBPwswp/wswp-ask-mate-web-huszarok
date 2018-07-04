@@ -24,7 +24,10 @@ def route_form_question():
     if request.method == 'GET':
         return render_template('form.html', form_type=1)
     if request.method == 'POST':
-        return redirect('/question/<question_id>')
+        title = request.form['title']
+        question = request.form['question']
+        question_id = data_manager.append_question_from_server(title, question)
+        return redirect('/question/' + str(question_id))
 
 
 @app.route('/question/<question_id>/new-answer)')
