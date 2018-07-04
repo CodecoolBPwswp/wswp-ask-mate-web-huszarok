@@ -15,4 +15,11 @@ def get_data_from_file(data):
     return list_of_entries
 
 
+def append_data_to_file(data, new_entries):
+    filename = "%s" % data
+    with open(filename, "a") as file:
+        writer = csv.DictWriter(file)
+        writer.writerow(data)
+
+
 

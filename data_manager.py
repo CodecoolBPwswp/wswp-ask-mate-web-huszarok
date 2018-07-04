@@ -4,11 +4,26 @@ Functions here should be called from the server.py and these should use generic 
 import connection
 import datetime
 from operator import itemgetter
+import util
 
 
 def get_questions_from_file():
     list_of_questions = connection.get_data_from_file('sample_data/question.csv')
     return list_of_questions
+
+
+def append_question_from_server():
+    pass
+    id = util.generate_id('question')   #megnézi, hogy questionhöz vagy answershez kell új id-t generálni
+    #date = generate_timestamp()   aktuális dátum adatait lekéri majd UNIX formátumba konvertálja
+    #0: egyelőre default érték a Vote-hoz és a View-hoz
+    # title, message: a servertől érkező adatok
+    #vmi ilyesmi lesz: [id,date,0,0,title, message]
+    #ezt a listát kell továbbadni a connection.py-nak és dictwriterrel hozzáírni a csv fájlhoz
+
+
+def generate_timestamp():
+    pass
 
 
 def get_answers_from_file():
