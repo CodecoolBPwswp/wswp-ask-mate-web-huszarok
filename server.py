@@ -47,24 +47,36 @@ def edit_question(question_id):
         return redirect('/question/' + str(question_id))
 
 
-@app.route('/question/<question_id>/new-answer)')
+@app.route('/question/<int:question_id>/new-answer', methods=['POST', 'GET'])
 def answer_question(question_id):
-    return render_template('form.html', form_type=3)
+    get_question = data_manager.sort_questions_by_date('submission_time', True)
+    dict_question = data_manager.from_dict_to_variable(get_question, 'id', question_id)
+    list_of_answers = data_manager.get_answers_from_file()
+    if request.method == 'GET':
+        return render_template('form.html', form_type=3, question_id=question_id,
+                               question=dict_question, answer_data=list_of_answers)
+    if request.method == 'POST':
+        message = request.form['message']
+        data_manager.append_answer_from_server(question_id, message)
+        return redirect('/question/' + str(question_id))
 
 
 @app.route('/question/<int:question_id>')
 def display_questions(question_id):
-    answer = []
-    get_question = data_manager.sort_questions_by_date('submission_time', True)
-    get_answer = data_manager.get_answers_from_file()
-    dict_question = data_manager.from_dict_to_variable(get_question,'id', question_id)
-    for answer_items in get_answer:
-        for key, value in answer_items.items():
-            if answer_items['question_id'] == question_id:
-                answer.append(answer_items)
-    return render_template("form.html", form_type=4,
-                           id=question_id, get_question=dict_question, get_answer=answer)
+    questions = data_manager.sort_questions_by_date('submission_time', True)
+    dict_question = data_manager.from_dict_to_variable(questions,'id', question_id)
 
+    answers_of_question = []
+    answers = data_manager.sort_answer_by_date('submission_time', True)
+    for answer_dict in answers:
+        if answer_dict['question_id'] == question_id:
+            answers_of_question.append(answer_dict)
+
+    return render_template("form.html",
+                           form_type=4,
+                           id=question_id,
+                           question=dict_question,
+                           answers=answers_of_question)
 
 @app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
 def vote_up_questions(question_id):
@@ -78,6 +90,11 @@ def vote_up_questions(question_id):
         return redirect('/question/' + str(question_id))
 
 
+@app.route('/answer/<answer_id>/delete', methods=['POST'])
+def delete_answer(answer_id):
+    pin = request.form.get('id')
+    print(pin)
+    return redirect('/')
 
 
 if __name__ == '__main__':
