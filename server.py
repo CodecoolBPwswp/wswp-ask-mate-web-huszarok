@@ -78,6 +78,7 @@ def display_questions(question_id):
                            question=dict_question,
                            answers=answers_of_question)
 
+
 @app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
 def vote_up_questions(question_id):
         list_of_questions = data_manager.sort_questions_by_date('submission_time', True)
@@ -88,6 +89,7 @@ def vote_up_questions(question_id):
             question_data['vote_number'] += 1
             data_manager.vote(question_data)
         return redirect('/question/' + str(question_id))
+
 
 @app.route('/question/<int:question_id>/vote-down', methods=['POST', 'GET'])
 def vote_down_questions(question_id):
