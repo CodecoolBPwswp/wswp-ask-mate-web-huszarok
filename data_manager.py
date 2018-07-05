@@ -74,14 +74,15 @@ def sort_questions_by_date(title, reverse):
         for key in question:
             if key in title_to_convert_to_number:
                 question[key] = int(question[key])
-            if key == 'submission_date':
+            if key == 'submission_time':
                 try:
-                        question[key] = int(question[key])
-                        question['submission_time'] = convert_timestamp_to_date(question['submission_time'])
+                    question[key] = int(question[key])
                 except ValueError:
-                    date_time = question_data[key]
+                    date_time = question[key]
                     pattern = '%Y-%m-%d %H:%M:%S'
                     question[key] = int(time.mktime(time.strptime(date_time, pattern)))
+
+        question['submission_time'] = convert_timestamp_to_date(question['submission_time'])
 
     list_of_questions = sorted(list_of_questions, key=itemgetter(title), reverse=reverse)
 
