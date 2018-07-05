@@ -29,7 +29,10 @@
             <textarea id="question_input" name="message" rows="8" cols="80" required>{{ question_data['message'] }}</textarea>
             <button id="submit_button" style="position:relative; top:35px; left:-90px;" type="submit">Submit Question</button>
     {% elif form_type == 3%}
+        <form action="/question/{{ question_id }}/new_answer", method="post">
             <h2>Answer Question</h2>
+
+        </form>
     {% elif form_type == 4%}
         <h1>Display question</h1>
         <table border="0" style=" width="1400">

@@ -47,9 +47,12 @@ def edit_question(question_id):
         return redirect('/question/' + str(question_id))
 
 
-@app.route('/question/<question_id>/new-answer)')
+@app.route('/question/<question_id>/new_answer')
 def answer_question(question_id):
-    return render_template('form.html', form_type=3)
+    if request.method == 'GET':
+        return render_template('form.html', form_type=3, question_id=question_id)
+    if request.method == 'POST':
+        return redirect('/question/' + str(question_id))
 
 
 @app.route('/question/<question_id>')
