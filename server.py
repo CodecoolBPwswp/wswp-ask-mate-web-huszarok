@@ -54,16 +54,20 @@ def answer_question(question_id):
 
 @app.route('/question/<int:question_id>')
 def display_questions(question_id):
-    answer = []
-    get_question = data_manager.sort_questions_by_date('submission_time', True)
-    get_answer = data_manager.get_answers_from_file()
-    dict_question = data_manager.from_dict_to_variable(get_question,'id', question_id)
-    for answer_items in get_answer:
-        for key, value in answer_items.items():
-            if answer_items['question_id'] == question_id:
-                answer.append(answer_items)
-    return render_template("form.html", form_type=4,
-                           id=question_id, get_question=dict_question, get_answer=answer)
+    questions = data_manager.sort_questions_by_date('submission_time', True)
+    dict_question = data_manager.from_dict_to_variable(questions,'id', question_id)
+
+    answers_of_question = []
+    answers = data_manager.sort_answer_by_date('submission_time', True)
+    for answer_dict in answers:
+        if answer_dict['question_id'] == question_id:
+            answers_of_question.append(answer_dict)
+
+    return render_template("form.html",
+                           form_type=4,
+                           id=question_id,
+                           question=dict_question,
+                           answers=answers_of_question)
 
 
 if __name__ == '__main__':
