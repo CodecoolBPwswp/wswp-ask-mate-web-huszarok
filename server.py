@@ -52,21 +52,18 @@ def answer_question(question_id):
     return render_template('form.html', form_type=3)
 
 
-@app.route('/question/<question_id>')
+@app.route('/question/<int:question_id>')
 def display_questions(question_id):
     answer = []
-    get_question = data_manager.get_questions_from_file()
+    get_question = data_manager.sort_questions_by_date('submission_time', True)
     get_answer = data_manager.get_answers_from_file()
-    for dict_items in get_question:
-        for key, value in dict_items.items():
-            if dict_items['id'] == question_id:
-                question = dict_items
+    dict_question = data_manager.from_dict_to_variable(get_question,'id', question_id)
     for answer_items in get_answer:
         for key, value in answer_items.items():
             if answer_items['question_id'] == question_id:
                 answer.append(answer_items)
     return render_template("form.html", form_type=4,
-                           id=question_id, get_question=question, get_answer=answer)
+                           id=question_id, get_question=dict_question, get_answer=answer)
 
 
 if __name__ == '__main__':
