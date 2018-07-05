@@ -34,7 +34,7 @@
     {% elif form_type == 3%}
         <form action="/question/{{ question_id }}/new-answer", method="post">
             <h2>Answer Question</h2>
-                    <table border="0" style=" width="1400">
+        <table border="0" style=" width="1400">
             <col style="width:5%">
 	        <col style="width:10%">
 	        <col style="width:5%">
@@ -43,32 +43,55 @@
 	        <col style="width:45%">
             <col style="width:10%">
 
-        <tr>
-                <th><storng>ID</storng></th>
-                <th><storng>Submission time</storng></th>
-                <th><storng>View number</storng></th>
-                <th><storng>Vote number</storng></th>
-                <th><storng>Title</storng></th>
-                <th><storng>Message</storng></th>
-                <th><storng>Image</storng></th>
+    <tr>
+        <th>
+            <storng>ID</storng>
+        </th>
+        <th>
+            <storng>Submission time</storng>
+        </th>
+        <th>
+            <storng>View number</storng>
+        </th>
+        <th>
+            <storng>Vote number</storng>
+        </th>
+        <th>
+            <storng>Title</storng>
+        </th>
+        <th>
+            <storng>Message</storng>
+        </th>
+        <th>
+            <storng>Image</storng>
+        </th>
 
-        </tr>
 
-        <tr>
-            <td>
-                {{ get_question['id'] }}
-            </td><td>
-                {{ get_question['submission_time'] }}
-            </td><td>
-                {{ get_question['view_number'] }}
-            </td><td>
-                {{ get_question['vote_number'] }}
-            </td><td>
-                {{ get_question['title'] }}
-            </td><td>
-                {{ get_question['message'] }}
-            </td><td>
-                {{ get_question['image'] }}
+    </tr>
+
+    <tr>
+        <td align="center">
+            {{ question['id'] }}
+        </td>
+        <td align="center">
+            {{ question['submission_time'] }}
+        </td>
+        <td align="center">
+            {{ question['view_number'] }}
+        </td>
+        <td align="center">
+            {{ question['vote_number'] }}
+        </td>
+        <td align="center">
+            {{ question['title'] }}
+        </td>
+        <td align="center">
+            {{ question['message'] }}
+        </td>
+        <td align="center">
+            {{ question['image'] }}
+        </td>
+    </tr>
             </td>
         </tr>
         </table>
@@ -140,9 +163,13 @@
     </tr>
 
 
-
     </table>
-    <h1>Anwers</h1>
+
+        <form action="/question/{{id}}/edit">
+    <input type="submit" value="Edit question" style="float: right"/>
+</form>
+
+    <h1>Answers</h1>
     <table border="0" style=" width=" 1400">
     <col style="width:5%">
     <col style="width:10%">
@@ -191,6 +218,9 @@
     {% endif %}
 
     </table>
+                        <form action="/question/{{id}}/new-answer">
+    <input type="submit" value="Answer the question" style="float: right"/>
+</form>
 {% endif %}
 </body>
 </html>
