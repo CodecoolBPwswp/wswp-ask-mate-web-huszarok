@@ -46,17 +46,25 @@ def convert_timestamp_to_date(timestamp):
 
 
 def sort_questions_by_date(title, reverse):
-    title_to_convert_to_number = ['id','submission_time','view_number','vote_number']
+    title_to_convert_to_number = ['id','view_number','vote_number']
     list_of_questions = get_questions_from_file()
 
     for question in list_of_questions:
         for key in question:
             if key in title_to_convert_to_number:
                 question[key] = int(question[key])
+            if key == 'submission_date':
+                try:
+                        question[key] = int(question[key])
+                        question['submission_time'] = convert_timestamp_to_date(question['submission_time'])
+                except ValueError:
+                    date_time = question_data[key]
+                    pattern = '%Y-%m-%d %H:%M:%S'
+                    question[key] = int(time.mktime(time.strptime(date_time, pattern)))
 
     list_of_questions = sorted(list_of_questions, key=itemgetter(title), reverse=reverse)
-    for question in list_of_questions:
-        question['submission_time'] = convert_timestamp_to_date(question['submission_time'])
+
+
     return list_of_questions
 
 
@@ -66,3 +74,11 @@ def from_dict_to_variable(dict, dict_id, question_id):
             if dict_items[dict_id] == question_id:
                 question = dict_items
                 return question
+
+
+def vote(question_data):
+    for key in question_data:
+        if key == 'id':
+            question_data[key] = str(question_data[key])
+
+    connection.update_data_in_file('sample_data/question.csv', question_data)
