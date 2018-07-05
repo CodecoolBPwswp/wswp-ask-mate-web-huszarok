@@ -69,6 +69,11 @@
             </td>
         </tr>
         </table>
+        <br>
+            <label for="answer_input">Answer Question:</label>
+            <textarea id="answer_input" name="message" rows="5" cols="60" required>{{ answer_data['message'] }}</textarea>
+            <button id="submit_button" style="position:relative; top:35px; left:-110px;" type="submit">Submit Answer</button>
+
         </form>
     {% elif form_type == 4%}
         <h1>Display question</h1>
