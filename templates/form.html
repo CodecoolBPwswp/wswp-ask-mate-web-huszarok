@@ -3,98 +3,142 @@
 <head>
     <meta charset="UTF-8">
     {% if form_type == 1 %}
-            <title>Ask a Question | AskMate</title>
-    {% elif form_type == 2%}
-            <title>Edit Question | AskMate</title>
-    {% elif form_type == 3%}
-            <title>Answer Question | AskMate</title>
+        <title>Ask a Question | AskMate</title>
+    {% elif form_type == 2 %}
+        <title>Edit Question | AskMate</title>
+    {% elif form_type == 3 %}
+        <title>Answer Question | AskMate</title>
     {% endif %}
 </head>
 <body>
-    {% if form_type == 1 %}
-        <form action="/add-question", method="post">
-            <h2>Ask a Question</h2>
-            <label for="title_input">Title:</label>
-            <input id="title_input" name="title" type="text">
-            <label for="question_input">Ask a question:</label>
-            <textarea id="question_input" name="message" rows="8" cols="80" required></textarea>
-            <button id="submit_button" style="position:relative; top:35px; left:-90px;" type="submit">Submit Question</button>
-        </form>
-    {% elif form_type == 2%}
-            <form action="/question/{{ question_data['id'] }}/edit", method="post">
-            <h2>Edit Question</h2>
-            <label for="title_input">Title:</label>
-            <input id="title_input" name="title" type="text" value={{ question_data['title'] }}>
-            <label for="question_input">Edit the question:</label>
-            <textarea id="question_input" name="message" rows="8" cols="80" required>{{ question_data['message'] }}</textarea>
-            <button id="submit_button" style="position:relative; top:35px; left:-90px;" type="submit">Submit Question</button>
-    {% elif form_type == 3%}
-            <h2>Answer Question</h2>
-    {% elif form_type == 4%}
-        <h1>Display question</h1>
-        <table border="0" style=" width="1400">
-            <col style="width:5%">
-	        <col style="width:10%">
-	        <col style="width:5%">
-            <col style="width:5%">
-	        <col style="width:20%">
-	        <col style="width:45%">
-            <col style="width:10%">
+{% if form_type == 1 %}
+    <form action="/add-question" , method="post">
+        <h2>Ask a Question</h2>
+        <label for="title_input">Title:</label>
+        <input id="title_input" name="title" type="text">
+        <label for="question_input">Ask a question:</label>
+        <textarea id="question_input" name="message" rows="8" cols="80" required></textarea>
+        <button id="submit_button" style="position:relative; top:35px; left:-90px;" type="submit">Submit Question
+        </button>
+    </form>
+{% elif form_type == 2 %}
+    <form action="/question/{{ question_data['id'] }}/edit" , method="post">
+    <h2>Edit Question</h2>
+    <label for="title_input">Title:</label>
+    <input id="title_input" name="title" type="text" value={{ question_data['title'] }}>
+    <label for="question_input">Edit the question:</label>
+    <textarea id="question_input" name="message" rows="8" cols="80" required>{{ question_data['message'] }}</textarea>
+    <button id="submit_button" style="position:relative; top:35px; left:-90px;" type="submit">Submit Question</button>
+{% elif form_type == 3 %}
+    <h2>Answer Question</h2>
+{% elif form_type == 4 %}
+    <h1>Display question</h1>
+    <table border="0" style=" width=" 1400">
+    <col style="width:5%">
+    <col style="width:10%">
+    <col style="width:5%">
+    <col style="width:5%">
+    <col style="width:20%">
+    <col style="width:45%">
+    <col style="width:10%">
 
+    <tr>
+        <th>
+            <storng>ID</storng>
+        </th>
+        <th>
+            <storng>Submission time</storng>
+        </th>
+        <th>
+            <storng>View number</storng>
+        </th>
+        <th>
+            <storng>Vote number</storng>
+        </th>
+        <th>
+            <storng>Title</storng>
+        </th>
+        <th>
+            <storng>Message</storng>
+        </th>
+        <th>
+            <storng>Image</storng>
+        </th>
+
+
+    </tr>
+
+    <tr>
+        <td align="center">
+            {{ question['id'] }}
+        </td>
+        <td align="center">
+            {{ question['submission_time'] }}
+        </td>
+        <td align="center">
+            {{ question['view_number'] }}
+        </td>
+        <td align="center">
+            {{ question['vote_number'] }}
+        </td>
+        <td align="center">
+            {{ question['title'] }}
+        </td>
+        <td align="center">
+            {{ question['message'] }}
+        </td>
+        <td align="center">
+            {{ question['image'] }}
+        </td>
+    </tr>
+
+
+
+    </table>
+    <h1>Anwers</h1>
+    <table border="0" style=" width=" 1400">
+    <col style="width:5%">
+    <col style="width:10%">
+    <col style="width:5%">
+    <col style="width:5%">
+    <col style="width:20%">
+    <col style="width:45%">
+    <col style="width:10%">
+
+    <tr>
+        <th>
+            <storng>ID</storng>
+        </th>
+        <th>
+            <storng>Submission time</storng>
+        </th>
+
+        <th>
+            <storng>Vote number</storng>
+        </th>
+
+        <th>
+            <storng>Message</storng>
+        </th>
+        <th>
+            <storng>Image</storng>
+        </th>
+    </tr>
+
+
+    {% for answer in answers %}
         <tr>
-                <th><storng>ID</storng></th>
-                <th><storng>Submission time</storng></th>
-                <th><storng>View number</storng></th>
-                <th><storng>Vote number</storng></th>
-                <th><storng>Title</storng></th>
-                <th><storng>Message</storng></th>
-                <th><storng>Image</storng></th>
-
-
+            <td align="center">{{ answer['id'] }}</td>
+            <td align="center">{{ answer['submission_time'] }}</td>
+            <td align="center">{{ answer['vote_number'] }}</td>
+            <td align="center">{{ answer['message'] }}</td>
+            <td align="center">{{ answer['image'] }}</td>
         </tr>
-
-        <tr>
-            <td>
-                {{ get_question['id'] }}
-            </td><td>
-                {{ get_question['submission_time'] }}
-            </td><td>
-                {{ get_question['view_number'] }}
-            </td><td>
-                {{ get_question['vote_number'] }}
-            </td><td>
-                {{ get_question['title'] }}
-            </td><td>
-                {{ get_question['message'] }}
-            </td><td>
-                {{ get_question['image'] }}
-            </td>
-        </tr>
+    {% endfor %}
 
 
-        </table>
-        <table border="0" style=" width="1400">
-            <col style="width:5%">
-	        <col style="width:10%">
-	        <col style="width:5%">
-            <col style="width:5%">
-	        <col style="width:20%">
-	        <col style="width:45%">
-            <col style="width:10%">
 
-            {% for dict_item in get_answer %}
-                {% for key, values in dict_item.items()  %}
-                <tr>
-                <th><storng>{{ key }}</storng></th>
-
-        </tr>
-        <tr>
-            <td align="center" >{{ dict_item['id'] }}</td>
-        </tr>
-
-        {% endfor %}
-        {% endfor %}
-        </table>
-    {% endif %}
+    </table>
+{% endif %}
 </body>
 </html>
