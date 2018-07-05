@@ -36,6 +36,12 @@ def update_question_from_server(title, message, question_data):
     connection.update_data_in_file('sample_data/question.csv', updated_question_data)
 
 
+def update_answer_from_server(message, answer_data):
+    updated_answer_data = answer_data
+    updated_answer_data['message'] = message
+    connection.update_data_in_file('sample_data/answer.csv', updated_answer_data)
+
+
 def generate_timestamp():
     return int(time.time())
 
