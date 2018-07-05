@@ -22,4 +22,21 @@ def append_data_to_file(data, question_data):
         writer.writerow(question_data)
 
 
+def update_data_in_file(data, updated_question_data):
+    list_of_entries = []
+    filename = "%s" % data
+    with open(filename, "r") as file:
+        entries = csv.DictReader(file)
+        for line in entries:
+            if line['id'] == updated_question_data['id']:
+                list_of_entries.append(updated_question_data)
+            else:
+                list_of_entries.append(line)
+    with open(filename, "w") as file:
+        fieldnames = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(list_of_entries)
+
+
 

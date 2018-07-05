@@ -13,15 +13,22 @@ def get_questions_from_file():
     return list_of_questions
 
 
-def append_question_from_server(title, question):
+def append_question_from_server(title, message):
     question_data = [util.generate_id('question'),
                      generate_timestamp(),
                      0,
                      0,
                      title,
-                     question]
+                     message]
     connection.append_data_to_file('sample_data/question.csv', question_data)
     return question_data[0]
+
+
+def update_question_from_server(title, message, question_data):
+    updated_question_data = question_data
+    updated_question_data['title'] = title
+    updated_question_data['message'] = message
+    connection.update_data_in_file('sample_data/question.csv', updated_question_data)
 
 
 def generate_timestamp():

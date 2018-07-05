@@ -22,18 +22,33 @@ def list_questions():
 
 
 @app.route('/add-question', methods=['POST', 'GET'])
-def route_form_question():
+def add_question():
     if request.method == 'GET':
         return render_template('form.html', form_type=1)
     if request.method == 'POST':
         title = request.form['title']
-        question = request.form['question']
-        question_id = data_manager.append_question_from_server(title, question)
+        message = request.form['message']
+        question_id = data_manager.append_question_from_server(title, message)
+        return redirect('/question/' + str(question_id))
+
+
+@app.route('/question/<question_id>/edit', methods=['POST', 'GET'])
+def edit_question(question_id):
+    list_of_questions = data_manager.get_questions_from_file()
+    for question in list_of_questions:
+        if question['id'] == question_id:
+            question_data = question
+    if request.method == 'GET':
+        return render_template('form.html', form_type=2, question_data=question_data)
+    if request.method == 'POST':
+        title = request.form['title']
+        message = request.form['message']
+        data_manager.update_question_from_server(title, message, question_data)
         return redirect('/question/' + str(question_id))
 
 
 @app.route('/question/<question_id>/new-answer)')
-def answer_question():
+def answer_question(question_id):
     return render_template('form.html', form_type=3)
 
 
