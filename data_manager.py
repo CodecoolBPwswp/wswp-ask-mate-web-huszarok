@@ -13,6 +13,11 @@ def get_questions_from_file():
     return list_of_questions
 
 
+def get_answer_from_file():
+    list_of_questions = connection.get_data_from_file('sample_data/answer.csv')
+    return list_of_questions
+
+
 def append_question_from_server(title, message):
     question_data = [util.generate_id('question'),
                      generate_timestamp(),
@@ -58,6 +63,21 @@ def sort_questions_by_date(title, reverse):
     for question in list_of_questions:
         question['submission_time'] = convert_timestamp_to_date(question['submission_time'])
     return list_of_questions
+
+
+def sort_answer_by_date(title, reverse):
+    title_to_convert_to_number = ['id','submission_time','view_number','vote_number', 'question_id']
+    list_of_answers = get_answer_from_file()
+
+    for answer in list_of_answers:
+        for key in answer:
+            if key in title_to_convert_to_number:
+                answer[key] = int(answer[key])
+
+    list_of_answers = sorted(list_of_answers, key=itemgetter(title), reverse=reverse)
+    for answer in list_of_answers:
+        answer['submission_time'] = convert_timestamp_to_date(answer['submission_time'])
+    return list_of_answers
 
 
 def from_dict_to_variable(dict, dict_id, question_id):
