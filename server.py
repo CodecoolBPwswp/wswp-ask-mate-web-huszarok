@@ -89,6 +89,17 @@ def vote_up_questions(question_id):
             data_manager.vote(question_data)
         return redirect('/question/' + str(question_id))
 
+@app.route('/question/<int:question_id>/vote-down', methods=['POST', 'GET'])
+def vote_down_questions(question_id):
+    list_of_questions = data_manager.sort_questions_by_date('submission_time', True)
+    for question in list_of_questions:
+        if question['id'] == question_id:
+            question_data = question
+    if request.method == 'POST':
+        question_data['vote_number'] -= 1
+        data_manager.vote(question_data)
+    return redirect('/question/' + str(question_id))
+
 
 @app.route('/answer/<answer_id>/delete', methods=['POST'])
 def delete_answer(answer_id):
