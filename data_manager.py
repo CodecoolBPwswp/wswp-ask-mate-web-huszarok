@@ -13,6 +13,11 @@ def get_questions_from_file():
     return list_of_questions
 
 
+def get_answer_from_file():
+    list_of_answers = connection.get_data_from_file('sample_data/answer.csv')
+    return list_of_answers
+
+
 def append_question_from_server(title, message):
     question_data = [util.generate_id('question'),
                      generate_timestamp(),
@@ -31,10 +36,14 @@ def update_question_from_server(title, message, question_data):
     connection.update_data_in_file('sample_data/question.csv', updated_question_data)
 
 
-def update_answer_from_server(message, answer_data):
-    updated_answer_data = answer_data
-    updated_answer_data['message'] = message
-    connection.update_data_in_file('sample_data/answer.csv', updated_answer_data)
+def append_answer_from_server(message, question_id):
+    answer_data = [util.generate_id('answer'),  # question id
+                   generate_timestamp(),        # submission time
+                   0,                           # vote number
+                   question_id,                 # question id
+                   message]                     # message
+    connection.append_data_to_file('sample_data/answers.csv', answer_data)
+    return answer_data[0]
 
 
 def generate_timestamp():
@@ -52,7 +61,7 @@ def convert_timestamp_to_date(timestamp):
 
 
 def sort_questions_by_date(title, reverse):
-    title_to_convert_to_number = ['id','submission_time','view_number','vote_number']
+    title_to_convert_to_number = ['id', 'submission_time', 'view_number', 'vote_number']
     list_of_questions = get_questions_from_file()
 
     for question in list_of_questions:
