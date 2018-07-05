@@ -66,6 +66,20 @@ def display_questions(question_id):
                            id=question_id, get_question=dict_question, get_answer=answer)
 
 
+@app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
+def vote_up_questions(question_id):
+        list_of_questions = data_manager.sort_questions_by_date('submission_time', True)
+        for question in list_of_questions:
+            if question['id'] == question_id:
+                question_data = question
+        if request.method == 'POST':
+            question_data['vote_number'] += 1
+            data_manager.vote(question_data)
+        return redirect('/question/' + str(question_id))
+
+
+
+
 if __name__ == '__main__':
     app.run(
         debug=True,
