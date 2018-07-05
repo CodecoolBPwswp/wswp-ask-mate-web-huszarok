@@ -162,6 +162,10 @@
 
     </table>
 
+        <form action="/question/{{id}}/edit">
+    <input type="submit" value="Edit question" style="float: right"/>
+</form>
+
     <h1>Answers</h1>
     <table border="0" style=" width=" 1400">
     <col style="width:5%">
@@ -202,7 +206,6 @@
             <td align="center">{{ answer['image'] }}</td>
         </tr>
     {% endfor %}
-
 
 
     </table>
