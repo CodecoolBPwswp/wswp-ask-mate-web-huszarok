@@ -47,10 +47,12 @@ def edit_question(question_id):
         return redirect('/question/' + str(question_id))
 
 
-@app.route('/question/<question_id>/new_answer')
+@app.route('/question/<question_id>/new-answer')
 def answer_question(question_id):
+    get_question = data_manager.sort_questions_by_date('submission_time', True)
+    dict_question = data_manager.from_dict_to_variable(get_question, 'id', question_id)
     if request.method == 'GET':
-        return render_template('form.html', form_type=3, question_id=question_id)
+        return render_template('form.html', form_type=3, question_id=question_id, get_question=dict_question)
     if request.method == 'POST':
         return redirect('/question/' + str(question_id))
 
