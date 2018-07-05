@@ -36,13 +36,19 @@ def update_question_from_server(title, message, question_data):
     connection.update_data_in_file('sample_data/question.csv', updated_question_data)
 
 
-def append_answer_from_server(message, question_id):
+def update_answer_from_server(message, answer_data):
+    updated_answer_data = answer_data
+    updated_answer_data['message'] = message
+    connection.update_data_in_file('sample_data/answer.csv', updated_answer_data)
+
+
+def append_answer_from_server(question_id, message):
     answer_data = [util.generate_id('answer'),  # question id
                    generate_timestamp(),        # submission time
                    0,                           # vote number
                    question_id,                 # question id
                    message]                     # message
-    connection.append_data_to_file('sample_data/answers.csv', answer_data)
+    connection.append_data_to_file('sample_data/answer.csv', answer_data)
     return answer_data[0]
 
 
@@ -73,6 +79,21 @@ def sort_questions_by_date(title, reverse):
     for question in list_of_questions:
         question['submission_time'] = convert_timestamp_to_date(question['submission_time'])
     return list_of_questions
+
+
+def sort_answer_by_date(title, reverse):
+    title_to_convert_to_number = ['id','submission_time','view_number','vote_number', 'question_id']
+    list_of_answers = get_answer_from_file()
+
+    for answer in list_of_answers:
+        for key in answer:
+            if key in title_to_convert_to_number:
+                answer[key] = int(answer[key])
+
+    list_of_answers = sorted(list_of_answers, key=itemgetter(title), reverse=reverse)
+    for answer in list_of_answers:
+        answer['submission_time'] = convert_timestamp_to_date(answer['submission_time'])
+    return list_of_answers
 
 
 def from_dict_to_variable(dict, dict_id, question_id):
