@@ -52,16 +52,26 @@
 
 
         </tr>
-                {% for key, values in get_question.items() %}
+
         <tr>
             <td>
-                {% if get_question[id] == 'id' %}
-                    {{ values }}
-                {% endif %}
+                {{ get_question['id'] }}
+            </td><td>
+                {{ get_question['submission_time'] }}
+            </td><td>
+                {{ get_question['view_number'] }}
+            </td><td>
+                {{ get_question['vote_number'] }}
+            </td><td>
+                {{ get_question['title'] }}
+            </td><td>
+                {{ get_question['message'] }}
+            </td><td>
+                {{ get_question['image'] }}
             </td>
         </tr>
 
-        {% endfor %}
+
         </table>
         <table border="0" style=" width="1400">
             <col style="width:5%">
@@ -79,7 +89,7 @@
 
         </tr>
         <tr>
-            <td align="center" >{{ values }}</td>
+            <td align="center" >{{ dict_item['id'] }}</td>
         </tr>
 
         {% endfor %}
