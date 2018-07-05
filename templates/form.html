@@ -34,16 +34,25 @@
 	        <col style="width:20%">
 	        <col style="width:45%">
             <col style="width:10%">
-            {% for key, values in get_question.items() %}
 
         <tr>
-                <th><storng>{{ key }}</storng></th>
-        {% endfor %}
+                <th><storng>ID</storng></th>
+                <th><storng>Submission time</storng></th>
+                <th><storng>View number</storng></th>
+                <th><storng>Vote number</storng></th>
+                <th><storng>Title</storng></th>
+                <th><storng>Message</storng></th>
+                <th><storng>Image</storng></th>
+
 
         </tr>
                 {% for key, values in get_question.items() %}
         <tr>
-            <td>{{ values }}</td>
+            <td>
+                {% if get_question[id] == 'id' %}
+                    {{ values }}
+                {% endif %}
+            </td>
         </tr>
 
         {% endfor %}
@@ -64,7 +73,7 @@
 
         </tr>
         <tr>
-            <td>{{ values }}</td>
+            <td align="center" >{{ values }}</td>
         </tr>
 
         {% endfor %}
