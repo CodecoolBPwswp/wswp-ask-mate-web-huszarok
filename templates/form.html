@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>table, th, td {
+        border: 1px solid black;
+    }</style>
     <meta charset="UTF-8">
     {% if form_type == 1 %}
             <title>Ask a Question | AskMate</title>
@@ -148,7 +151,7 @@
     <col style="width:20%">
     <col style="width:45%">
     <col style="width:10%">
-
+    {% if answers %}
     <tr>
         <th>
             <storng>ID</storng>
@@ -172,15 +175,20 @@
 
     {% for answer in answers %}
         <tr>
-            <td align="center">{{ answer['id'] }}</td>
+
+</form>
+            <td align="center"><form action="/answer/{{ answer['id'] }}/delete" method="POST">
+    <input type="hidden" value="{{ answer['id'] }}"/>
+    <button id="w3-btn">delete</button></td>
             <td align="center">{{ answer['submission_time'] }}</td>
             <td align="center">{{ answer['vote_number'] }}</td>
             <td align="center">{{ answer['message'] }}</td>
             <td align="center">{{ answer['image'] }}</td>
         </tr>
     {% endfor %}
-
-
+    {% else %}
+        There is no answer
+    {% endif %}
 
     </table>
 {% endif %}

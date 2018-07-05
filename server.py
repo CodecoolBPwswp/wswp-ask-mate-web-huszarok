@@ -77,6 +77,11 @@ def display_questions(question_id):
                            answers=answers_of_question)
 
 
+@app.route('/answer/<answer_id>/delete', methods=['POST'])
+def delete_answer(answer_id):
+    pin = request.form.get('id')
+    print(pin)
+    return redirect('/')
 if __name__ == '__main__':
     app.run(
         debug=True,
