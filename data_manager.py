@@ -59,3 +59,10 @@ def sort_questions_by_date(title, reverse):
         question['submission_time'] = convert_timestamp_to_date(question['submission_time'])
     return list_of_questions
 
+
+def from_dict_to_variable(dict, dict_id, question_id):
+    for dict_items in dict:
+        for key, value in dict_items.items():
+            if dict_items[dict_id] == question_id:
+                question = dict_items
+                return question
