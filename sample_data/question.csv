@@ -13,7 +13,8 @@ app.js (bundled file with webpack, including jquery)",images/image1.png
 
 This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",
 3,1530699443,0,0,Boi,Are you a boi?,
-4,1530702061,0,0,Medvepörkölt5,Hogyan kell elkészíteni?,
+4,1530702061,0,4,Medvepörkölt5,Hogyan kell elkészíteni?,
 5,1530702228,0,0,Asd!,Asdasd?,
-6,1530702282,0,0,Mukodj!,Mukodik?,
+6,1530702282,0,3,Mukodj!,Mukodik?,
 7,1530779171,0,0,Valami más,Mikor sdkjhfsdkjvn,
+8,1530789912,0,8,EZ egy cím,ÉS egy leírás,
