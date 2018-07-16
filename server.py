@@ -47,15 +47,17 @@ def edit_question(question_id):
         return redirect('/question/' + str(question_id))
 
 
-@app.route('/question/<int:question_id>/new-answer')
+@app.route('/question/<int:question_id>/new-answer', methods=['POST', 'GET'])
 def answer_question(question_id):
     get_question = data_manager.sort_questions_by_date('submission_time', True)
     dict_question = data_manager.from_dict_to_variable(get_question, 'id', question_id)
     list_of_answers = data_manager.get_answers_from_file()
     if request.method == 'GET':
         return render_template('form.html', form_type=3, question_id=question_id,
-                               get_question=dict_question, answer_data=list_of_answers)
+                               question=dict_question, answer_data=list_of_answers)
     if request.method == 'POST':
+        message = request.form['message']
+        data_manager.append_answer_from_server(question_id, message)
         return redirect('/question/' + str(question_id))
 
 
@@ -75,6 +77,37 @@ def display_questions(question_id):
                            id=question_id,
                            question=dict_question,
                            answers=answers_of_question)
+
+
+@app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
+def vote_up_questions(question_id):
+        list_of_questions = data_manager.sort_questions_by_date('submission_time', True)
+        for question in list_of_questions:
+            if question['id'] == question_id:
+                question_data = question
+        if request.method == 'POST':
+            question_data['vote_number'] += 1
+            data_manager.vote(question_data)
+        return redirect('/question/' + str(question_id))
+
+
+@app.route('/question/<int:question_id>/vote-down', methods=['POST', 'GET'])
+def vote_down_questions(question_id):
+    list_of_questions = data_manager.sort_questions_by_date('submission_time', True)
+    for question in list_of_questions:
+        if question['id'] == question_id:
+            question_data = question
+    if request.method == 'POST':
+        question_data['vote_number'] -= 1
+        data_manager.vote(question_data)
+    return redirect('/question/' + str(question_id))
+
+
+@app.route('/answer/<answer_id>/delete', methods=['POST'])
+def delete_answer(answer_id):
+    pin = request.form.get('id')
+    print(pin)
+    return redirect('/')
 
 
 if __name__ == '__main__':
