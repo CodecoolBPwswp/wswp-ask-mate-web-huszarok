@@ -7,10 +7,19 @@ from operator import itemgetter
 import util
 import time
 
-
-def get_questions_from_file():
-    list_of_questions = connection.get_data_from_file('sample_data/question.csv')
+@connection.connection_handler
+def get_questions_from_file(cursor):
+    '''def get_questions_from_file():
+        list_of_questions = connection.get_data_from_file('sample_data/question.csv')
+        return list_of_questions'''
+    cursor.execute("""
+                    SELECT * FROM question
+                    ORDER BY submission_time DESC;
+                   """)
+    list_of_questions = cursor.fetchall()
     return list_of_questions
+
+
 
 
 def get_answer_from_file():
