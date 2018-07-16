@@ -12,10 +12,12 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/list')
 def list_questions():
-    sortby = request.args.get('sortby','submission_time,1')
+    columns = ['id', 'submission_time', 'title', 'view_number', 'vote_number']
+    sortby = request.args.get('sortby','submission_time,DESC')
     sortby = sortby.split(',')
-    list_of_questions = data_manager.sort_questions_by_date(sortby[0],bool(int(sortby[1])))
+    list_of_questions = data_manager.get_data_from_file(columns, 'question', sortby[0], sortby[1])
     len_of_list_of_questions = len(list_of_questions)
+
     return render_template('list.html',
                            list_of_questions=list_of_questions,
                            len_of_list_of_questions=len_of_list_of_questions)

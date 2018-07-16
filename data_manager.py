@@ -6,19 +6,37 @@ import datetime
 from operator import itemgetter
 import util
 import time
+from psycopg2 import sql
+
+
 
 @connection.connection_handler
-def get_questions_from_file(cursor):
-    '''def get_questions_from_file():
-        list_of_questions = connection.get_data_from_file('sample_data/question.csv')
-        return list_of_questions'''
-    cursor.execute("""
-                    SELECT * FROM question
-                    ORDER BY submission_time DESC;
-                   """)
-    list_of_questions = cursor.fetchall()
-    return list_of_questions
-
+def get_data_from_file(cursor, columns, table, order_column, order):
+    '''Use this function to access any columns of any table, ordered by any column in descending order
+    give the parameters to this function in server.py
+    columns: list of strings, strings are the chosen columns example: ['vote_number', 'title', 'message']
+    table: table name as string  example: 'question'
+    order_by: column name as string  example: 'submission_time'
+    '''
+    used_columns = sql.SQL(', ').join(sql.Identifier(n) for n in columns)
+    if order == 'DESC':
+        cursor.execute(
+            sql.SQL("""SELECT {col} FROM {table} 
+                    ORDER BY {order_column} DESC """)
+                .format(col= used_columns,
+                        table=sql.Identifier(table),
+                        order_column=sql.Identifier(order_column))
+        )
+    elif order == 'ASC':
+        cursor.execute(
+            sql.SQL("""SELECT {col} FROM {table} 
+                    ORDER BY {order_column} ASC """)
+                .format(col=used_columns,
+                        table=sql.Identifier(table),
+                        order_column=sql.Identifier(order_column))
+        )
+    list_of_data = cursor.fetchall()
+    return list_of_data
 
 
 
