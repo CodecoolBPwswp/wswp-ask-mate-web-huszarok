@@ -3,6 +3,7 @@
 import os
 import psycopg2
 import psycopg2.extras
+from flask import Flask, request
 
 def get_connection_string():
     # setup connection string
@@ -46,3 +47,4 @@ def connection_handler(function):
         connection.close()
         return ret_value
     return wrapper
+
