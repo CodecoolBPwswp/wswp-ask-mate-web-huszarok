@@ -60,6 +60,20 @@ def get_data_by_id(cursor, columns, table, data_id):
 
 
 @connection.connection_handler
+def get_comments_by_id(cursor, columns, table, data_id):
+    used_columns = sql.SQL(', ').join(sql.Identifier(n) for n in columns)
+    sql_query = sql.SQL("""SELECT {col}
+                           FROM {table} 
+                           WHERE question_id = {data_id} """)\
+        .format(col=used_columns, table=sql.Identifier(table), data_id=sql.Literal(data_id))
+    cursor.execute(sql_query)
+
+    data = cursor.fetchall()
+
+    return data
+
+
+@connection.connection_handler
 def update_data(cursor, column, table, value, data_id):
     cursor.execute(
         sql.SQL("""UPDATE {table} 

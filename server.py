@@ -5,7 +5,6 @@ This layer should consist of logic that is hardly related to Flask.
 from flask import Flask, render_template, redirect, request
 import data_manager
 
-
 app = Flask(__name__)
 
 
@@ -13,7 +12,7 @@ app = Flask(__name__)
 @app.route('/list')
 def list_questions():
     columns = ['id', 'submission_time', 'title', 'view_number', 'vote_number']
-    sortby = request.args.get('sortby','submission_time,DESC')
+    sortby = request.args.get('sortby', 'submission_time,DESC')
     sortby = sortby.split(',')
     rule = request.url_rule
     if '/list' in rule.rule:
@@ -75,32 +74,45 @@ def display_question(question_id):
     columns_for_answers = ['id', 'submission_time', 'message', 'vote_number', 'question_id']
     question = data_manager.get_data_by_id(columns_for_questions, 'question', question_id)
     answers_of_question = data_manager.get_data_by_id(columns_for_answers, 'answer', question_id)
-    comment = request.form.get('comment')
-    data_manager.comment_update(comment, question_id, 'comment')
+    columns_for_comment = ['id', 'question_id', 'answer_id', 'message', 'submission_time', 'edited_count']
+    get_comment = data_manager.get_comments_by_id(columns_for_comment, 'comment', question_id)
     return render_template("question_display.html",
                            id=question_id,
                            question=question,
-                           answers=answers_of_question)
+                           answers=answers_of_question,
+                           comments=get_comment)
 
 
 @app.route('/question/<int:question_id>/new-comment', methods=['POST', 'GET'])
 def comment_question(question_id):
-    comment=request.form.get('comment')
-    data_manager.comment_update(comment, question_id, 'comment')
+    if request.method == 'POST':
+        comment = request.form.get('comment')
+        data_manager.comment_update(comment, question_id, 'comment')
 
     return render_template("question_comment.html",
                            question_id=question_id)
 
+
+@app.route('/question/<int:question_id>')
+def display_comment(question_id):
+    columns_for_comment = ['id', 'question_id', 'answer_id', 'message', 'submission_time', 'edited_count']
+    get_comment = data_manager.get_comments_by_id(columns_for_comment, 'comment', question_id)
+
+    return render_template("question_display.html",
+                           id=question_id,
+                           comments=get_comment)
+
+
 @app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
 def vote_up_questions(question_id):
-        list_of_questions = data_manager.sort_questions_by_date('submission_time', True)
-        for question in list_of_questions:
-            if question['id'] == question_id:
-                question_data = question
-        if request.method == 'POST':
-            question_data['vote_number'] += 1
-            data_manager.vote(question_data)
-        return redirect('/question/' + str(question_id))
+    list_of_questions = data_manager.sort_questions_by_date('submission_time', True)
+    for question in list_of_questions:
+        if question['id'] == question_id:
+            question_data = question
+    if request.method == 'POST':
+        question_data['vote_number'] += 1
+        data_manager.vote(question_data)
+    return redirect('/question/' + str(question_id))
 
 
 @app.route('/question/<int:question_id>/vote-down', methods=['POST', 'GET'])
