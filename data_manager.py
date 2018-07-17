@@ -9,31 +9,37 @@ import time
 from psycopg2 import sql
 
 
+
 @connection.connection_handler
-def get_all_data_from_file(cursor, columns, table, order_column, order):
+def get_all_data_from_file(cursor, columns, table, order_column, order, limit):
     '''Use this function to access any columns of any table, ordered by any column in any order :)
     give the parameters to this function in server.py
     columns: list of strings, strings are the chosen columns example: ['vote_number', 'title', 'message']
     table: table name as string  example: 'question'
     order_by: column name as string  example: 'submission_time'
     order: 'ASC' or 'DESC'
+    limit: integer or None (None means ALL)
     '''
     used_columns = sql.SQL(', ').join(sql.Identifier(n) for n in columns)
     if order == 'DESC':
         cursor.execute(
             sql.SQL("""SELECT {col} FROM {table} 
-                    ORDER BY {order_column} DESC """)
-                .format(col=used_columns,
+                    ORDER BY {order_column} DESC
+                    LIMIT {limit_value} """)
+                .format(col= used_columns,
                         table=sql.Identifier(table),
-                        order_column=sql.Identifier(order_column))
+                        order_column=sql.Identifier(order_column),
+                        limit_value=sql.Literal(limit))
         )
     elif order == 'ASC':
         cursor.execute(
             sql.SQL("""SELECT {col} FROM {table} 
-                    ORDER BY {order_column} ASC """)
+                    ORDER BY {order_column} ASC
+                    LIMIT {limit_value} """)
                 .format(col=used_columns,
                         table=sql.Identifier(table),
-                        order_column=sql.Identifier(order_column))
+                        order_column=sql.Identifier(order_column),
+                        limit_value=sql.Literal(limit))
         )
     list_of_data = cursor.fetchall()
     return list_of_data
@@ -124,30 +130,6 @@ def get_answers_from_file():
 def convert_timestamp_to_date(timestamp):
     time = datetime.datetime.fromtimestamp(int(timestamp)).strftime('%Y-%m-%d %H:%M:%S')
     return time
-
-
-def sort_questions_by_date(title, reverse):
-    title_to_convert_to_number = ['id', 'view_number', 'vote_number']
-    list_of_questions = get_questions_from_file()
-
-    for question in list_of_questions:
-        for key in question:
-            if key in title_to_convert_to_number:
-                question[key] = int(question[key])
-            if key == 'submission_time':
-                try:
-                    question[key] = int(question[key])
-                except ValueError:
-                    date_time = question[key]
-                    pattern = '%Y-%m-%d %H:%M:%S'
-                    question[key] = int(time.mktime(time.strptime(date_time, pattern)))
-
-        question['submission_time'] = convert_timestamp_to_date(question['submission_time'])
-
-    list_of_questions = sorted(list_of_questions, key=itemgetter(title), reverse=reverse)
-
-
-    return list_of_questions
 
 
 def sort_answer_by_date(title, reverse):
