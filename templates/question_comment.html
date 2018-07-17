@@ -7,8 +7,8 @@
 
 </head>
 <body>
-<form class="comment-text" id="comment-t" action="/question/<int:question_id>/new-comment" method="POST">
-    <textarea class="comment-textarea" id="comment1" name="message" rows="8" cols="30"></textarea>
+<form class="comment-text" id="comment-t" action="/question/{{ question_id }}" method="POST" name="comment1">
+    <textarea class="comment-textarea" id="comment1" name="comment" rows="8" cols="30"></textarea>
     <button id="comment-submit" class="comment-submit1" type="submit">Submit Comment</button>
 </form>
 </body>
