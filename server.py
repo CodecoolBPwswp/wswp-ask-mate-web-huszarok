@@ -51,11 +51,12 @@ def edit_question(question_id):
 
 @app.route('/question/<int:question_id>/new-answer', methods=['POST', 'GET'])
 def answer_question(question_id):
-    get_question = data_manager.sort_questions_by_date('submission_time', True)
+    columns = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
+    get_question = data_manager.get_all_data_from_file(columns, 'answer', 'submission_time', 'DESC')
     dict_question = data_manager.from_dict_to_variable(get_question, 'id', question_id)
     list_of_answers = data_manager.get_answers_from_file()
     if request.method == 'GET':
-        return render_template('question_display.html', form_type=3, question_id=question_id,
+        return render_template('new_answer.html', question_id=question_id,
                                question=dict_question, answer_data=list_of_answers)
     if request.method == 'POST':
         message = request.form['message']
@@ -77,6 +78,7 @@ def display_questions(question_id):
 def comment_question(question_id):
     return render_template("question_comment.html",
                            question_id=question_id)
+
 
 @app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
 def vote_up_questions(question_id):

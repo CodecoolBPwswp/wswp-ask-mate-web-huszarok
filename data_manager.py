@@ -51,6 +51,7 @@ def display_data_by_id(cursor, question_id):
 
     return data\
 
+
 @connection.connection_handler
 def display_anwser_by_id(cursor, question_id):
     cursor.execute("""
@@ -61,6 +62,7 @@ def display_anwser_by_id(cursor, question_id):
     data = cursor.fetchall()
 
     return data
+
 
 def append_question_from_server(title, message):
     question_data = [util.generate_id('question'),
@@ -112,7 +114,8 @@ def convert_timestamp_to_date(timestamp):
 
 def sort_questions_by_date(title, reverse):
     title_to_convert_to_number = ['id', 'view_number', 'vote_number']
-    list_of_questions = get_questions_from_file()
+    list_of_questions = get_all_data_from_file(cursor, columns, table, order_column, order)
+    columns = ['id', 'submission_time', 'title', 'view_number', 'vote_nu
 
     for question in list_of_questions:
         for key in question:
