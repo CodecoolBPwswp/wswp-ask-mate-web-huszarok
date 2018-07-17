@@ -41,7 +41,7 @@ def edit_question(question_id):
         if question['id'] == question_id:
             question_data = question
     if request.method == 'GET':
-        return render_template('form.html', form_type=2, question_data=question_data)
+        return render_template('question_display.html', form_type=2, question_data=question_data)
     if request.method == 'POST':
         title = request.form['title']
         message = request.form['message']
@@ -55,7 +55,7 @@ def answer_question(question_id):
     dict_question = data_manager.from_dict_to_variable(get_question, 'id', question_id)
     list_of_answers = data_manager.get_answers_from_file()
     if request.method == 'GET':
-        return render_template('form.html', form_type=3, question_id=question_id,
+        return render_template('question_display.html', form_type=3, question_id=question_id,
                                question=dict_question, answer_data=list_of_answers)
     if request.method == 'POST':
         message = request.form['message']
@@ -65,21 +65,18 @@ def answer_question(question_id):
 
 @app.route('/question/<int:question_id>')
 def display_questions(question_id):
-    questions = data_manager.sort_questions_by_date('submission_time', True)
-    dict_question = data_manager.from_dict_to_variable(questions,'id', question_id)
-
-    answers_of_question = []
-    answers = data_manager.sort_answer_by_date('submission_time', True)
-    for answer_dict in answers:
-        if answer_dict['question_id'] == question_id:
-            answers_of_question.append(answer_dict)
-
-    return render_template("form.html",
-                           form_type=4,
+    question = data_manager.display_data_by_id(question_id)
+    anwsers_of_question = data_manager.display_anwser_by_id(question_id)
+    return render_template("question_display.html",
                            id=question_id,
-                           question=dict_question,
-                           answers=answers_of_question)
+                           question=question,
+                           answers=anwsers_of_question)
 
+
+@app.route('/question/<int:question_id>/new-comment')
+def comment_question(question_id):
+    return render_template("question_comment.html",
+                           question_id=question_id)
 
 @app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
 def vote_up_questions(question_id):
