@@ -15,7 +15,14 @@ def list_questions():
     columns = ['id', 'submission_time', 'title', 'view_number', 'vote_number']
     sortby = request.args.get('sortby','submission_time,DESC')
     sortby = sortby.split(',')
-    list_of_questions = data_manager.get_all_data_from_file(columns, 'question', sortby[0], sortby[1])
+    rule = request.url_rule
+    if '/list' in rule.rule:
+        limit = None
+        list_of_questions = data_manager.get_all_data_from_file(columns, 'question', sortby[0], sortby[1], limit)
+    else:
+        limit = 5
+        list_of_questions = data_manager.get_all_data_from_file(columns, 'question', sortby[0], sortby[1], limit)
+
     len_of_list_of_questions = len(list_of_questions)
 
     return render_template('list.html',
@@ -62,19 +69,26 @@ def answer_question(question_id):
         return redirect('/question/' + str(question_id))
 
 
-@app.route('/question/<int:question_id>')
-def display_questions(question_id):
+@app.route('/question/<int:question_id>', methods=['POST', 'GET'])
+def display_question(question_id):
     columns_for_questions = ['id', 'submission_time', 'title', 'message', 'view_number', 'vote_number']
     columns_for_answers = ['id', 'submission_time', 'message', 'vote_number', 'question_id']
     question = data_manager.get_data_by_id(columns_for_questions, 'question', question_id)
-    answers_of_question = data_manager.get_data_by_id(columns_for_answers, 'answer', question_id)
+    limit = None
+    answers_of_question = data_manager.get_all_data_from_file(columns_for_answers,
+                                                              'answer',
+                                                              'submission_time',
+                                                              'DESC',
+                                                              limit)
+    comment = request.form.get('comment')
+    data_manager.comment_update(comment, question_id, 'comment')
     return render_template("question_display.html",
                            id=question_id,
                            question=question,
                            answers=answers_of_question)
 
 
-@app.route('/question/<int:question_id>/new-comment')
+@app.route('/question/<int:question_id>/new-comment', methods=['POST', 'GET'])
 def comment_question(question_id):
     comment=request.form.get('comment')
     data_manager.comment_update(comment, question_id, 'comment')

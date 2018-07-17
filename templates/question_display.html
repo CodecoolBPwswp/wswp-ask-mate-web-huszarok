@@ -6,7 +6,6 @@
     <title>Question</title>
 </head>
 <body>
-{% for question in question %}
 <form>
  <input type="submit" value="Home page" style="float: right"/>
 </form>
@@ -76,8 +75,8 @@
         </td>
     </tr>
 </table>
-<a id="comment" class="comment-question" href= '{{ url_for('comment_question', question_id=question.id) }}'>Comment</a>
-{% endfor %}
+<a id="comment" class="comment-question" href= "{{ url_for('comment_question', question_id=question.id) }}">Comment</a>
+
 
       </button><h1>Answers</h1>
     <table border="0" width= 1400">
