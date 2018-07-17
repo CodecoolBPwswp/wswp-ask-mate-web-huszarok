@@ -9,7 +9,6 @@ import time
 from psycopg2 import sql
 
 
-
 @connection.connection_handler
 def get_all_data_from_file(cursor, columns, table, order_column, order):
     '''Use this function to access any columns of any table, ordered by any column in any order :)
@@ -24,7 +23,7 @@ def get_all_data_from_file(cursor, columns, table, order_column, order):
         cursor.execute(
             sql.SQL("""SELECT {col} FROM {table} 
                     ORDER BY {order_column} DESC """)
-                .format(col= used_columns,
+                .format(col=used_columns,
                         table=sql.Identifier(table),
                         order_column=sql.Identifier(order_column))
         )
@@ -41,26 +40,30 @@ def get_all_data_from_file(cursor, columns, table, order_column, order):
 
 
 @connection.connection_handler
-def display_data_by_id(cursor, question_id):
-    cursor.execute("""
-                    SELECT * FROM question
-                    WHERE id=%(question_id)s""",
-                {'question_id': question_id})
-
-    data = cursor.fetchall()
-
-    return data\
-
-@connection.connection_handler
-def display_anwser_by_id(cursor, question_id):
-    cursor.execute("""
-                    SELECT * FROM answer
-                    WHERE id=%(question_id)s""",
-                {'question_id': question_id})
+def get_data_by_id(cursor, columns, table, data_id):
+    used_columns = sql.SQL(', ').join(sql.Identifier(n) for n in columns)
+    sql_query = sql.SQL("""SELECT {col}
+                           FROM {table} 
+                           WHERE id = {data_id} """)\
+        .format(col=used_columns, table=sql.Identifier(table), data_id=sql.Literal(data_id))
+    print(sql_query.as_string(cursor.connection))
+    cursor.execute(sql_query)
 
     data = cursor.fetchall()
 
     return data
+
+
+@connection.connection_handler
+def update_data(cursor, column, table, value, id):
+    cursor.execute(
+        sql.SQL("""UPDATE {table} 
+                SET {col} = {value}
+                WHERE id = {id}""").format(col=sql.Identifier(column),
+                                           table=sql.Identifier(table),
+                                           value=value),
+                                           id=id
+    )
 
 def append_question_from_server(title, message):
     question_data = [util.generate_id('question'),
