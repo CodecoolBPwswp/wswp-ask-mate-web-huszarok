@@ -1,19 +1,9 @@
+{% extends "layout.html" %}
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <style>table, th, td {
-        border: 1px solid black;
-        }</style>
-        <meta charset="utf-8">
-        <title>AskMate</title>
-    </head>
-    <body>
-
-        <h1><strong>AskMate</strong></h1>
+{% block content %}
 
 
-        <form action="/" method="get">
+        <form action='/' method="get">
             <p><label for="sortby">Sort by</label> <br>
             <select id="sortby" name="sortby">
                 <option value="id,ASC">ID - asc</option>
@@ -31,37 +21,26 @@
                 <button id="sort_button", type="submit">Sort</button>
         </form>
 
-        <style>
-            #titles {
-                    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-                    border-collapse: collapse;
-                    width: 100%;
-                }
+        <form action='/list' method="get">
+            <p><label for="sortby">Sort all questions</label> <br>
+            <select id="sortby" name="sortby">
+                <option value="id,ASC">ID - asc</option>
+                <option value="id,DESC">ID - desc</option>
+                <option value="submission_time,ASC" >Submission time - asc</option>
+                <option value="submission_time,DESC" >Submission time - desc</option>
+                <option value="view_number,ASC" >Number of views - asc</option>
+                <option value="view_number,DESC" >Number of views - desc</option>
+                <option value="vote_number,ASC" >Number of votes - asc</option>
+                <option value="vote_number,DESC" >Number of votes - desc</option>
+                <option value="title,ASC" >Title - asc</option>
+                <option value="title,DESC" >Title - desc</option>
 
-            #titles td, #titles th {
-                    border: 1px solid #ddd;
-                    padding: 8px;
-                }
+            </select>
+                <button id="sort_button", type="submit">Sort</button>
+        </form>
 
-            #titles tr:nth-child(even){background-color: #f2f2f2;}
-j
-            #titles tr:hover {background-color: #ddd;}
 
-            #titles th {
-                    padding-top: 12px;
-                    padding-bottom: 12px;
-                    text-align: center;
-                    background-color: #4CAF50;
-                    color: white;
-                }
-        </style>
-
-        <table id="titles" width="100%">
-	        <col style="width:10%">
-	        <col style="width:20%">
-	        <col style="width:40%">
-            <col style="width:15%">
-	        <col style="width:15%">
+        <table id="titles">
             <tr>
                 <th><strong>Question</strong></th>
                 <th><strong>Submission time</strong></th>
@@ -73,11 +52,11 @@ j
 
                 {% for question in range(0, len_of_list_of_questions) %}
                     <tr>
-                        <td align="center"><a href="/question/{{ list_of_questions[question]['id']}}">{{ list_of_questions[question]['id']}}</a></td>
-                        <td align="center">{{ list_of_questions[question]['submission_time']}}</td>
-                        <td align="center">{{ list_of_questions[question]['title']}}</td>
-                        <td align="center">{{ list_of_questions[question]['view_number']}}</td>
-                        <td align="center">{{ list_of_questions[question]['vote_number']}}</td>
+                        <td><a href="/question/{{ list_of_questions[question]['id']}}">{{ list_of_questions[question]['id']}}</a></td>
+                        <td>{{ list_of_questions[question]['submission_time']}}</td>
+                        <td>{{ list_of_questions[question]['title']}}</td>
+                        <td>{{ list_of_questions[question]['view_number']}}</td>
+                        <td>{{ list_of_questions[question]['vote_number']}}</td>
 
 
                     </tr>
@@ -89,5 +68,4 @@ j
         <input type="submit" value="New question" style="float: right"/>
      </form>
 
-    </body>
-</html>
+{% endblock %}
