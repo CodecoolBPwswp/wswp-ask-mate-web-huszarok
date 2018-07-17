@@ -104,19 +104,6 @@ def append_question_from_server(title, message):
     return question_data[0]
 
 
-def update_question_from_server(title, message, question_data):
-    updated_question_data = question_data
-    updated_question_data['title'] = title
-    updated_question_data['message'] = message
-    connection.update_data_in_file('sample_data/question.csv', updated_question_data)
-
-
-def update_answer_from_server(message, answer_data):
-    updated_answer_data = answer_data
-    updated_answer_data['message'] = message
-    connection.update_data_in_file('sample_data/answer.csv', updated_answer_data)
-
-
 def append_answer_from_server(question_id, message):
     answer_data = [util.generate_id('answer'),  # question id
                    generate_timestamp(),        # submission time

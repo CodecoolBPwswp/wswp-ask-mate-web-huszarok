@@ -80,7 +80,12 @@ def display_question(question_id):
     columns_for_questions = ['id', 'submission_time', 'title', 'message', 'view_number', 'vote_number']
     columns_for_answers = ['id', 'submission_time', 'message', 'vote_number', 'question_id']
     question = data_manager.get_data_by_id(columns_for_questions, 'question', question_id)
-    answers_of_question = data_manager.get_data_by_id(columns_for_answers, 'answer', question_id)
+    limit = None
+    answers_of_question = data_manager.get_all_data_from_file(columns_for_answers,
+                                                              'answer',
+                                                              'submission_time',
+                                                              'DESC',
+                                                              limit)
     comment = request.form.get('comment')
     data_manager.comment_update(comment, question_id, 'comment')
     return render_template("question_display.html",
