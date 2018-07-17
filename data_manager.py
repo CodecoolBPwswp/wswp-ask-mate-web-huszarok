@@ -11,12 +11,13 @@ from psycopg2 import sql
 
 
 @connection.connection_handler
-def get_data_from_file(cursor, columns, table, order_column, order):
-    '''Use this function to access any columns of any table, ordered by any column in descending order
+def get_all_data_from_file(cursor, columns, table, order_column, order):
+    '''Use this function to access any columns of any table, ordered by any column in any order :)
     give the parameters to this function in server.py
     columns: list of strings, strings are the chosen columns example: ['vote_number', 'title', 'message']
     table: table name as string  example: 'question'
     order_by: column name as string  example: 'submission_time'
+    order: 'ASC' or 'DESC'
     '''
     used_columns = sql.SQL(', ').join(sql.Identifier(n) for n in columns)
     if order == 'DESC':
