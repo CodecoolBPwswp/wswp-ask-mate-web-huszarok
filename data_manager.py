@@ -84,6 +84,20 @@ def comment_update(cursor, messages, question_id, table):
                         messages=messages),
                         [question_id, messages, 0]
 )
+
+
+@connection.connection_handler
+def answer_question(cursor, message, question_id, table):
+    query = """INSERT INTO {table} (id, submission_time, vote_number,
+                                                 question_id, message, image)
+                            VALUES (DEFAULT, now(), 0, {question_id}, %(text)s, NULL)
+                            """
+    composed_query = sql.SQL(query).format(
+                                         table=sql.Identifier(table),
+                                         question_id=sql.Literal(question_id))
+    cursor.execute(composed_query, {"text": message})
+
+
 def append_question_from_server(title, message):
     question_data = [util.generate_id('question'),
                      generate_timestamp(),

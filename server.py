@@ -2,7 +2,7 @@
 This layer should consist of logic that is hardly related to Flask.
 (with other words: this should be the only file importing from flask)'''
 
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, url_for
 import data_manager
 
 
@@ -57,16 +57,24 @@ def edit_question(question_id):
 
 @app.route('/question/<int:question_id>/new-answer', methods=['POST', 'GET'])
 def answer_question(question_id):
-    columns = ['id', 'submission_time', 'title', 'message', 'view_number', 'vote_number']
-    dict_question = data_manager.get_data_by_id(columns, 'question', question_id)
-    list_of_answers = data_manager.get_answers_from_file()
+    columns_for_questions = ['id', 'submission_time', 'title', 'message', 'view_number', 'vote_number']
+    columns_for_answers = ['id', 'submission_time', 'message', 'vote_number', 'question_id']
+    question = data_manager.get_data_by_id(columns_for_questions, 'question', question_id)
+    limit = None
+    answers_of_question = data_manager.get_all_data_from_file(columns_for_answers,
+                                                              'answer',
+                                                              'submission_time',
+                                                              'DESC',
+                                                              limit)
     if request.method == 'GET':
-        return render_template('new_answer.html', question_id=question_id,
-                               question=dict_question, answer_data=list_of_answers)
-    if request.method == 'POST':
-        message = request.form['message']
-        data_manager.append_answer_from_server(question_id, message)
-        return redirect('/question/' + str(question_id))
+        return render_template("new_answer.html",
+                               id=question_id,
+                               question=question,
+                               answers=answers_of_question)
+    elif request.method == 'POST':
+        message = request.form.get('message')
+        data_manager.answer_question(message, question_id, 'answer')
+        return redirect(url_for('display_question', question_id=question_id))
 
 
 @app.route('/question/<int:question_id>', methods=['POST', 'GET'])
