@@ -15,7 +15,7 @@ def list_questions():
     columns = ['id', 'submission_time', 'title', 'view_number', 'vote_number']
     sortby = request.args.get('sortby','submission_time,DESC')
     sortby = sortby.split(',')
-    list_of_questions = data_manager.get_data_from_file(columns, 'question', sortby[0], sortby[1])
+    list_of_questions = data_manager.get_all_data_from_file(columns, 'question', sortby[0], sortby[1])
     len_of_list_of_questions = len(list_of_questions)
 
     return render_template('list.html',
