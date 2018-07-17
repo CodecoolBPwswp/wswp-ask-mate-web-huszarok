@@ -182,28 +182,29 @@
 
     </tr>
 
-    <tr>
+    <tr> {% for question in question %}
         <td align="center">
-            {{ question['id'] }}
+            {{ question.id }}
         </td>
         <td align="center">
-            {{ question['submission_time'] }}
+            {{ question.submission_time }}
         </td>
         <td align="center">
-            {{ question['view_number'] }}
+            {{ question.view_number }}
         </td>
         <td align="center">
-            {{ question['vote_number'] }}
+            {{ question.vote_number }}
         </td>
         <td align="center">
-            {{ question['title'] }}
+            {{ question.title }}
         </td>
         <td align="center">
-            {{ question['message'] }}
+            {{ question.message }}
         </td>
         <td align="center">
-            {{ question['image'] }}
+            {{ question.image }}
         </td>
+        {% endfor %}
     </tr>
 
 

@@ -6,26 +6,61 @@ import datetime
 from operator import itemgetter
 import util
 import time
+from psycopg2 import sql
+
+
 
 @connection.connection_handler
-def get_questions_from_file(cursor):
-    '''def get_questions_from_file():
-        list_of_questions = connection.get_data_from_file('sample_data/question.csv')
-        return list_of_questions'''
+def get_all_data_from_file(cursor, columns, table, order_column, order):
+    '''Use this function to access any columns of any table, ordered by any column in any order :)
+    give the parameters to this function in server.py
+    columns: list of strings, strings are the chosen columns example: ['vote_number', 'title', 'message']
+    table: table name as string  example: 'question'
+    order_by: column name as string  example: 'submission_time'
+    order: 'ASC' or 'DESC'
+    '''
+    used_columns = sql.SQL(', ').join(sql.Identifier(n) for n in columns)
+    if order == 'DESC':
+        cursor.execute(
+            sql.SQL("""SELECT {col} FROM {table} 
+                    ORDER BY {order_column} DESC """)
+                .format(col= used_columns,
+                        table=sql.Identifier(table),
+                        order_column=sql.Identifier(order_column))
+        )
+    elif order == 'ASC':
+        cursor.execute(
+            sql.SQL("""SELECT {col} FROM {table} 
+                    ORDER BY {order_column} ASC """)
+                .format(col=used_columns,
+                        table=sql.Identifier(table),
+                        order_column=sql.Identifier(order_column))
+        )
+    list_of_data = cursor.fetchall()
+    return list_of_data
+
+
+@connection.connection_handler
+def display_data_by_id(cursor, question_id):
     cursor.execute("""
                     SELECT * FROM question
-                    ORDER BY submission_time DESC;
-                   """)
-    list_of_questions = cursor.fetchall()
-    return list_of_questions
+                    WHERE id=%(question_id)s""",
+                {'question_id': question_id})
 
+    data = cursor.fetchall()
 
+    return data\
 
+@connection.connection_handler
+def display_anwser_by_id(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM answer
+                    WHERE id=%(question_id)s""",
+                {'question_id': question_id})
 
-def get_answer_from_file():
-    list_of_answers = connection.get_data_from_file('sample_data/answer.csv')
-    return list_of_answers
+    data = cursor.fetchall()
 
+    return data
 
 def append_question_from_server(title, message):
     question_data = [util.generate_id('question'),
