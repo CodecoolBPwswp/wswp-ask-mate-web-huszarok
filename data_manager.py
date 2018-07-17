@@ -72,6 +72,15 @@ def update_data(cursor, column, table, value, data_id):
 
 
 @connection.connection_handler
+def delete_comments(cursor, table, data_id):
+    cursor.execute(
+        sql.SQL("""DELETE FROM {table}
+                    WHERE id={data_id}""")
+                .format(table=sql.Identifier(table),
+                        data_id=sql.Literal(data_id)))
+
+
+@connection.connection_handler
 def comment_update(cursor, messages, question_id, table):
     cursor.execute(
             sql.SQL("""
@@ -84,6 +93,7 @@ def comment_update(cursor, messages, question_id, table):
                         messages=messages),
                         [question_id, messages, 0]
 )
+
 def append_question_from_server(title, message):
     question_data = [util.generate_id('question'),
                      generate_timestamp(),
@@ -93,19 +103,6 @@ def append_question_from_server(title, message):
                      message]
     connection.append_data_to_file('sample_data/question.csv', question_data)
     return question_data[0]
-
-
-def update_question_from_server(title, message, question_data):
-    updated_question_data = question_data
-    updated_question_data['title'] = title
-    updated_question_data['message'] = message
-    connection.update_data_in_file('sample_data/question.csv', updated_question_data)
-
-
-def update_answer_from_server(message, answer_data):
-    updated_answer_data = answer_data
-    updated_answer_data['message'] = message
-    connection.update_data_in_file('sample_data/answer.csv', updated_answer_data)
 
 
 def append_answer_from_server(question_id, message):

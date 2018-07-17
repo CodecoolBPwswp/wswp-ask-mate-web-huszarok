@@ -30,6 +30,12 @@ def list_questions():
                            len_of_list_of_questions=len_of_list_of_questions)
 
 
+@app.route('/comments/<int:comment_id>/delete')
+def delete_comments(comment_id):
+    data_manager.delete_comments('comment', comment_id)
+    return redirect('/')
+
+
 @app.route('/add-question', methods=['POST', 'GET'])
 def add_question():
     if request.method == 'GET':
@@ -70,11 +76,16 @@ def answer_question(question_id):
 
 
 @app.route('/question/<int:question_id>', methods=['POST', 'GET'])
-def display_questions(question_id):
+def display_question(question_id):
     columns_for_questions = ['id', 'submission_time', 'title', 'message', 'view_number', 'vote_number']
     columns_for_answers = ['id', 'submission_time', 'message', 'vote_number', 'question_id']
     question = data_manager.get_data_by_id(columns_for_questions, 'question', question_id)
-    answers_of_question = data_manager.get_data_by_id(columns_for_answers, 'answer', question_id)
+    limit = None
+    answers_of_question = data_manager.get_all_data_from_file(columns_for_answers,
+                                                              'answer',
+                                                              'submission_time',
+                                                              'DESC',
+                                                              limit)
     comment = request.form.get('comment')
     data_manager.comment_update(comment, question_id, 'comment')
     return render_template("question_display.html",
@@ -113,13 +124,6 @@ def vote_down_questions(question_id):
         question_data['vote_number'] -= 1
         data_manager.vote(question_data)
     return redirect('/question/' + str(question_id))
-
-
-@app.route('/answer/<answer_id>/delete', methods=['POST'])
-def delete_answer(answer_id):
-    pin = request.form.get('id')
-    print(pin)
-    return redirect('/')
 
 
 if __name__ == '__main__':
