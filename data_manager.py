@@ -40,11 +40,27 @@ def get_all_data_from_file(cursor, columns, table, order_column, order):
     return list_of_data
 
 
+@connection.connection_handler
+def display_data_by_id(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM question
+                    WHERE id=%(question_id)s""",
+                {'question_id': question_id})
 
-def get_answer_from_file():
-    list_of_answers = connection.get_data_from_file('sample_data/answer.csv')
-    return list_of_answers
+    data = cursor.fetchall()
 
+    return data\
+
+@connection.connection_handler
+def display_anwser_by_id(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM answer
+                    WHERE id=%(question_id)s""",
+                {'question_id': question_id})
+
+    data = cursor.fetchall()
+
+    return data
 
 def append_question_from_server(title, message):
     question_data = [util.generate_id('question'),

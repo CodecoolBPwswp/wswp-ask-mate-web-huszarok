@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="{{ url_for('static', filename='question.css') }}">
+    <meta charset="UTF-8">
+    <title>Question</title>
+</head>
+<body>
+{% for question in question %}
+<form>
+ <input type="submit" value="Home page" style="float: right"/>
+</form>
+        <h1>Display question</h1>
+
+        <form action="/question/{{ question.id}}/vote-up" method="POST">
+        <button class="button1" type="submit">Vote up</button>
+        <button class="button2" type="submit" formaction="/question/{{ question.id }}/vote-down">Vote down</button>
+
+        </form>
+    <!--Voting button ends here-->
+<table width="1000">
+     <col style="width:5%">
+	        <col style="width:10%">
+	        <col style="width:5%">
+            <col style="width:5%">
+	        <col style="width:20%">
+	        <col style="width:45%">
+            <col style="width:10%">
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            Submission time
+        </th>
+        <th>
+            View number
+        </th>
+        <th>
+            Vote number
+        </th>
+        <th>
+            Title
+        </th>
+        <th>
+            Message
+        </th>
+        <th>
+            Image
+        </th>
+
+
+    </tr>
+
+    <tr>
+        <td align="center">
+            {{ question.id }}
+        </td>
+        <td align="center">
+            {{ question.submission_time }}
+        </td>
+        <td align="center">
+            {{ question.view_number }}
+        </td>
+        <td align="center">
+            {{ question.vote_number }}
+        </td>
+        <td align="center">
+            {{ question.title }}
+        </td>
+        <td align="center">
+            {{ question.message }}
+        </td>
+        <td align="center">
+            {{ question.image }}
+        </td>
+    </tr>
+</table>
+<a id="comment" class="comment-question" href= '{{ url_for('comment_question', question_id=question.id) }}'>Comment</a>
+{% endfor %}
+
+      </button><h1>Answers</h1>
+    <table border="0" width= 1400">
+    <col style="width:5%">
+    <col style="width:10%">
+    <col style="width:5%">
+    <col style="width:65%">
+    <col style="width:20%">
+    {% if answers %}
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            Submission time
+        </th>
+
+        <th>
+            Vote number
+        </th>
+
+        <th>
+            Message
+        </th>
+        <th>
+            Image
+        </th>
+    </tr>
+
+
+    {% for answer in answers %}
+        <tr>
+
+            <td align="center"><form action="/answer/{{ answer.id }}/delete" method="POST">
+    <input type="hidden" value="{{ answer.id }}"/>
+                <button id="w3-btn">delete</button></form></td>
+            <td align="center">{{ answer.submission_time }}</td>
+            <td align="center">{{ answer.vote_number }}</td>
+            <td align="center">{{ answer.message }}</td>
+            <td align="center">{{ answer.image}}</td>
+        </tr>
+    {% endfor %}
+    {% else %}
+        There is no answer
+    {% endif %}
+
+    </table>
+    <form action="/question/{{id}}/new-answer">
+            <input type="submit" value="Answer the question" style="float: right"/>
+        </form>
+
+</body>
+</html>
