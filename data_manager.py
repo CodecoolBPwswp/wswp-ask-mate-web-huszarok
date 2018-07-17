@@ -72,11 +72,12 @@ def update_data(cursor, column, table, value, data_id):
 
 
 @connection.connection_handler
-def delete_comments(cursor, comment_id):
-    cursor.execute("""
-                    DELETE FROM comment
-                    WHERE id=%(comment_id)s""",
-                   {'question_id':comment_id})
+def delete_comments(cursor, table, data_id):
+    cursor.execute(
+        sql.SQL("""DELETE FROM {table}
+                    WHERE id={data_id}""")
+                .format(table=sql.Identifier(table),
+                        data_id=sql.Literal(data_id)))
 
 
 @connection.connection_handler

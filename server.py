@@ -30,9 +30,9 @@ def list_questions():
                            len_of_list_of_questions=len_of_list_of_questions)
 
 
-@app.route('/comments/<comment_id>/delete')
+@app.route('/comments/<int:comment_id>/delete')
 def delete_comments(comment_id):
-    data_manager.delete_comments(comment_id)
+    data_manager.delete_comments('comment', comment_id)
     return redirect('/')
 
 
