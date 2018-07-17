@@ -12,7 +12,7 @@ app = Flask(__name__)
 @app.route('/list')
 def list_questions():
     columns = ['id', 'submission_time', 'title', 'view_number', 'vote_number']
-    sortby = request.args.get('sortby', 'submission_time,DESC')
+    sortby = request.args.get('sortby','submission_time,DESC')
     sortby = sortby.split(',')
     rule = request.url_rule
     if '/list' in rule.rule:
