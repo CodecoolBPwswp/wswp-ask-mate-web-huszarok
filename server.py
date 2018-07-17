@@ -36,16 +36,15 @@ def add_question():
 
 @app.route('/question/<question_id>/edit', methods=['POST', 'GET'])
 def edit_question(question_id):
-    list_of_questions = data_manager.get_questions_from_file()
-    for question in list_of_questions:
-        if question['id'] == question_id:
-            question_data = question
     if request.method == 'GET':
-        return render_template('question_display.html', form_type=2, question_data=question_data)
+        columns = ['title', 'message']
+        question_data = data_manager.get_data_by_id(columns, 'question', question_id)
+        return render_template('form.html', form_type=2, question_data=question_data)
     if request.method == 'POST':
         title = request.form['title']
         message = request.form['message']
-        data_manager.update_question_from_server(title, message, question_data)
+        data_manager.update_data('message', 'question', message, question_id)
+        data_manager.update_data('title', 'answer', title, question_id)
         return redirect('/question/' + str(question_id))
 
 
@@ -66,16 +65,21 @@ def answer_question(question_id):
 
 @app.route('/question/<int:question_id>')
 def display_questions(question_id):
-    question = data_manager.display_data_by_id(question_id)
-    anwsers_of_question = data_manager.display_anwser_by_id(question_id)
+    columns_for_questions = ['id', 'submission_time', 'title', 'message', 'view_number', 'vote_number']
+    columns_for_answers = ['id', 'submission_time', 'message', 'vote_number', 'question_id']
+    question = data_manager.get_data_by_id(columns_for_questions, 'question', question_id)
+    answers_of_question = data_manager.get_data_by_id(columns_for_answers, 'answer', question_id)
     return render_template("question_display.html",
                            id=question_id,
                            question=question,
-                           answers=anwsers_of_question)
+                           answers=answers_of_question)
 
 
 @app.route('/question/<int:question_id>/new-comment')
 def comment_question(question_id):
+    comment=request.form.get('comment')
+    data_manager.comment_update(comment, question_id, 'comment')
+
     return render_template("question_comment.html",
                            question_id=question_id)
 
