@@ -110,30 +110,6 @@ def convert_timestamp_to_date(timestamp):
     return time
 
 
-def sort_questions_by_date(title, reverse):
-    title_to_convert_to_number = ['id', 'view_number', 'vote_number']
-    list_of_questions = get_questions_from_file()
-
-    for question in list_of_questions:
-        for key in question:
-            if key in title_to_convert_to_number:
-                question[key] = int(question[key])
-            if key == 'submission_time':
-                try:
-                    question[key] = int(question[key])
-                except ValueError:
-                    date_time = question[key]
-                    pattern = '%Y-%m-%d %H:%M:%S'
-                    question[key] = int(time.mktime(time.strptime(date_time, pattern)))
-
-        question['submission_time'] = convert_timestamp_to_date(question['submission_time'])
-
-    list_of_questions = sorted(list_of_questions, key=itemgetter(title), reverse=reverse)
-
-
-    return list_of_questions
-
-
 def sort_answer_by_date(title, reverse):
     title_to_convert_to_number = ['id','submission_time','view_number','vote_number', 'question_id']
     list_of_answers = get_answer_from_file()
