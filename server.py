@@ -75,6 +75,9 @@ def display_questions(question_id):
 
 @app.route('/question/<int:question_id>/new-comment')
 def comment_question(question_id):
+    comment=request.form.get('comment')
+    data_manager.comment_update(comment, question_id, 'comment')
+
     return render_template("question_comment.html",
                            question_id=question_id)
 

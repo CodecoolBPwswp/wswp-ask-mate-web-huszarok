@@ -62,6 +62,20 @@ def display_anwser_by_id(cursor, question_id):
 
     return data
 
+
+@connection.connection_handler
+def comment_update(cursor, messages, question_id, table):
+    cursor.execute(
+            sql.SQL("""
+                    INSERT INTO {table}
+                    VALUES (DEFAULT, %s, NULL, %s, now(), %s)
+                    """)
+                .format(
+                        table=sql.Identifier(table),
+                        question_id=question_id,
+                        messages=messages),
+                        [question_id, messages, 0]
+)
 def append_question_from_server(title, message):
     question_data = [util.generate_id('question'),
                      generate_timestamp(),
