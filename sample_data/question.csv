@@ -12,4 +12,4 @@ app.js (bundled file with webpack, including jquery)",images/image1.png
 2,2017-04-24 08:30:32,1364,45,Drawing canvas with an image picked with Cordova Camera Plugin,"I'm getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I'm on IOS, it throws errors such as cross origin issue, or that I'm trying to use an unknown format.
 
 This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",
-3,2018-07-05 22:56:28,0,1,Why are types always a certain size no matter its value?,"Implementations might differ between the actual sizes of types, but on most, types like unsigned int and float are always 4 bytes. But why does a type always occupy a certain amount of memory no matter its value?",
+3,2018-07-05 22:56:28,0,8,Why are types always a certain size no matter its value?,"Implementations might differ between the actual sizes of types, but on most, types like unsigned int and float are always 4 bytes. But why does a type always occupy a certain amount of memory no matter its value?",
