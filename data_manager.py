@@ -107,7 +107,6 @@ def answer_question(cursor, message, question_id, table):
     cursor.execute(composed_query, {"text": message})
 
 
-
 def append_question_from_server(title, message):
     question_data = [util.generate_id('question'),
                      generate_timestamp(),
