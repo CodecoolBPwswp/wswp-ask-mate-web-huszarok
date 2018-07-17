@@ -49,7 +49,7 @@ def get_data_by_id(cursor, columns, table, data_id):
         .format(col=used_columns, table=sql.Identifier(table), data_id=sql.Literal(data_id))
     cursor.execute(sql_query)
 
-    data = cursor.fetchall()
+    data = cursor.fetchone()
 
     return data
 

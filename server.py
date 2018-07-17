@@ -50,9 +50,8 @@ def edit_question(question_id):
 
 @app.route('/question/<int:question_id>/new-answer', methods=['POST', 'GET'])
 def answer_question(question_id):
-    columns = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
-    get_question = data_manager.get_all_data_from_file(columns, 'answer', 'submission_time', 'DESC')
-    dict_question = data_manager.from_dict_to_variable(get_question, 'id', question_id)
+    columns = ['id', 'submission_time', 'title', 'message', 'view_number', 'vote_number']
+    dict_question = data_manager.get_data_by_id(columns, 'question', question_id)
     list_of_answers = data_manager.get_answers_from_file()
     if request.method == 'GET':
         return render_template('new_answer.html', question_id=question_id,
