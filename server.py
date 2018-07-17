@@ -63,7 +63,7 @@ def answer_question(question_id):
 
 
 @app.route('/question/<int:question_id>', methods=['POST', 'GET'])
-def display_questions(question_id):
+def display_question(question_id):
     columns_for_questions = ['id', 'submission_time', 'title', 'message', 'view_number', 'vote_number']
     columns_for_answers = ['id', 'submission_time', 'message', 'vote_number', 'question_id']
     question = data_manager.get_data_by_id(columns_for_questions, 'question', question_id)
