@@ -72,6 +72,15 @@ def update_data(cursor, column, table, value, data_id):
 
 
 @connection.connection_handler
+def delete_comments(cursor, table, data_id):
+    cursor.execute(
+        sql.SQL("""DELETE FROM {table}
+                    WHERE id={data_id}""")
+                .format(table=sql.Identifier(table),
+                        data_id=sql.Literal(data_id)))
+
+
+@connection.connection_handler
 def comment_update(cursor, messages, question_id, table):
     cursor.execute(
             sql.SQL("""
@@ -96,6 +105,7 @@ def answer_question(cursor, message, question_id, table):
                                          table=sql.Identifier(table),
                                          question_id=sql.Literal(question_id))
     cursor.execute(composed_query, {"text": message})
+
 
 
 def append_question_from_server(title, message):
