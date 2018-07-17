@@ -62,6 +62,15 @@ def display_anwser_by_id(cursor, question_id):
 
     return data
 
+
+@connection.connection_handler
+def delete_comments(cursor, comment_id):
+    cursor.execute("""
+                    DELETE FROM comment
+                    WHERE id=%(comment_id)s""",
+                   {'question_id':comment_id})
+
+
 def append_question_from_server(title, message):
     question_data = [util.generate_id('question'),
                      generate_timestamp(),

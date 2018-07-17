@@ -23,6 +23,12 @@ def list_questions():
                            len_of_list_of_questions=len_of_list_of_questions)
 
 
+@app.route('/comments/<comment_id>/delete')
+def delete_comments(comment_id):
+    data_manager.delete_comments(comment_id)
+    return redirect('/')
+
+
 @app.route('/add-question', methods=['POST', 'GET'])
 def add_question():
     if request.method == 'GET':
@@ -100,13 +106,6 @@ def vote_down_questions(question_id):
         question_data['vote_number'] -= 1
         data_manager.vote(question_data)
     return redirect('/question/' + str(question_id))
-
-
-@app.route('/answer/<answer_id>/delete', methods=['POST'])
-def delete_answer(answer_id):
-    pin = request.form.get('id')
-    print(pin)
-    return redirect('/')
 
 
 if __name__ == '__main__':
