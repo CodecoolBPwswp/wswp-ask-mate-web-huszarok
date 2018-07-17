@@ -39,11 +39,12 @@ def edit_question(question_id):
     if request.method == 'GET':
         columns = ['title', 'message']
         question_data = data_manager.get_data_by_id(columns, 'question', question_id)
-        return render_template('question_display.html', form_type=2, question_data=question_data)
+        return render_template('form.html', form_type=2, question_data=question_data)
     if request.method == 'POST':
         title = request.form['title']
         message = request.form['message']
-        data_manager.update_data('title', message, question_data)
+        data_manager.update_data('message', 'question', message, question_id)
+        data_manager.update_data('title', 'answer', title, question_id)
         return redirect('/question/' + str(question_id))
 
 

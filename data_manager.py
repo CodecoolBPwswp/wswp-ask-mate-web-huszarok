@@ -46,7 +46,6 @@ def get_data_by_id(cursor, columns, table, data_id):
                            FROM {table} 
                            WHERE id = {data_id} """)\
         .format(col=used_columns, table=sql.Identifier(table), data_id=sql.Literal(data_id))
-    print(sql_query.as_string(cursor.connection))
     cursor.execute(sql_query)
 
     data = cursor.fetchall()
@@ -55,14 +54,14 @@ def get_data_by_id(cursor, columns, table, data_id):
 
 
 @connection.connection_handler
-def update_data(cursor, column, table, value, id):
+def update_data(cursor, column, table, value, data_id):
     cursor.execute(
         sql.SQL("""UPDATE {table} 
                 SET {col} = {value}
-                WHERE id = {id}""").format(col=sql.Identifier(column),
-                                           table=sql.Identifier(table),
-                                           value=value),
-                                           id=id
+                WHERE id = {data_id}""").format(col=sql.Identifier(column),
+                                                table=sql.Identifier(table),
+                                                value=value),
+                                                data_id=sql.Literal(data_id)
     )
 
 def append_question_from_server(title, message):
