@@ -52,17 +52,16 @@ def get_data_by_search(cursor, columns, table, phrase):
     phrase = '%' + phrase + '%'
     comprehension = [sql.SQL('.').join([sql.Identifier(table), sql.Identifier(n)]) for n in columns]
     used_columns = sql.SQL(', ').join(comprehension)
-    sql_query = sql.SQL("""SELECT {col}
+    cursor.execute(sql.SQL("""SELECT {col}
                            FROM question
-                           FULL JOIN answer ON question.id=answer.question_id
-                           WHERE (question.title LIKE lower({phrase}) OR 
-                           question.message LIKE lower({phrase}) OR
-                           answer.message LIKE lower({phrase})); """)\
-        .format(col=used_columns,
-                table=sql.Identifier(table),
-                phrase=sql.Literal(phrase))
-    print(sql_query.as_string(cursor))
-    cursor.execute(sql_query)
+                           JOIN answer ON question.id=answer.question_id
+                           WHERE question.title ILIKE %(phrase)s OR 
+                           question.message ILIKE %(phrase)s OR
+                           answer.message ILIKE %(phrase)s GROUP BY question.id; """)\
+                    .format(col=used_columns,
+                            table=sql.Identifier(table)),
+                   {'phrase': phrase}
+                   )
 
     data = cursor.fetchall()
 
