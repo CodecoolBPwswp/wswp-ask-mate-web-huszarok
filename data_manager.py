@@ -121,6 +121,30 @@ def answer_question(cursor, message, question_id, table):
     cursor.execute(composed_query, {"text": message})
 
 
+@connection.connection_handler
+def add_tag(cursor, question_id, table, tag):
+    cursor.execute(
+        sql.SQL("""
+                        INSERT INTO {table} (id, name)
+                        VALUES (DEFAULT, %s)
+                        """)
+            .format(
+            table=sql.Identifier(table),
+            question_id=question_id,
+            tag=tag),
+                [tag])
+
+
+@connection.connection_handler
+def get_tags_name(cursor):
+    cursor.execute(
+        sql.SQL("""
+                SELECT name FROM tag""")
+    )
+    tags = cursor.fetchall()
+    return tags
+
+
 def append_question_from_server(title, message):
     question_data = [util.generate_id('question'),
                      generate_timestamp(),

@@ -96,11 +96,13 @@ def display_question(question_id):
                                                               'DESC',
                                                               limit)
     get_comment = data_manager.get_comments_by_id(columns_for_comment, 'comment', question_id)
+    get_tag = data_manager.get_tags_name()
     return render_template("question_display.html",
                            id=question_id,
                            question=question,
                            answers=answers_of_question,
-                           comments=get_comment)
+                           comments=get_comment,
+                           tags=get_tag)
 
 
 @app.route('/question/<int:question_id>/new-comment', methods=['POST', 'GET'])
@@ -135,6 +137,14 @@ def vote_down_questions(question_id):
         question_data['vote_number'] -= 1
         data_manager.vote(question_data)
     return redirect('/question/' + str(question_id))
+
+
+@app.route('/question/<int:question_id>/new-tag', methods=['POST', 'GET'])
+def add_new_tag(question_id):
+    if request.method == 'POST':
+        new_tags = request.form.get('tag')
+        data_manager.add_tag(question_id, 'tag', new_tags)
+    return render_template('tag_question.html', question_id=question_id)
 
 
 if __name__ == '__main__':

@@ -76,7 +76,14 @@
     </tr>
 
 </table>
-
+<form>
+    <button class="tag_button", type="submit", formaction="/question/{{ question.id }}/new-tag">Add tag</button>
+    <ul>
+    {% for tag in tags  %}
+        {{ tag.name }}
+    {% endfor %}
+</ul>
+</form>
 
 <h2>Comments</h2>
 <table width="1000" border="1">
