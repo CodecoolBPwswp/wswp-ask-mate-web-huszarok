@@ -1,11 +1,4 @@
-'''Connection layer between the server and the data.
-Functions here should be called from the server.py and these should use generic functions from the connection.py'''
-
 import connection
-import datetime
-from operator import itemgetter
-import util
-import time
 from psycopg2 import sql
 
 

@@ -1,7 +1,3 @@
-'''Flask stuff (server, routes, request handling, session, etc.)
-This layer should consist of logic that is hardly related to Flask.
-(with other words: this should be the only file importing from flask)'''
-
 from flask import Flask, render_template, redirect, request, url_for
 import data_manager
 
