@@ -12,7 +12,6 @@ body {
     margin-left: 15%;
     text-align: center;
     border: 2px solid black;
-
 }
 
 
@@ -31,6 +30,7 @@ body {
 
 .header #content {
     position: relative;
+    background-image:url(images/askmatebitbigger.png>);
 }
 
 .header #content img {
