@@ -27,9 +27,9 @@
             <form action="/question/{{ question_data['id'] }}/edit", method="post">
             <h2>Edit Question</h2>
             <label for="title_input">Title:</label>
-            <input id="title_input" name="title" type="text" value={{ question_data['title'] }}>
+            <input id="title_input" name="title" type="text" value={{ question_data[0]['title'] }}>
             <label for="question_input">Edit the question:</label>
-            <textarea id="question_input" name="message" rows="8" cols="80" required>{{ question_data['message'] }}</textarea>
+            <textarea id="question_input" name="message" rows="8" cols="80" required>{{ question_data[0]['message'] }}</textarea>
             <button id="submit_button" style="position:relative; top:35px; left:-90px;" type="submit">Submit Question</button>
     {% elif form_type == 3%}
         <form action="/question/{{ question_id }}/new-answer", method="post">

@@ -53,25 +53,25 @@
 
     <tr>
         <td align="center">
-            {{ question.id }}
+            {{ question[0].id }}
         </td>
         <td align="center">
-            {{ question.submission_time }}
+            {{ question[0].submission_time }}
         </td>
         <td align="center">
-            {{ question.view_number }}
+            {{ question[0].view_number }}
         </td>
         <td align="center">
-            {{ question.vote_number }}
+            {{ question[0].vote_number }}
         </td>
         <td align="center">
-            {{ question.title }}
+            {{ question[0].title }}
         </td>
         <td align="center">
-            {{ question.message }}
+            {{ question[0].message }}
         </td>
         <td align="center">
-            {{ question.image }}
+            {{ question[0].image }}
         </td>
     </tr>
 
@@ -114,7 +114,7 @@
 
 </table>
 
-<a id="comment" class="comment-question" href= "{{ url_for('comment_question', question_id=question.id) }}">Comment</a>
+<a id="comment" class="comment-question" href= "{{ url_for('comment_question', question_id=question[0].id) }}">Comment</a>
 
 
       </button><h1>Answers</h1>
@@ -127,7 +127,7 @@
     {% if answers %}
     <tr>
         <th>
-            ID
+            Comment
         </th>
         <th>
             Submission time
@@ -149,9 +149,9 @@
     {% for answer in answers %}
         <tr>
 
-            <td align="center"><form action="/answer/{{ answer.id }}/delete" method="POST">
-    <input type="hidden" value="{{ answer.id }}"/>
-                <button id="w3-btn">delete</button></form></td>
+            <td align="center">
+            <a id="comment-answer" class="comment-answer" href= "{{ url_for('comment_answer', answer_id=answer.id) }}">Comment</a>
+            </td>
             <td align="center">{{ answer.submission_time }}</td>
             <td align="center">{{ answer.vote_number }}</td>
             <td align="center">{{ answer.message }}</td>
@@ -161,7 +161,24 @@
     {% else %}
         There is no answer
     {% endif %}
-
+<tr>
+        <th>ID</th>
+        <th>Question ID</th>
+        <th>Answer ID</th>
+        <th>Message</th>
+        <th>Submission time</th>
+        <th>Edited</th>
+    </tr>
+    {% for comment in answer_comments %}
+        <tr>
+        <td>{{ comment.id }}</td>
+        <td>{{ comment.question_id }}</td>
+        <td>{{ comment.answer_id }}</td>
+        <td>{{ comment.message }}</td>
+        <td>{{ comment.submission_time }}</td>
+        <td>{{ comment.edited_count }}</td>
+    </tr>
+    {% endfor %}
     </table>
     <form action="/question/{{id}}/new-answer">
             <input type="submit" value="Answer the question" style="float: right"/>

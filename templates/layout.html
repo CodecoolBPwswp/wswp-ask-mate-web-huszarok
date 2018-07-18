@@ -6,14 +6,24 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     </head>
     <body>
-    <header>
+
+    <header class="header">
         <div id="content">
             <img src="static/images/askmatebitbigger.png" class="ribbon"/>
         </div>
         <div id="logo"></div>
     </header>
+
+        <ul class="menu">
+            <li><a class="active" href="/">Home</a></li>
+            <li><a href="/list">List all questions</a></li>
+            <li><a href="/add-question">Ask your question</a></li>
+            <li><a href="/search">Search</a></li>
+        </ul>
+
         <div class="content-wrapper">
             {% block content %} {% endblock %}
         </div>
+
     </body>
 </html>
