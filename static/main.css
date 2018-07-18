@@ -139,8 +139,10 @@ ul.menu .active {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 4px 2px;
+    margin: 8px 2px;
     cursor: pointer;
+    float: right;
+    border-radius: 4px;
     }
 
 #voteup {
@@ -150,4 +152,69 @@ ul.menu .active {
 
 #votedown {
     background-color: #f44336;
+}
+
+
+h1.display {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        font-size: 30px;
+        padding: 20px 20px 30px 20px;
+        text-align: center;
+        text-shadow: 1px 0 gray;
+}
+
+
+.display_table {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        }
+
+
+
+.display_table td, .display_table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+        }
+
+.display_table tr:nth-child(even){background-color: #f2f2f2;}
+
+.display_table tr:hover {background-color: #ddd;}
+
+.display_table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: center;
+        background-color: rgba(217, 39, 39, 0.8);
+        color: white;
+        }
+
+#comment_table  td, #comment_table  th {
+        padding: 8px 4px 8px 10px;
+        }
+
+#comment_table tr {
+        background-color: rgba(220, 220, 220, 0.5);
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 80%;
+}
+
+#comment_table tr:nth-child(even){background-color: rgba(192, 192, 192, 0.5);}
+
+#comment_table tr:hover {background-color: #eeeeee;}
+
+.add_button {
+    border: 1px solid black;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    color: black;
+    float:left
+
 }
