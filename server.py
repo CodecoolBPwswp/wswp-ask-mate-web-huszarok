@@ -60,6 +60,18 @@ def edit_question(question_id):
         return redirect('/question/' + str(question_id))
 
 
+@app.route('/answer/<answer_id>/edit', methods=['POST', 'GET'])
+def edit_answer(answer_id):
+    if request.method == 'GET':
+        columns = ['message']
+        answer_data = data_manager.get_data_by_id(columns, 'question', answer_id)
+        return render_template('edit_answer.html', answer_data=answer_data)
+    if request.method == 'POST':
+        message = request.form['message']
+        data_manager.update_data('message', 'answer', message, answer_id)
+        return redirect('/answer/' + str(answer_id))
+
+
 @app.route('/question/<int:question_id>/new-answer', methods=['POST', 'GET'])
 def answer_question(question_id):
     columns_for_questions = ['id', 'submission_time', 'title', 'message', 'view_number', 'vote_number']

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/answer/{{ answer_data_data['id'] }}/edit", method="post">
+<h2>Edit Question</h2>
+<label for="title_input">Title:</label>
+<input id="title_input" name="title" type="text" value={{ question_data['title'] }}>
+<label for="question_input">Edit the question:</label>
+<textarea id="question_input" name="message" rows="8" cols="80" required>{{ answer_data['message'] }}</textarea>
+<button id="submit_button" style="position:relative; top:35px; left:-90px;" type="submit">Submit Question</button>
+
+</body>
+</html>
