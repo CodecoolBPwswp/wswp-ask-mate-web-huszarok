@@ -32,11 +32,11 @@ def list_questions():
 @app.route('/search')
 def search():
     search_phrase = request.args.get('phrase')
-    columns = ['question.id',
-               'question.submission_time',
-               'question.title',
-               'question.view_number',
-               'question.vote_number']
+    columns = ['id',
+               'submission_time',
+               'title',
+               'view_number',
+               'vote_number']
     list_of_questions = data_manager.get_data_by_search(columns, 'question', search_phrase)
     len_of_list_of_questions = len(list_of_questions)
     return render_template('search.html',
