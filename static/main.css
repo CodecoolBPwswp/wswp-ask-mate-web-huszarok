@@ -99,13 +99,15 @@ ul.menu .active {
     background-color: #1d1d1d;
     border: none;
     color: white;
-    padding: 10px 15px;
+    padding: 12px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
+    float: right;
+    height: 47px;
 }
 
 #sort_button {
@@ -114,4 +116,16 @@ ul.menu .active {
 
 #sort_button:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+#sortby {
+    width: 20%;
+    padding: 12px 20px;
+    margin: 4px 0px 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 17px;
+    float: right
 }
