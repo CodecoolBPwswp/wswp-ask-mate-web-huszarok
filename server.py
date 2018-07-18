@@ -87,9 +87,9 @@ def display_question(question_id):
     columns_for_questions = ['id', 'submission_time', 'title', 'message', 'view_number', 'vote_number']
     columns_for_answers = ['id', 'submission_time', 'message', 'vote_number', 'question_id']
     columns_for_comment = ['id', 'question_id', 'answer_id', 'message', 'submission_time', 'edited_count']
-    question = data_manager.get_data_by_id(columns_for_questions, 'question', question_id)
-    comments_of_question = data_manager.get_data_by_id(columns_for_comment, 'comment', question_id)
-    answers_of_question = data_manager.get_data_by_id(columns_for_answers, 'answer', question_id)
+    question = data_manager.get_data_by_id(columns_for_questions, 'question', question_id, 'id')
+    comments_of_question = data_manager.get_data_by_id(columns_for_comment, 'comment', question_id, 'question_id')
+    answers_of_question = data_manager.get_data_by_id(columns_for_answers, 'answer', question_id, 'question_id')
     comment = request.form.get('comment')
     data_manager.comment_update(comment, question_id, 'comment')
     return render_template("question_display.html",
