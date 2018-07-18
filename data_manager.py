@@ -65,9 +65,10 @@ def get_data_by_id(cursor, columns, table, question_id, id_type):
 @connection.connection_handler
 def get_data_by_search(cursor, columns, table, phrase):
     phrase = '%' + phrase + '%'
-    used_columns = sql.SQL(', ').join(sql.Identifier(n) for n in columns)
+    comprehension = [sql.SQL('.').join([sql.Identifier(table), sql.Identifier(n)]) for n in columns]
+    used_columns = sql.SQL(', ').join(comprehension)
     sql_query = sql.SQL("""SELECT {col}
-                           FROM {table}
+                           FROM question
                            LEFT JOIN answer ON question.id=answer.question_id
                            WHERE (question.title LIKE lower({phrase}) OR 
                            question.message LIKE lower({phrase}) OR
@@ -75,6 +76,7 @@ def get_data_by_search(cursor, columns, table, phrase):
         .format(col=used_columns,
                 table=sql.Identifier(table),
                 phrase=sql.Literal(phrase))
+    print(sql_query.as_string(cursor))
     cursor.execute(sql_query)
 
     data = cursor.fetchall()

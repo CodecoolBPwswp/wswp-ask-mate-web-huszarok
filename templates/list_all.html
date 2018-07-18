@@ -1,8 +1,8 @@
 {% extends "layout.html" %}
 
 {% block content %}
-        <div class="last_questions">
-            <form action='/' method="get">
+        <div class="all_questions">
+            <form action='/list' method="get">
                 <button id="sort_button", type="submit">Sort</button>
                 <select id="sortby" name="sortby">
                     <option value="id,ASC">ID - asc</option>
@@ -16,6 +16,7 @@
                     <option value="title,ASC" >Title - asc</option>
                     <option value="title,DESC" >Title - desc</option>
                 </select>
+
             </form>
         </div>
 

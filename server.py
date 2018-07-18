@@ -18,13 +18,15 @@ def list_questions():
     if '/list' in rule.rule:
         limit = None
         list_of_questions = data_manager.get_all_data_from_file(columns, 'question', sortby[0], sortby[1], limit)
+        len_of_list_of_questions = len(list_of_questions)
+        return render_template('list_all.html',
+                               list_of_questions=list_of_questions,
+                               len_of_list_of_questions=len_of_list_of_questions)
     else:
         limit = 5
         list_of_questions = data_manager.get_all_data_from_file(columns, 'question', sortby[0], sortby[1], limit)
-
-    len_of_list_of_questions = len(list_of_questions)
-
-    return render_template('list.html',
+        len_of_list_of_questions = len(list_of_questions)
+        return render_template('list.html',
                            list_of_questions=list_of_questions,
                            len_of_list_of_questions=len_of_list_of_questions)
 
@@ -32,11 +34,11 @@ def list_questions():
 @app.route('/search')
 def search():
     search_phrase = request.args.get('phrase')
-    columns = ['question.id',
-               'question.submission_time',
-               'question.title',
-               'question.view_number',
-               'question.vote_number']
+    columns = ['id',
+               'submission_time',
+               'title',
+               'view_number',
+               'vote_number']
     list_of_questions = data_manager.get_data_by_search(columns, 'question', search_phrase)
     len_of_list_of_questions = len(list_of_questions)
     return render_template('search.html',
