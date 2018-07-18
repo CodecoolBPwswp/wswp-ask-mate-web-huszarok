@@ -12,6 +12,18 @@
     <textarea class="comment-textarea" id="comment1" name="comment_answer" rows="8" cols="30"></textarea>
     <button id="comment-submit" class="comment-submit1" type="submit">Submit Your Comment</button>
 </form>
+{% block content %}
+{% for comment in answer_comments %}
+    <tr>
+        <td>{{ comment.id }}</td>
+        <td>{{ comment.question_id }}</td>
+        <td>{{ comment.answer_id }}</td>
+        <td>{{ comment.message }}</td>
+        <td>{{ comment.submission_time }}</td>
+        <td>{{ comment.edited_count }}</td>
+    </tr>
+{% endfor %}
+{% endblock %}
 <a href="/">Back</a>
 </body>
 </html>

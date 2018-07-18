@@ -125,19 +125,22 @@ def comment_question(question_id):
 
 @app.route('/question/<int:answer_id>/new-comments', methods=['GET', 'POST'])
 def comment_answer(answer_id):
+    columns_for_comment = ['id', 'question_id', 'answer_id', 'message', 'submission_time', 'edited_count']
     if request.method == 'POST':
-        columns_for_comment = ['id', 'question_id', 'answer_id', 'message', 'submission_time', 'edited_count']
         comment = request.form.get('comment_answer')
         data_manager.answer_comment_update(comment, answer_id, 'comment')
+    comments_of_answers = data_manager.get_data_by_id(columns_for_comment, 'comment', answer_id, 'answer_id')
 
     return  render_template("answer_comment.html",
-                            answer_id=answer_id)
+                            answer_id=answer_id,
+                            answer_comments=comments_of_answers)
 
 
-""""@app.route('/question/<question_id>', methods=['GET', 'POST'])
-def comment_on_answers(question_id>):
-    comments_of_answers = data_manager.get_data_by_id(columns_for_comment, 'comment', answer_id, 'answer_id')
-"""
+@app.route('/question/<question_id>', methods=['GET', 'POST'])
+def comment_on_answers(question_id):
+    pass
+
+
 @app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
 def vote_up_questions(question_id):
         list_of_questions = data_manager.sort_questions_by_date('submission_time', True)

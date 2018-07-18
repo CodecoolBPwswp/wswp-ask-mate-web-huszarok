@@ -162,16 +162,7 @@
         <th>Submission time</th>
         <th>Edited</th>
     </tr>
-    {% for comment in answer_comments %}
-        <tr>
-        <td>{{ comment.id }}</td>
-        <td>{{ comment.question_id }}</td>
-        <td>{{ comment.answer_id }}</td>
-        <td>{{ comment.message }}</td>
-        <td>{{ comment.submission_time }}</td>
-        <td>{{ comment.edited_count }}</td>
-    </tr>
-    {% endfor %}
+    {% include 'answer_comment.html' %}
     </table>
     <form action="/question/{{id}}/new-answer">
             <input type="submit" value="Answer the question" style="float: right"/>
