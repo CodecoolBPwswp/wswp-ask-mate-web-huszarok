@@ -6,7 +6,12 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     </head>
     <body>
-        <h1>AskMate</h1>
+    <header>
+        <div id="content">
+            <img src="static/images/askmatebitbigger.png" class="ribbon"/>
+        </div>
+        <div id="logo"></div>
+    </header>
         <div class="content-wrapper">
             {% block content %} {% endblock %}
         </div>

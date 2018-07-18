@@ -52,3 +52,18 @@ h1 {
         color: white;
         }
 
+#logo {
+    width:410px;
+    height:125px;
+    background-image:url(images/logoforlayout.png)
+}
+
+#content {
+    position: relative;
+}
+
+#content img {
+    position: absolute;
+    top: 35px;
+    right: 20px;
+}
