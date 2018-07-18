@@ -113,75 +113,82 @@
 <a id="comment" class="comment-question" href= "{{ url_for('comment_question', question_id=question[0].id) }}">Comment</a>
 
 
-      </button><h1>Answers</h1>
-    <table border="0" width= 1400">
-    <col style="width:5%">
-    <col style="width:10%">
-    <col style="width:5%">
-    <col style="width:65%">
-    <col style="width:20%">
+    </button><h1>Answers</h1>
     {% if answers %}
-    <tr>
-        <th>
-            Comment
-        </th>
-        <th>
-            Submission time
-        </th>
+        {% for answer in answers %}
+            <table border="0">
+                <col style="width:5%">
+                <tr>
+                    <th>
+                        Comment
+                    </th>
+                    <th>
+                        Submission time
+                    </th>
 
-        <th>
-            Vote number
-        </th>
+                    <th>
+                        Vote number
+                    </th>
 
-        <th>
-            Message
-        </th>
-        <th>
-            Image
-        </th>
-    </tr>
+                    <th>
+                        Message
+                    </th>
+                    <th>
+                        Image
+                    </th>
+                </tr>
 
+                <tr>
 
-    {% for answer in answers %}
-        <tr>
-            <td align="center">
-            <a id="comment-answer" class="comment-answer" href= "{{ url_for('comment_answer', answer_id=answer.id) }}">Comment</a>
-            </td>
-            <td align="center">{{ answer.submission_time }}</td>
-            <td align="center">{{ answer.vote_number }}</td>
-            <td align="center">{{ answer.message }}</td>
-            <td align="center">{{ answer.image}}</td>
-            <td> <form action="/question/{{ question.id}}/vote-up" method="POST">
-                    <button class="vote" id="voteup" type="submit">Vote up</button>
-                    <button class="vote" id="votedown" type="submit" formaction="/question/{{ question.id }}/vote-down">Vote down</button>
-                </form>
-            </td>
-        </tr>
-    {% endfor %}
+                    <td align="center">
+                    <a id="comment-answer" class="comment-answer" href= "{{ url_for('comment_answer', answer_id=answer.id) }}">Comment</a>
+                    </td>
+                    <td align="center">{{ answer.submission_time }}</td>
+                    <td align="center">{{ answer.vote_number }}</td>
+                    <td align="center">{{ answer.message }}</td>
+                    <td align="center">{{ answer.image}}</td>
+                    <td> <form action="/question/{{ question.id}}/vote-up" method="POST">
+                            <button class="vote" id="voteup" type="submit">Vote up</button>
+                            <button class="vote" id="votedown" type="submit" formaction="/question/{{ question.id }}/vote-down">Vote down</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            <br><br>
+            {% if comments_of_answers[answer.id] %}
+            Comments:
+            <table class="table">
+                <tr>
+                    <th>ID</th>
+                    <th>Question ID</th>
+                    <th>Answer ID</th>
+                    <th>Message</th>
+                    <th>Submission time</th>
+                    <th>Edited</th>
+                </tr>
+                {% for comment in comments_of_answers[answer.id] %}
+                    <tr>
+                        <td>{{ comment.id }}</td>
+                        <td>{{ comment['question_id'] }}</td>
+                        <td>{{ comment['answer_id'] }}</td>
+                        <td>{{ comment.message }}</td>
+                        <td>{{ comment.submission_time }}</td>
+                        <td>{{ comment.edited_count }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+                There are no comments for this answer
+            {% endif %}
+            <br><br>
+            <hr>
+            {% endfor %}
     {% else %}
         There is no answer
     {% endif %}
-<tr>
-        <th>ID</th>
-        <th>Question ID</th>
-        <th>Answer ID</th>
-        <th>Message</th>
-        <th>Submission time</th>
-        <th>Edited</th>
-    </tr>
-    {% for comment in answer_comments %}
-        <tr>
-        <td>{{ comment.id }}</td>
-        <td>{{ comment.question_id }}</td>
-        <td>{{ comment.answer_id }}</td>
-        <td>{{ comment.message }}</td>
-        <td>{{ comment.submission_time }}</td>
-        <td>{{ comment.edited_count }}</td>
-    </tr>
-    {% endfor %}
-    </table>
+
     <form action="/question/{{id}}/new-answer">
-            <input type="submit" value="Answer the question" style="float: right"/>
-        </form>
+        <input type="submit" value="Answer the question" style="float: right"/>
+    </form>
 
 {% endblock %}
