@@ -69,7 +69,7 @@ def get_data_by_search(cursor, columns, table, phrase):
     used_columns = sql.SQL(', ').join(comprehension)
     sql_query = sql.SQL("""SELECT {col}
                            FROM question
-                           LEFT JOIN answer ON question.id=answer.question_id
+                           FULL JOIN answer ON question.id=answer.question_id
                            WHERE (question.title LIKE lower({phrase}) OR 
                            question.message LIKE lower({phrase}) OR
                            answer.message LIKE lower({phrase})); """)\
