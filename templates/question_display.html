@@ -142,9 +142,9 @@
     {% for answer in answers %}
         <tr>
 
-            <td align="center"><form action="/answer/{{ answer.id }}/delete" method="POST">
-            <input type="hidden" value="{{ answer.id }}"/>
-            <a id="comment" class="comment-question" href= "{{ url_for('comment_question', question_id=question[0].id) }}">Comment</a>
+            <td align="center">
+            <a id="comment-answer" class="comment-answer" href= "{{ url_for('comment_answer', answer_id=answer.id) }}">Comment</a>
+            </td>
             <td align="center">{{ answer.submission_time }}</td>
             <td align="center">{{ answer.vote_number }}</td>
             <td align="center">{{ answer.message }}</td>
@@ -162,7 +162,7 @@
         <th>Submission time</th>
         <th>Edited</th>
     </tr>
-    {% for comment in comments %}
+    {% for comment in answer_comments %}
         <tr>
         <td>{{ comment.id }}</td>
         <td>{{ comment.question_id }}</td>

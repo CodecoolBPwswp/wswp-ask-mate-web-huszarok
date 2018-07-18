@@ -7,10 +7,11 @@
 
 </head>
 <body>
-<form class="comment-text" id="comment-t" action="/question/{{ answer_id }}/new-comment" method="POST" name="comment1">
-    <textarea class="comment-textarea" id="comment1" name="comment" rows="8" cols="30"></textarea>
-    <button id="comment-submit" class="comment-submit1" type="submit">Submit Comment</button>
+<h1>Comment on an answer</h1>
+<form class="comment-text" id="comment-t" action="/question/{{ answer_id }}/new-comments" method="POST" name="comment">
+    <textarea class="comment-textarea" id="comment1" name="comment_answer" rows="8" cols="30"></textarea>
+    <button id="comment-submit" class="comment-submit1" type="submit">Submit Your Comment</button>
 </form>
-<a href="/question/{{ question_id }}">Back</a>
+<a href="/">Back</a>
 </body>
 </html>
