@@ -52,6 +52,16 @@ def delete_comments(comment_id):
     return redirect('/')
 
 
+@app.route('/add-question', methods=['POST', 'GET'])
+def add_question():
+    if request.method == 'GET':
+        return render_template('form.html', form_type=1)
+    if request.method == 'POST':
+        title = request.form['title']
+        message = request.form['message']
+        data_manager.add_question(title, message)
+        return redirect('/')
+
 
 @app.route('/question/<question_id>/edit', methods=['POST', 'GET'])
 def edit_question(question_id):
