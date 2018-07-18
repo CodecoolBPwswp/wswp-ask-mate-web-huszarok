@@ -97,7 +97,8 @@ ul.menu .active {
 
 #sort_button {
     background-color: #1d1d1d;
-    border: none;
+    border: 1px solid black;
+    border-radius: 4px;
     color: white;
     padding: 12px 20px;
     text-align: center;

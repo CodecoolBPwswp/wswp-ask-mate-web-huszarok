@@ -1,7 +1,3 @@
-'''Flask stuff (server, routes, request handling, session, etc.)
-This layer should consist of logic that is hardly related to Flask.
-(with other words: this should be the only file importing from flask)'''
-
 from flask import Flask, render_template, redirect, request, url_for
 import data_manager
 
@@ -18,17 +14,13 @@ def list_questions():
     if '/list' in rule.rule:
         limit = None
         list_of_questions = data_manager.get_all_data_from_file(columns, 'question', sortby[0], sortby[1], limit)
-        len_of_list_of_questions = len(list_of_questions)
         return render_template('list_all.html',
-                               list_of_questions=list_of_questions,
-                               len_of_list_of_questions=len_of_list_of_questions)
+                               list_of_questions=list_of_questions)
     else:
         limit = 5
         list_of_questions = data_manager.get_all_data_from_file(columns, 'question', sortby[0], sortby[1], limit)
-        len_of_list_of_questions = len(list_of_questions)
         return render_template('list.html',
-                           list_of_questions=list_of_questions,
-                           len_of_list_of_questions=len_of_list_of_questions)
+                           list_of_questions=list_of_questions)
 
 
 @app.route('/search')
@@ -62,8 +54,8 @@ def add_question():
     if request.method == 'POST':
         title = request.form['title']
         message = request.form['message']
-        question_id = data_manager.append_question_from_server(title, message)
-        return redirect('/question/' + str(question_id))
+        data_manager.add_question(title, message)
+        return redirect('/')
 
 
 @app.route('/question/<question_id>/edit', methods=['POST', 'GET'])
@@ -110,12 +102,13 @@ def display_question(question_id):
     question = data_manager.get_data_by_id(columns_for_questions, 'question', question_id, 'id')
     comments_of_question = data_manager.get_data_by_id(columns_for_comment, 'comment', question_id, 'question_id')
     answers_of_question = data_manager.get_data_by_id(columns_for_answers, 'answer', question_id, 'question_id')
+    get_tag = data_manager.get_tags_name()
     return render_template("question_display.html",
                            id=question_id,
                            question=question,
                            answers=answers_of_question,
                            comments=comments_of_question,
-                           )
+                           tags=get_tag)
 
 
 @app.route('/question/<int:question_id>/new-comment', methods=['POST', 'GET'])
@@ -143,7 +136,8 @@ def comment_answer(answer_id):
 def comment_on_answers(question_id>):
     comments_of_answers = data_manager.get_data_by_id(columns_for_comment, 'comment', answer_id, 'answer_id')
 """
-@app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
+
+''''@app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
 def vote_up_questions(question_id):
         list_of_questions = data_manager.sort_questions_by_date('submission_time', True)
         for question in list_of_questions:
@@ -165,6 +159,14 @@ def vote_down_questions(question_id):
         question_data['vote_number'] -= 1
         data_manager.vote(question_data)
     return redirect('/question/' + str(question_id))
+'''
+
+@app.route('/question/<int:question_id>/new-tag', methods=['POST', 'GET'])
+def add_new_tag(question_id):
+    if request.method == 'POST':
+        new_tags = request.form.get('tag')
+        data_manager.add_tag(question_id, 'tag', new_tags)
+    return render_template('tag_question.html', question_id=question_id)
 
 
 if __name__ == '__main__':
