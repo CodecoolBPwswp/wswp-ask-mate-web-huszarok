@@ -46,26 +46,15 @@ def get_all_data_from_file(cursor, columns, table, order_column, order, limit):
 
 
 @connection.connection_handler
-def get_data_by_id(cursor, columns, table, data_id):
+def get_data_by_id(cursor, columns, table, question_id, id_type):
     used_columns = sql.SQL(', ').join(sql.Identifier(n) for n in columns)
     sql_query = sql.SQL("""SELECT {col}
                            FROM {table} 
-                           WHERE id = {data_id} """)\
-        .format(col=used_columns, table=sql.Identifier(table), data_id=sql.Literal(data_id))
-    cursor.execute(sql_query)
-
-    data = cursor.fetchone()
-
-    return data
-
-
-@connection.connection_handler
-def get_comments_by_id(cursor, columns, table, data_id):
-    used_columns = sql.SQL(', ').join(sql.Identifier(n) for n in columns)
-    sql_query = sql.SQL("""SELECT {col}
-                           FROM {table} 
-                           WHERE question_id = {data_id} """)\
-        .format(col=used_columns, table=sql.Identifier(table), data_id=sql.Literal(data_id))
+                           WHERE {id_type} = {data_id} """)\
+        .format(col=used_columns,
+                table=sql.Identifier(table),
+                data_id=sql.Literal(question_id),
+                id_type=sql.Identifier(id_type))
     cursor.execute(sql_query)
 
     data = cursor.fetchall()
