@@ -117,7 +117,7 @@ def comment_update(cursor, messages, question_id, table):
                         question_id=question_id,
                         messages=messages),
                         [question_id, messages, 0]
-)\
+)
 
 @connection.connection_handler
 def answer_comment_update(cursor, messages, answer_id, table):
@@ -146,15 +146,17 @@ def answer_question(cursor, message, question_id, table):
     cursor.execute(composed_query, {"text": message})
 
 
-def append_question_from_server(title, message):
-    question_data = [util.generate_id('question'),
-                     generate_timestamp(),
-                     0,
-                     0,
-                     title,
-                     message]
-    connection.append_data_to_file('sample_data/question.csv', question_data)
-    return question_data[0]
+@connection.connection_handler
+def get_id_question_or_answer(cursor, q_id):
+    cursor.execute("""
+                    SELECT id 
+                    FROM answer
+                    WHERE question_id=%(q_id)s;
+                    """,
+                    {'q_id': q_id})
+    data = cursor.fetchall()
+
+    return data
 
 
 def append_answer_from_server(question_id, message):
