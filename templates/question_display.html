@@ -107,7 +107,7 @@
 
 </table>
 
-<a id="comment" class="comment-question" href= "{{ url_for('comment_question', question_id=question.id) }}">Comment</a>
+<a id="comment" class="comment-question" href= "{{ url_for('comment_question', question_id=question[0].id) }}">Comment</a>
 
 
       </button><h1>Answers</h1>
@@ -144,7 +144,7 @@
 
             <td align="center"><form action="/answer/{{ answer.id }}/delete" method="POST">
             <input type="hidden" value="{{ answer.id }}"/>
-            <a id="comment" class="comment-question" href= "{{ url_for('comment_question', question_id=question.id) }}">Comment</a>
+            <a id="comment" class="comment-question" href= "{{ url_for('comment_question', question_id=question[0].id) }}">Comment</a>
             <td align="center">{{ answer.submission_time }}</td>
             <td align="center">{{ answer.vote_number }}</td>
             <td align="center">{{ answer.message }}</td>

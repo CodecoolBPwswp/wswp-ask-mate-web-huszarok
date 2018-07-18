@@ -97,7 +97,6 @@ def display_question(question_id):
                                                               'submission_time',
                                                               'DESC',
                                                               limit)
-    get_comment = data_manager.get_comments_by_id(columns_for_comment, 'comment', question_id)
     return render_template("question_display.html",
                            id=question_id,
                            question=question,
