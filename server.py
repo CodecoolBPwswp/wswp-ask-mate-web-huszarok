@@ -110,8 +110,7 @@ def display_question(question_id):
                            question=question,
                            answers=answers_of_question,
                            comments=comments_of_question,
-                           comments_of_answers=comments_of_answers
-                           )
+                           comments_of_answers=comments_of_answers,
                            tags=get_tag)
 
 
@@ -133,7 +132,7 @@ def comment_answer(answer_id):
 
     return  render_template("answer_comment.html",
                             answer_id=answer_id,
-                            answer_comments=comments_of_answers)
+                            )
 
 
 
