@@ -95,7 +95,9 @@ def display_question(question_id):
                                                               'submission_time',
                                                               'DESC',
                                                               limit)
-    get_comment = data_manager.get_comments_by_id(columns_for_comment, 'comment', question_id)
+    get_comment = data_manager.get_comments_by_id(columns_for_comment,
+                                                  'comment',
+                                                  question_id)
     return render_template("question_display.html",
                            id=question_id,
                            question=question,
@@ -112,6 +114,15 @@ def comment_question(question_id):
     return render_template("question_comment.html",
                            question_id=question_id)
 
+
+@app.route('/question/<int:answer_id>/new-comment', methods=['POST'])
+def comment_anwser(answer_id):
+    if request.method == 'POST':
+        comment = request.form.get('comment')
+        data_manager.comment_update(comment, answer_id, 'comment')
+
+    return  render_template("answer_comment.html",
+                            answer_id=answer_id)
 
 @app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
 def vote_up_questions(question_id):
