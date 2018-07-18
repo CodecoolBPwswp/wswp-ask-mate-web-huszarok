@@ -67,11 +67,14 @@ def get_data_by_search(cursor, columns, table, phrase):
     phrase = '%' + phrase + '%'
     used_columns = sql.SQL(', ').join(sql.Identifier(n) for n in columns)
     sql_query = sql.SQL("""SELECT {col}
-                           FROM {table} 
-                           WHERE (title LIKE {phrase} OR message LIKE {phrase}); """)\
+                           FROM {table}
+                           LEFT JOIN answer ON question.id=answer.question_id
+                           WHERE (question.title LIKE lower({phrase}) OR 
+                           question.message LIKE lower({phrase}) OR
+                           answer.message LIKE lower({phrase})); """)\
         .format(col=used_columns,
                 table=sql.Identifier(table),
-                phrase=phrase)
+                phrase=sql.Literal(phrase))
     cursor.execute(sql_query)
 
     data = cursor.fetchall()

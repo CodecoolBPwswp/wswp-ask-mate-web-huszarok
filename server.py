@@ -29,8 +29,14 @@ def list_questions():
                            len_of_list_of_questions=len_of_list_of_questions)
 
 
-@app.route('/search?q=<search_phrase>')
-def search(search_phrase):
+@app.route('/search')
+def search():
+    search_phrase = request.args.get('phrase')
+    columns = ['question.id',
+               'question.submission_time',
+               'question.title',
+               'question.view_number',
+               'question.vote_number']
     list_of_questions = data_manager.get_data_by_search(columns, 'question', search_phrase)
     len_of_list_of_questions = len(list_of_questions)
     return render_template('search.html',
@@ -59,7 +65,7 @@ def add_question():
 def edit_question(question_id):
     if request.method == 'GET':
         columns = ['title', 'message']
-        question_data = data_manager.get_data_by_id(columns, 'question', question_id)
+        question_data = data_manager.get_data_by_id(columns, 'question', question_id, 'id')
         return render_template('form.html', form_type=2, question_data=question_data)
     if request.method == 'POST':
         title = request.form['title']
