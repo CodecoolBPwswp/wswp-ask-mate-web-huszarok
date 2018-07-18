@@ -63,6 +63,23 @@ def get_data_by_id(cursor, columns, table, question_id, id_type):
 
 
 @connection.connection_handler
+def get_data_by_search(cursor, columns, table, phrase):
+    phrase = '%' + phrase + '%'
+    used_columns = sql.SQL(', ').join(sql.Identifier(n) for n in columns)
+    sql_query = sql.SQL("""SELECT {col}
+                           FROM {table} 
+                           WHERE (title LIKE {phrase} OR message LIKE {phrase}); """)\
+        .format(col=used_columns,
+                table=sql.Identifier(table),
+                phrase=phrase)
+    cursor.execute(sql_query)
+
+    data = cursor.fetchall()
+
+    return data
+
+
+@connection.connection_handler
 def update_data(cursor, column, table, value, data_id):
     cursor.execute(
         sql.SQL("""UPDATE {table} 

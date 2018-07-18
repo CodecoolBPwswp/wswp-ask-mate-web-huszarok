@@ -29,6 +29,15 @@ def list_questions():
                            len_of_list_of_questions=len_of_list_of_questions)
 
 
+@app.route('/search?q=<search_phrase>')
+def search(search_phrase):
+    list_of_questions = data_manager.get_data_by_search(columns, 'question', search_phrase)
+    len_of_list_of_questions = len(list_of_questions)
+    return render_template('search.html',
+                           list_of_questions=list_of_questions,
+                           len_of_list_of_questions=len_of_list_of_questions)
+
+
 @app.route('/comments/<int:comment_id>/delete')
 def delete_comments(comment_id):
     data_manager.delete_comments('comment', comment_id)
