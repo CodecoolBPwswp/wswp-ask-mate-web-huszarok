@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Search</title>
-</head>
-<body>
-    <p>{{ list_of_questions }}</p>
-</body>
-</html>
+{% extends "layout.html" %}
+
+{% block content %}
+<div id="search">
+    <form action="/search", method="post">
+        <input id="search" name="search" type="text">
+        <button id="search_button" type="submit">Search</button>
+    </form>
+</div>
+{% endblock %}

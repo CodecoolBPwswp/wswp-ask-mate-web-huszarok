@@ -33,17 +33,20 @@ def list_questions():
 
 @app.route('/search')
 def search():
-    search_phrase = request.args.get('phrase')
-    columns = ['id',
-               'submission_time',
-               'title',
-               'view_number',
-               'vote_number']
-    list_of_questions = data_manager.get_data_by_search(columns, 'question', search_phrase)
-    len_of_list_of_questions = len(list_of_questions)
-    return render_template('search.html',
-                           list_of_questions=list_of_questions,
-                           len_of_list_of_questions=len_of_list_of_questions)
+    if request.method == 'GET':
+        return render_template('search.html')
+    if request.method == 'POST':
+        search_phrase = request.args.get('phrase')
+        columns = ['id',
+                   'submission_time',
+                   'title',
+                   'view_number',
+                   'vote_number']
+        list_of_questions = data_manager.get_data_by_search(columns, 'question', search_phrase)
+        len_of_list_of_questions = len(list_of_questions)
+        return render_template('search.html',
+                               list_of_questions=list_of_questions,
+                               len_of_list_of_questions=len_of_list_of_questions)
 
 
 @app.route('/comments/<int:comment_id>/delete')
@@ -74,7 +77,7 @@ def edit_question(question_id):
         message = request.form['message']
         data_manager.update_data('message', 'question', message, question_id)
         data_manager.update_data('title', 'answer', title, question_id)
-        return redirect('/question/' + str(question_id))
+        return redirect('/question/' + question_id)
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=['POST', 'GET'])
