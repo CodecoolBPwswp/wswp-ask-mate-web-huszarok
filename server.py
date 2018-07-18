@@ -87,16 +87,11 @@ def display_question(question_id):
     columns_for_questions = ['id', 'submission_time', 'title', 'message', 'view_number', 'vote_number']
     columns_for_answers = ['id', 'submission_time', 'message', 'vote_number', 'question_id']
     columns_for_comment = ['id', 'question_id', 'answer_id', 'message', 'submission_time', 'edited_count']
-    question = data_manager.get_data_by_id(columns_for_questions, 'question', question_id)
-    comments_of_question = data_manager.get_data_by_id(columns_for_comment, 'comment', question_id)
-    answers_of_question = data_manager.get_data_by_id(columns_for_answers, 'answer', question_id)
-    columns_for_comment = ['id', 'question_id', 'answer_id', 'message', 'submission_time', 'edited_count']
-    limit = None
-    answers_of_question = data_manager.get_all_data_from_file(columns_for_answers,
-                                                              'answer',
-                                                              'submission_time',
-                                                              'DESC',
-                                                              limit)
+    question = data_manager.get_data_by_id(columns_for_questions, 'question', question_id, 'id')
+    comments_of_question = data_manager.get_data_by_id(columns_for_comment, 'comment', question_id, 'question_id')
+    answers_of_question = data_manager.get_data_by_id(columns_for_answers, 'answer', question_id, 'question_id')
+    comment = request.form.get('comment')
+    data_manager.comment_update(comment, question_id, 'comment')
     return render_template("question_display.html",
                            id=question_id,
                            question=question,
@@ -113,15 +108,6 @@ def comment_question(question_id):
     return render_template("question_comment.html",
                            question_id=question_id)
 
-
-@app.route('/question/<int:answer_id>/new-comment', methods=['POST'])
-def comment_anwser(answer_id):
-    if request.method == 'POST':
-        comment = request.form.get('comment')
-        data_manager.comment_update(comment, answer_id, 'comment')
-
-    return  render_template("answer_comment.html",
-                            answer_id=answer_id)
 
 @app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
 def vote_up_questions(question_id):
