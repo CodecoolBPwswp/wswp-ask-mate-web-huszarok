@@ -101,7 +101,7 @@ def comment_update(cursor, messages, question_id, table):
                         question_id=question_id,
                         messages=messages),
                         [question_id, messages, 0]
-)\
+)
 
 @connection.connection_handler
 def answer_question(cursor, message, question_id, table):
@@ -131,6 +131,38 @@ def answer_comment_update(cursor, messages, answer_id, table):
 
 
 @connection.connection_handler
+def answer_question(cursor, message, question_id, table):
+    query = """INSERT INTO {table} (id, submission_time, vote_number,
+                                                 question_id, message, image)
+                            VALUES (DEFAULT, now(), 0, {question_id}, %(text)s, NULL)
+                            """
+    composed_query = sql.SQL(query).format(
+                                         table=sql.Identifier(table),
+                                         question_id=sql.Literal(question_id))
+    cursor.execute(composed_query, {"text": message})
+
+
+@connection.connection_handler
+def get_id_question_or_answer(cursor, q_id):
+    cursor.execute("""
+                    SELECT id 
+                    FROM answer
+                    WHERE question_id=%(q_id)s;
+                    """,
+                    {'q_id': q_id})
+    data = cursor.fetchall()
+
+    return data
+
+
+def append_answer_from_server(question_id, message):
+    answer_data = [util.generate_id('answer'),  # question id
+                   generate_timestamp(),        # submission time
+                   0,                           # vote number
+                   question_id,                 # question id
+                   message]                     # message
+    connection.append_data_to_file('sample_data/answer.csv', answer_data)
+    return answer_data[0]
 def add_tag(cursor, question_id, table, tag):
     cursor.execute(
         sql.SQL("""
