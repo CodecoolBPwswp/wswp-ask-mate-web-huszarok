@@ -52,16 +52,6 @@ def delete_comments(comment_id):
     return redirect('/')
 
 
-@app.route('/add-question', methods=['POST', 'GET'])
-def add_question():
-    if request.method == 'GET':
-        return render_template('form.html', form_type=1)
-    if request.method == 'POST':
-        title = request.form['title']
-        message = request.form['message']
-        question_id = data_manager.append_question_from_server(title, message)
-        return redirect('/question/' + str(question_id))
-
 
 @app.route('/question/<question_id>/edit', methods=['POST', 'GET'])
 def edit_question(question_id):
@@ -140,7 +130,8 @@ def comment_answer(answer_id):
 def comment_on_answers(question_id>):
     comments_of_answers = data_manager.get_data_by_id(columns_for_comment, 'comment', answer_id, 'answer_id')
 """
-@app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
+
+''''@app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
 def vote_up_questions(question_id):
         list_of_questions = data_manager.sort_questions_by_date('submission_time', True)
         for question in list_of_questions:
@@ -162,7 +153,7 @@ def vote_down_questions(question_id):
         question_data['vote_number'] -= 1
         data_manager.vote(question_data)
     return redirect('/question/' + str(question_id))
-
+'''
 
 if __name__ == '__main__':
     app.run(
