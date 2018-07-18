@@ -23,22 +23,26 @@ def list_questions():
                            list_of_questions=list_of_questions)
 
 
-@app.route('/search')
+@app.route('/search', methods=['POST', 'GET'])
 def search():
     if request.method == 'GET':
-        return render_template('search.html')
-    if request.method == 'POST':
         search_phrase = request.args.get('phrase')
-        columns = ['id',
-                   'submission_time',
-                   'title',
-                   'view_number',
-                   'vote_number']
-        list_of_questions = data_manager.get_data_by_search(columns, 'question', search_phrase)
-        len_of_list_of_questions = len(list_of_questions)
-        return render_template('search.html',
-                               list_of_questions=list_of_questions,
-                               len_of_list_of_questions=len_of_list_of_questions)
+        if search_phrase is None:
+            return render_template('search.html')
+        if search_phrase is not None:
+            columns = ['id',
+                       'submission_time',
+                       'title',
+                       'view_number',
+                       'vote_number']
+            list_of_questions = data_manager.get_data_by_search(columns, 'question', search_phrase)
+            len_of_list_of_questions = len(list_of_questions)
+            return render_template('search_result.html',
+                                   list_of_questions=list_of_questions,
+                                   len_of_list_of_questions=len_of_list_of_questions)
+    if request.method == 'POST':
+        query = request.form['search']
+        return redirect('/search?phrase=' + query)
 
 
 @app.route('/comments/<int:comment_id>/delete')

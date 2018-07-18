@@ -1,0 +1,24 @@
+{% extends "search.html" %}
+
+{% block result %}
+    <table id="search_table">
+        <tr>
+            <th><strong>Question</strong></th>
+            <th><strong>Submission time</strong></th>
+            <th><strong>Title</strong></th>
+            <th><strong>View number</strong></th>
+            <th><strong>Vote number</strong></th>
+
+        </tr>
+
+            {% for question in list_of_questions %}
+                <tr>
+                    <td><a href="/question/{{ question.id }}">{{ question.id }}</a></td>
+                    <td>{{ question.submission_time }}</td>
+                    <td>{{ question.title }}</td>
+                    <td>{{ question.view_number }}</td>
+                    <td>{{ question.vote_number }}</td>
+                </tr>
+            {% endfor %}
+    </table>
+{% endblock %}
