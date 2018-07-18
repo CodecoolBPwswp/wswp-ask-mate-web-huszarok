@@ -95,6 +95,20 @@ def comment_update(cursor, messages, question_id, table):
                         question_id=question_id,
                         messages=messages),
                         [question_id, messages, 0]
+)\
+
+@connection.connection_handler
+def answer_comment_update(cursor, messages, answer_id, table):
+    cursor.execute(
+            sql.SQL("""
+                    INSERT INTO {table}
+                    VALUES (DEFAULT, NULL, %s, %s, now(), %s)
+                    """)
+                .format(
+                        table=sql.Identifier(table),
+                        answer_id=answer_id,
+                        messages=messages),
+                        [answer_id, messages, 0]
 )
 
 
