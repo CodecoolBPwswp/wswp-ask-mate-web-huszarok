@@ -1,23 +1,24 @@
 body {
-    background-image:url(images/background.jpg);
+    background-image:url(images/backgr2.jpg);
     color: black;
 }
 
 
 .content-wrapper {
     padding: 3%;
-    background-color: rgb(130, 130, 130);
+    background-color: rgba(158, 158, 158, 0.81);
     margin-top: 1%;
     margin-right: 15%;
     margin-left: 15%;
     text-align: center;
     border: 2px solid black;
+
 }
 
 
 
 .header {
-    background-color: gainsboro;
+    background: linear-gradient(#0000007d, #ffffff);
     border: 2px double black;
     padding: 1%;
 }
@@ -44,7 +45,7 @@ ul.menu {
     margin-top: 5px;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: #1d1d1d;
     border: 1px solid black;
 }
 
@@ -89,6 +90,28 @@ ul.menu .active {
         padding-top: 12px;
         padding-bottom: 12px;
         text-align: center;
-        background-color: #d92727;
+        background-color: rgb(217, 39, 39);
         color: white;
         }
+
+
+#sort_button {
+    background-color: #1d1d1d;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#sort_button {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+#sort_button:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
