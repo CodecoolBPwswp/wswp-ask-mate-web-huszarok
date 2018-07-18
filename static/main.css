@@ -1,69 +1,94 @@
 body {
-    background-color: dimgray;
+    background-image:url(images/background.jpg);
     color: black;
-    line-height: 2;
-    font-size: 30px;
 }
 
-h1 {
-    color: darkblue;
-    background-color: lightslategray;
-    font-family:  "Times New Roman", Times, serif;
-    font-size: 40px;
-    text-align: center;
-    letter-spacing: 0.2em;
-    word-spacing: 1em;
-    line-height: 2;
-    text-transform: uppercase;
-    border-style: double;
-}
 
 .content-wrapper {
-    padding: 10%;
-    background-color: rgb(255, 253, 244);
-    margin-top: 25px;
-    margin-right: 200px;
-    margin-left: 200px;
+    padding: 3%;
+    background-color: rgb(130, 130, 130);
+    margin-top: 1%;
+    margin-right: 15%;
+    margin-left: 15%;
     text-align: center;
-    border: 2px dashed gray;
+    border: 2px solid black;
 }
 
 
-#titles {
-        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-        }
 
-#titles td, #titles th {
-        border: 1px solid #ddd;
-        padding: 8px;
-        }
+.header {
+    background-color: gainsboro;
+    border: 2px double black;
+    padding: 1%;
+}
 
-#titles tr:nth-child(even){background-color: #f2f2f2;}
-
-#titles tr:hover {background-color: #ddd;}
-
-#titles th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: center;
-        background-color: #4CAF50;
-        color: white;
-        }
-
-#logo {
+.header #logo {
     width:410px;
     height:125px;
     background-image:url(images/logoforlayout.png)
 }
 
-#content {
+.header #content {
     position: relative;
 }
 
-#content img {
+.header #content img {
     position: absolute;
     top: 35px;
     right: 20px;
 }
+
+
+ul.menu {
+    list-style-type: none;
+    margin-top: 5px;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    border: 1px solid black;
+}
+
+ul.menu li {
+    float: left;
+}
+
+ul.menu li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+ul.menu li a:hover:not(.active) {
+    background-color: #d92727;
+}
+
+ul.menu .active {
+    background-color: #d92727;
+}
+
+
+
+#main_table {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        }
+
+#main_table td, #main_table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+        }
+
+#main_table tr:nth-child(even){background-color: #f2f2f2;}
+
+#main_table tr:hover {background-color: #ddd;}
+
+#main_table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: center;
+        background-color: #d92727;
+        color: white;
+        }
