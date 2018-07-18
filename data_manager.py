@@ -97,6 +97,16 @@ def update_data(cursor, column, table, value, data_id):
 
 
 @connection.connection_handler
+def edit_answer(cursor, answer_id, text):
+    cursor.execute(
+        sql.SQL("""UPDATE 'answer'
+                SET message = {text}
+                WHERE id = {answer_id}""").format(answer_id=sql.Identifier(answer_id),
+                                                  text=sql.Identifier(text))
+    )
+
+
+@connection.connection_handler
 def delete_comments(cursor, table, data_id):
     cursor.execute(
         sql.SQL("""DELETE FROM {table}

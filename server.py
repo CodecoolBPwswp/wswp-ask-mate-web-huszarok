@@ -85,8 +85,8 @@ def edit_answer(answer_id):
         return render_template('edit_answer.html', answer_data=answer_data)
     if request.method == 'POST':
         message = request.form['message']
-        data_manager.update_data('message', 'answer', message, answer_id)
-        return redirect('/question/' + str(answer_id))
+        data_manager.edit_answer(answer_id, message)
+        return redirect('/question/' + answer_id)
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=['POST', 'GET'])
@@ -152,6 +152,8 @@ def comment_answer(answer_id):
 def comment_on_answers(question_id>):
     comments_of_answers = data_manager.get_data_by_id(columns_for_comment, 'comment', answer_id, 'answer_id')
 """
+
+
 @app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
 def vote_up_questions(question_id):
         list_of_questions = data_manager.sort_questions_by_date('submission_time', True)
