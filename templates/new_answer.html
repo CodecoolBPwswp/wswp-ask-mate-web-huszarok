@@ -2,8 +2,8 @@
 
 {% block content %}
 
-    <form action="/question/{{ id }}/new-answer", method="post">
-        <textarea id="answer_input" placeholder="Enter your answer here!" rows="5" cols="60" required>{{ answers['message'] }}</textarea>
+    <form action="/question/{{ id }}/new-answer",  method="post">
+        <textarea id="answer_input" name="message" placeholder="Enter your answer here!" rows="5" cols="60" required>{{ answers['message'] }}</textarea>
         <br><br>
         <button class="submit_button" type="submit">Submit Answer</button>
     </form>
