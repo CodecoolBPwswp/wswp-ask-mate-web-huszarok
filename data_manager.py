@@ -155,14 +155,7 @@ def get_id_question_or_answer(cursor, q_id):
     return data
 
 
-def append_answer_from_server(question_id, message):
-    answer_data = [util.generate_id('answer'),  # question id
-                   generate_timestamp(),        # submission time
-                   0,                           # vote number
-                   question_id,                 # question id
-                   message]                     # message
-    connection.append_data_to_file('sample_data/answer.csv', answer_data)
-    return answer_data[0]
+@connection.connection_handler
 def add_tag(cursor, question_id, table, tag):
     cursor.execute(
         sql.SQL("""
@@ -194,10 +187,3 @@ def add_question(cursor, title, message):
     cursor.execute(query, {'title':title, 'message':message})
 
 
-
-def vote(question_data):
-    for key in question_data:
-        if key == 'id':
-            question_data[key] = str(question_data[key])
-
-    connection.update_data_in_file('sample_data/question.csv', question_data)
