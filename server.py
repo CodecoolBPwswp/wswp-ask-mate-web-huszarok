@@ -135,7 +135,7 @@ def display_question(question_id):
     for answer_id in answer_ids:
         comments_of_answer = data_manager.get_data_by_id(columns_for_comment, 'comment', answer_id['id'], 'answer_id')
         comments_of_answers[answer_id['id']] = comments_of_answer
-    get_tag = data_manager.get_tags_name()
+    get_tag = data_manager.get_tags_name(question_id)
     return render_template("question_display.html",
                            id=question_id,
                            question=question,
@@ -149,7 +149,7 @@ def display_question(question_id):
 def comment_question(question_id):
     if request.method == 'POST':
         comment = request.form.get('comment')
-        data_manager.comment_update(comment, question_id, 'comment')
+        data_manager.add_comment_to_question(comment, question_id, 'comment')
 
     return render_template("question_comment.html",
                            question_id=question_id)
@@ -159,7 +159,7 @@ def comment_question(question_id):
 def comment_answer(answer_id):
     if request.method == 'POST':
         comment = request.form.get('comment_answer')
-        data_manager.answer_comment_update(comment, answer_id, 'comment')
+        data_manager.add_comment_to_answer(comment, answer_id, 'comment')
 
     return  render_template("answer_comment.html",
                             answer_id=answer_id,
@@ -206,7 +206,6 @@ def vote_down_answers(answer_id):
     if request.method == 'POST':
         data_manager.decrement_vote_number('answer', answer_id)
     return redirect('/question/' + str(answer[0]['question_id']))
-
 
 
 @app.route('/question/<int:question_id>/new-tag', methods=['POST', 'GET'])
