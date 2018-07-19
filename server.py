@@ -45,10 +45,12 @@ def search():
         return redirect('/search?phrase=' + query)
 
 
-@app.route('/comments/<int:comment_id>/delete')
+@app.route('/comments/<int:comment_id>/delete', methods=['POST'])
 def delete_comments(comment_id):
+    columns = ['id', 'question_id']
+    comment = data_manager.get_data_by_id(columns, 'comment', comment_id, 'id')
     data_manager.delete_comments('comment', comment_id)
-    return redirect('/')
+    return redirect('/question/' + str(comment[0]['question_id']))
 
 
 @app.route('/add-question', methods=['POST', 'GET'])
