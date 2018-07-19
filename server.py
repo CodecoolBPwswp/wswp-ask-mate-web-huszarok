@@ -49,8 +49,17 @@ def search():
 def delete_comments(comment_id):
     columns = ['id', 'question_id']
     comment = data_manager.get_data_by_id(columns, 'comment', comment_id, 'id')
-    data_manager.delete_comments('comment', comment_id)
+    data_manager.delete('comment', comment_id)
     return redirect('/question/' + str(comment[0]['question_id']))
+
+
+@app.route('/answer/<int:answers_id>/delete', methods=['GET'])
+def delete_answers(answers_id):
+    columns = ['id', 'question_id']
+    answer = data_manager.get_data_by_id(columns, 'answer', answers_id, 'id')
+    data_manager.delete('comment', answers_id, 'answer_id')
+    data_manager.delete('answer', answers_id, 'id')
+    return redirect('/question/' + str(answer[0]['question_id']))
 
 
 @app.route('/add-question', methods=['POST', 'GET'])
