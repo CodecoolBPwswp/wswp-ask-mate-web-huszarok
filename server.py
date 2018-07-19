@@ -73,11 +73,22 @@ def edit_question(question_id):
         return redirect('/question/' + str(question_id))
 
 
+""""@app.route('/answer/<answer_id>/edit', methods=["GET", "POST"])
+def answer_edit(answer_id):
+    if request.method == 'GET':
+        answer = data_manager.get_answer_by_id(answer_id)
+        return render_template("edit_answer.html", answer=answer)
+
+    message = request.form['message']
+    data_manager.update_answer(answer_id, message)
+    return redirect(url_for('display_question'))"""""
+
+
 @app.route('/answer/<answer_id>/edit', methods=['POST', 'GET'])
 def edit_answer(answer_id):
     if request.method == 'GET':
-        columns = ['message']
-        answer_data = data_manager.get_data_by_id(columns, 'answer', answer_id, 'id')
+        answer_data = data_manager.get_answer_id
+        answer_data = str(answer_data)
         return render_template('edit_answer.html', answer_data=answer_data)
     if request.method == 'POST':
         message = request.form['message']
@@ -144,12 +155,12 @@ def comment_answer(answer_id):
                             answer_id=answer_id)
 
 
-""""@app.route('/question/<question_id>', methods=['GET', 'POST'])
+"""@app.route('/question/<question_id>', methods=['GET', 'POST'])
 def comment_on_answers(question_id>):
     comments_of_answers = data_manager.get_data_by_id(columns_for_comment, 'comment', answer_id, 'answer_id')
-"""
 
-''''@app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
+
+@app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
 def vote_up_questions(question_id):
         list_of_questions = data_manager.sort_questions_by_date('submission_time', True)
         for question in list_of_questions:
@@ -172,6 +183,7 @@ def vote_down_questions(question_id):
         data_manager.vote(question_data)
     return redirect('/question/' + str(question_id))
 
+"""
 
 if __name__ == '__main__':
     app.run(

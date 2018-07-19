@@ -82,13 +82,35 @@ def update_data(cursor, column, table, value, data_id):
 
 
 @connection.connection_handler
-def edit_answer(cursor, answer_id, text):
+def update_answer(cursor, answer_id, message):
+    cursor.execute("""
+                    UPDATE answer
+                    SET message = %(message)s
+                    WHERE id = %(answer_id)s
+                    AND id = %(answer_id)s;
+                   """,
+                   {'answer_id': answer_id, 'message': message}
+                   )
+
+""""
+@connection.connection_handler
+def get_answer_by_id(cursor, answer_id):
     cursor.execute(
-        sql.SQL("""UPDATE 'answer'
-                SET message = {text}
-                WHERE id = {answer_id}""").format(answer_id=sql.Identifier(answer_id),
-                                                  text=sql.Identifier(text))
+                    SELECT * FROM answer
+                    WHERE id = %(answer_id)s;
+                   ,
+                   {'answer_id': answer_id})
+    answer = cursor.fetchone()
+    return answer"""
+
+
+@connection.connection_handler
+def get_answer_id(cursor):
+    cursor.execute(
+        sql.SQL("""SELECT id FROM answer""")
     )
+    answer_id = cursor.fetchall()
+    return answer_id
 
 
 @connection.connection_handler
