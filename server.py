@@ -1,7 +1,3 @@
-'''Flask stuff (server, routes, request handling, session, etc.)
-This layer should consist of logic that is hardly related to Flask.
-(with other words: this should be the only file importing from flask)'''
-
 from flask import Flask, render_template, redirect, request, url_for
 import data_manager
 
@@ -59,8 +55,8 @@ def add_question():
     if request.method == 'POST':
         title = request.form['title']
         message = request.form['message']
-        question_id = data_manager.append_question_from_server(title, message)
-        return redirect('/question/' + str(question_id))
+        data_manager.add_question(title, message)
+        return redirect('/')
 
 
 @app.route('/question/<question_id>/edit', methods=['POST', 'GET'])
@@ -153,8 +149,7 @@ def comment_on_answers(question_id>):
     comments_of_answers = data_manager.get_data_by_id(columns_for_comment, 'comment', answer_id, 'answer_id')
 """
 
-
-@app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
+''''@app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
 def vote_up_questions(question_id):
         list_of_questions = data_manager.sort_questions_by_date('submission_time', True)
         for question in list_of_questions:
