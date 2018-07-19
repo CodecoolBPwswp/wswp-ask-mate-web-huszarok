@@ -20,7 +20,7 @@ def list_questions():
         limit = 5
         list_of_questions = data_manager.get_all_data_from_file(columns, 'question', sortby[0], sortby[1], limit)
         return render_template('list.html',
-                           list_of_questions=list_of_questions)
+                               list_of_questions=list_of_questions)
 
 
 @app.route('/search', methods=['POST', 'GET'])
