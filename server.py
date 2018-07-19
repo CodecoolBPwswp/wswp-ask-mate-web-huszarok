@@ -49,8 +49,29 @@ def search():
 def delete_comments(comment_id):
     columns = ['id', 'question_id']
     comment = data_manager.get_data_by_id(columns, 'comment', comment_id, 'id')
-    data_manager.delete_comments('comment', comment_id)
+    data_manager.delete('comment', comment_id, 'id')
     return redirect('/question/' + str(comment[0]['question_id']))
+
+
+@app.route('/answer/<int:answers_id>/delete', methods=['POST'])
+def delete_answers(answers_id):
+    columns = ['id', 'question_id']
+    answer = data_manager.get_data_by_id(columns, 'answer', answers_id, 'id')
+    data_manager.delete('comment', answers_id, 'answer_id')
+    data_manager.delete('answer', answers_id, 'id')
+    return redirect('/question/' + str(answer[0]['question_id']))
+
+
+@app.route('/question/<int:question_id>/delete', methods=['GET'])
+def delete_questions(question_id):
+    data_manager.delete('comment', question_id, 'question_id')
+    columns = ['id', 'question_id']
+    answers = data_manager.get_data_by_id(columns, 'answer', question_id, 'question_id')
+    for answer in answers:
+        data_manager.delete('comment', answer['id'], 'answer_id')
+    data_manager.delete('answer', question_id, 'question_id')
+    data_manager.delete('question', question_id, 'id')
+    return redirect('/')
 
 
 @app.route('/add-question', methods=['POST', 'GET'])
@@ -142,7 +163,7 @@ def display_question(question_id):
     for answer_id in answer_ids:
         comments_of_answer = data_manager.get_data_by_id(columns_for_comment, 'comment', answer_id['id'], 'answer_id')
         comments_of_answers[answer_id['id']] = comments_of_answer
-    get_tag = data_manager.get_tags_name()
+    get_tag = data_manager.get_tags_name(question_id)
     return render_template("question_display.html",
                            id=question_id,
                            question=question,
@@ -156,7 +177,7 @@ def display_question(question_id):
 def comment_question(question_id):
     if request.method == 'POST':
         comment = request.form.get('comment')
-        data_manager.comment_update(comment, question_id, 'comment')
+        data_manager.add_comment_to_question(comment, question_id, 'comment')
 
     return render_template("question_comment.html",
                            question_id=question_id)
@@ -170,15 +191,9 @@ def comment_answer(answer_id):
         return render_template("answer_comment.html", answer_id=answer_id)
     if request.method == 'POST':
         comment = request.form.get('comment_answer')
-        data_manager.answer_comment_update(comment, answer_id, 'comment')
+        data_manager.add_comment_to_answer(comment, answer_id, 'comment')
 
     return redirect('/question/' + str(question[0]['question_id']))
-
-
-"""@app.route('/question/<question_id>', methods=['GET', 'POST'])
-def comment_on_answers(question_id>):
-    comments_of_answers = data_manager.get_data_by_id(columns_for_comment, 'comment', answer_id, 'answer_id')
-"""
 
 
 @app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])

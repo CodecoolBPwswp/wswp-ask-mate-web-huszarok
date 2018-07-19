@@ -80,16 +80,17 @@ def update_data(cursor, column, table, value, data_id):
 
 
 @connection.connection_handler
-def delete_comments(cursor, table, data_id):
+def delete(cursor, table, data_id, id_type):
     cursor.execute(
         sql.SQL("""DELETE FROM {table}
-                    WHERE id={data_id}""")
+                    WHERE {id_type} = {data_id}""")
                 .format(table=sql.Identifier(table),
-                        data_id=sql.Literal(data_id)))
+                        data_id=sql.Literal(data_id),
+                        id_type=sql.Identifier(id_type)))
 
 
 @connection.connection_handler
-def comment_update(cursor, messages, question_id, table):
+def add_comment_to_question(cursor, messages, question_id, table):
     cursor.execute(
             sql.SQL("""
                     INSERT INTO {table}
@@ -115,7 +116,7 @@ def answer_question(cursor, message, question_id, table):
 
 
 @connection.connection_handler
-def answer_comment_update(cursor, messages, answer_id, table):
+def add_comment_to_answer(cursor, messages, answer_id, table):
     cursor.execute(
             sql.SQL("""
                     INSERT INTO {table}
@@ -159,20 +160,38 @@ def add_tag(cursor, question_id, table, tag):
     cursor.execute(
         sql.SQL("""
                         INSERT INTO {table} (id, name)
-                        VALUES (DEFAULT, %s)
+                        VALUES (DEFAULT, %s);
+                        SELECT id
+                        FROM tag
+                        ORDER BY id DESC
+                        LIMIT 1;
                         """)
             .format(
             table=sql.Identifier(table),
-            question_id=question_id,
-            tag=tag),
-                [tag])
+            question_id=sql.Literal(question_id)),
+            [tag])
+    tag_id = cursor.fetchone()['id']
+    cursor.execute(
+        sql.SQL("""
+                        INSERT INTO question_tag (question_id, tag_id)
+                        VALUES ({question_id}, {tag_id})
+                        """)
+            .format(
+            tag_id=sql.Literal(tag_id),
+            question_id=sql.Literal(question_id)),
+    )
 
 
 @connection.connection_handler
-def get_tags_name(cursor):
+def get_tags_name(cursor, question_id):
     cursor.execute(
         sql.SQL("""
-                SELECT name FROM tag""")
+                SELECT name
+                FROM tag
+                JOIN question_tag ON tag.id=question_tag.tag_id
+                WHERE question_id = {question_id}""")
+            .format(
+            question_id=sql.Literal(question_id))
     )
     tags = cursor.fetchall()
     return tags
