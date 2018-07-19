@@ -50,7 +50,12 @@ def delete_comments(comment_id):
     columns = ['id', 'question_id']
     comment = data_manager.get_data_by_id(columns, 'comment', comment_id, 'id')
     data_manager.delete('comment', comment_id, 'id')
-    return redirect('/question/' + str(comment[0]['question_id']))
+    if comment[0]['question_id'] is None:
+        columns_for_answer = ['id', 'question_id']
+        question = data_manager.get_data_by_id(columns_for_answer, 'answer', comment[0]['answer_id'], 'id')
+        return redirect('/question/' + str(question[0]['question_id']))
+    else:
+        return redirect('/question/' + str(comment[0]['question_id']))
 
 
 @app.route('/answer/<int:answers_id>/delete', methods=['POST'])
