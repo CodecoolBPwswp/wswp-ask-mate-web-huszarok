@@ -164,13 +164,15 @@ def comment_question(question_id):
 
 @app.route('/question/<int:answer_id>/new-comments', methods=['GET', 'POST'])
 def comment_answer(answer_id):
+    columns = ['id', 'question_id']
+    question = data_manager.get_data_by_id(columns, 'answer', answer_id, 'id')
+    if request.method == 'GET':
+        return render_template("answer_comment.html", answer_id=answer_id)
     if request.method == 'POST':
         comment = request.form.get('comment_answer')
         data_manager.answer_comment_update(comment, answer_id, 'comment')
 
-    return  render_template("answer_comment.html",
-                            answer_id=answer_id,
-                            )
+    return redirect('/question/' + str(question[0]['question_id']))
 
 
 """@app.route('/question/<question_id>', methods=['GET', 'POST'])
@@ -213,7 +215,6 @@ def vote_down_answers(answer_id):
     if request.method == 'POST':
         data_manager.decrement_vote_number('answer', answer_id)
     return redirect('/question/' + str(answer[0]['question_id']))
-
 
 
 @app.route('/question/<int:question_id>/new-tag', methods=['POST', 'GET'])
