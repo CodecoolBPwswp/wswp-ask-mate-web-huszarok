@@ -71,11 +71,11 @@ def get_data_by_search(cursor, columns, table, phrase):
 def update_data(cursor, column, table, value, data_id):
     cursor.execute(
         sql.SQL("""UPDATE {table} 
-                SET {col} = {value}
+                SET {col} = %(value)s
                 WHERE id = {data_id}""").format(col=sql.Identifier(column),
                                                 table=sql.Identifier(table),
-                                                value=value),
-                                                data_id=sql.Literal(data_id)
+                                                data_id=sql.Literal(data_id)),
+                                        {'value': value}
     )
 
 
