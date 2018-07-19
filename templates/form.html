@@ -5,7 +5,7 @@
     {% if form_type == 1 %}
         <form action="/add-question" method="post">
             <h2>Ask a Question</h2>
-            <input id="title_input" name="title" placeholder="Title" type="text">
+            <input class="title_input" name="title" placeholder="Title" type="text">
             <br><br><br>
             <textarea id="question_input" name="message" placeholder="Describe your question ..."  rows="8" cols="45" required></textarea>
             <br><br>
@@ -15,7 +15,7 @@
     {% elif form_type == 2%}
         <form action="/question/{{ question_data[0]['id'] }}/edit" method="post">
             <h2>Edit Question</h2>
-            <input id="title_input" name="title" type="text" value={{ question_data[0]['title'] }}>
+            <input class="title_input" name="title" type="text" value={{ question_data[0]['title'] }}>
             <br><br><br>
             <textarea id="question_input" name="message" rows="8" cols="45" required>{{ question_data[0]['message'] }}</textarea>
             <br><br>
