@@ -5,9 +5,9 @@
     {% if form_type == 1 %}
         <form action="/add-question" method="post">
             <h2>Ask a Question</h2>
-            <input id="title_input" placeholder="Title" type="text">
+            <input id="title_input" placeholder="Title" name="title" type="text">
             <br><br><br>
-            <textarea id="question_input" placeholder="Describe your question ..."  rows="8" cols="45" required></textarea>
+            <textarea id="question_input" placeholder="Describe your question ..."  name="message" rows="8" cols="45" required></textarea>
             <br><br>
             <button class="submit_button" type="submit">Submit Question</button>
         </form>
