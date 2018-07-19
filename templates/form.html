@@ -24,7 +24,7 @@
             <button id="submit_button" style="position:relative; top:35px; left:-90px;" type="submit">Submit Question</button>
         </form>
     {% elif form_type == 2%}
-            <form action="/question/{{ question_data['id'] }}/edit", method="post">
+            <form action="/question/{{ question_data[0]['id'] }}/edit", method="post">
             <h2>Edit Question</h2>
             <label for="title_input">Title:</label>
             <input id="title_input" name="title" type="text" value={{ question_data[0]['title'] }}>

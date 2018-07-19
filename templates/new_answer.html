@@ -1,82 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-     <form action="/question/{{ id }}/new-answer", method="get">
-            <h2>Answer Question</h2>
-        <table border="0" style=" width="1400">
-            <col style="width:5%">
-	        <col style="width:10%">
-	        <col style="width:5%">
-            <col style="width:5%">
-	        <col style="width:20%">
-	        <col style="width:45%">
-            <col style="width:10%">
+{% extends "layout.html" %}
 
-    <tr>
-        <th>
-            <storng>ID</storng>
-        </th>
-        <th>
-            <storng>Submission time</storng>
-        </th>
-        <th>
-            <storng>View number</storng>
-        </th>
-        <th>
-            <storng>Vote number</storng>
-        </th>
-        <th>
-            <storng>Title</storng>
-        </th>
-        <th>
-            <storng>Message</storng>
-        </th>
-        <th>
-            <storng>Image</storng>
-        </th>
+{% block content %}
 
-
-    </tr>
-
-    <tr>
-        <td align="center">
-            {{ question.id }}
-        </td>
-        <td align="center">
-            {{ question.submission_time }}
-        </td>
-        <td align="center">
-            {{ question.view_number }}
-        </td>
-        <td align="center">
-            {{ question.vote_number }}
-        </td>
-        <td align="center">
-            {{ question.title }}
-        </td>
-        <td align="center">
-            {{ question.message }}
-        </td>
-        <td align="center">
-            {{ question.image }}
-        </td>
-    </tr>
-            </td>
-        </tr>
-        </table>
-     </form>
     <form action="/question/{{ id }}/new-answer", method="post">
+        <textarea id="answer_input" placeholder="Enter your answer here!" rows="5" cols="60" required>{{ answers['message'] }}</textarea>
+        <br><br>
+        <button class="submit_button" type="submit">Submit Answer</button>
+    </form>
 
-        <br>
-            <label for="answer_input">Answer Question:</label>
-            <textarea id="answer_input" name="message" rows="5" cols="60" required>{{ answers['message'] }}</textarea>
-            <button id="submit_button" style="position:relative; top:35px; left:-110px;" type="submit">Submit Answer</button>
-
-        </form>
-</head>
-<body>
-
-</body>
-</html>
+{% endblock %}
