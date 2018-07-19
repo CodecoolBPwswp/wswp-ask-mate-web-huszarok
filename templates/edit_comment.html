@@ -4,9 +4,9 @@
 
     <form action="/comments/{{ comment[0]['id'] }}/edit", method="post">
         <h2>Edit Comment</h2>
-        <label for="comment_input">Edit the comment:</label>
         <textarea id="comment_input" name="message" rows="8" cols="80" required>{{ comment[0]['message'] }}</textarea>
-        <button id="submit_button" style="position:relative; top:35px; left:-90px;" type="submit">Submit Question</button>
+        <br><br>
+        <button class="submit_button"  type="submit">Submit comment</button>
     </form>
 
 {% endblock %}

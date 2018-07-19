@@ -231,6 +231,21 @@ h1.display {
 }
 
 
+.edit_button {
+    width: 80px;
+    border: 1px solid black;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    color: black;
+    float: center
+}
+
 
 .title_input {
     width: 400px
