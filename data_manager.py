@@ -2,7 +2,6 @@ import connection
 from psycopg2 import sql
 
 
-
 @connection.connection_handler
 def get_all_data_from_file(cursor, columns, table, order_column, order, limit):
     used_columns = sql.SQL(', ').join(sql.Identifier(n) for n in columns)
@@ -86,30 +85,20 @@ def update_answer(cursor, answer_id, message):
                     UPDATE answer
                     SET message = %(message)s
                     WHERE id = %(answer_id)s
-                    AND id = %(answer_id)s;
                    """,
                    {'answer_id': answer_id, 'message': message}
                    )
 
-""""
+
 @connection.connection_handler
 def get_answer_by_id(cursor, answer_id):
-    cursor.execute(
+    cursor.execute("""
                     SELECT * FROM answer
                     WHERE id = %(answer_id)s;
-                   ,
+                    """,
                    {'answer_id': answer_id})
     answer = cursor.fetchone()
-    return answer"""
-
-
-@connection.connection_handler
-def get_answer_id(cursor):
-    cursor.execute(
-        sql.SQL("""SELECT id FROM answer""")
-    )
-    answer_id = cursor.fetchall()
-    return answer_id
+    return answer
 
 
 @connection.connection_handler
@@ -195,6 +184,8 @@ def append_answer_from_server(question_id, message):
                    message]                     # message
     connection.append_data_to_file('sample_data/answer.csv', answer_data)
     return answer_data[0]
+
+
 def add_tag(cursor, question_id, table, tag):
     cursor.execute(
         sql.SQL("""
@@ -224,7 +215,6 @@ def add_question(cursor, title, message):
             (id, submission_time, view_number, vote_number, title, message, image)
             VALUES (DEFAULT, now(), 0, 0, %(title)s, %(message)s, NULL)""")
     cursor.execute(query, {'title':title, 'message':message})
-
 
 
 def vote(question_data):

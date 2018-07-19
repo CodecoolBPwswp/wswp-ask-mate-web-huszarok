@@ -76,27 +76,15 @@ def edit_question(question_id):
         return redirect('/question/' + question_id)
 
 
-""""@app.route('/answer/<answer_id>/edit', methods=["GET", "POST"])
+@app.route('/answer/<answer_id>/edit', methods=["GET", "POST"])
 def answer_edit(answer_id):
+    answer = data_manager.get_answer_by_id(answer_id)
     if request.method == 'GET':
-        answer = data_manager.get_answer_by_id(answer_id)
         return render_template("edit_answer.html", answer=answer)
-
-    message = request.form['message']
-    data_manager.update_answer(answer_id, message)
-    return redirect(url_for('display_question'))"""""
-
-
-@app.route('/answer/<answer_id>/edit', methods=['POST', 'GET'])
-def edit_answer(answer_id):
-    if request.method == 'GET':
-        answer_data = data_manager.get_answer_id
-        answer_data = str(answer_data)
-        return render_template('edit_answer.html', answer_data=answer_data)
     if request.method == 'POST':
         message = request.form['message']
-        data_manager.edit_answer(answer_id, message)
-        return redirect('/question/' + answer_id)
+        data_manager.update_answer(answer_id, message)
+        return redirect('/question/' + str(answer['question_id']))
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=['POST', 'GET'])
@@ -165,7 +153,6 @@ def comment_answer(answer_id):
                             )
 
 
-
 """@app.route('/question/<question_id>', methods=['GET', 'POST'])
 def comment_on_answers(question_id>):
     comments_of_answers = data_manager.get_data_by_id(columns_for_comment, 'comment', answer_id, 'answer_id')
@@ -195,6 +182,7 @@ def vote_down_questions(question_id):
     return redirect('/question/' + str(question_id))
 
 """
+
 
 @app.route('/question/<int:question_id>/new-tag', methods=['POST', 'GET'])
 def add_new_tag(question_id):
