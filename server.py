@@ -172,6 +172,7 @@ def vote_down_questions(question_id):
     return redirect('/question/' + str(question_id))
 '''
 
+
 @app.route('/question/<int:question_id>/new-tag', methods=['POST', 'GET'])
 def add_new_tag(question_id):
     if request.method == 'POST':

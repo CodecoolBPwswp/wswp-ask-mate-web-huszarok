@@ -163,6 +163,9 @@ def append_answer_from_server(question_id, message):
                    message]                     # message
     connection.append_data_to_file('sample_data/answer.csv', answer_data)
     return answer_data[0]
+
+
+@connection.connection_handler
 def add_tag(cursor, question_id, table, tag):
     cursor.execute(
         sql.SQL("""

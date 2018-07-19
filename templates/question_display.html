@@ -28,7 +28,7 @@
     </form>
 
     <form>
-        <button class="add_button", type="submit", formaction="/question/{{ question.id }}/new-tag">Add tag</button>
+        <button class="add_button", type="submit", formaction="/question/{{ question[0].id }}/new-tag">Add tag</button>
         <ul>
             {% for tag in tags  %}
                 {{ tag.name }}
