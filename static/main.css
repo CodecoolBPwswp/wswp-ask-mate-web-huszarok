@@ -216,5 +216,18 @@ h1.display {
     border-radius: 4px;
     color: black;
     float:left
+}
 
+.submit_button {
+    border: 1px solid black;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    color: black;
+    float: center
 }
