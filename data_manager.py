@@ -80,17 +80,6 @@ def update_data(cursor, column, table, value, data_id):
 
 
 @connection.connection_handler
-def get_question_by_id(cursor, question_id):
-    cursor.execute("""
-                    SELECT * FROM question
-                    WHERE id = %(question_id)s;
-                    """,
-                   {'question_id': question_id})
-    question = cursor.fetchone()
-    return question
-
-
-@connection.connection_handler
 def delete_comments(cursor, table, data_id):
     cursor.execute(
         sql.SQL("""DELETE FROM {table}
