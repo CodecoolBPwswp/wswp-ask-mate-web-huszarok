@@ -159,6 +159,7 @@ def comment_on_answers(question_id>):
     comments_of_answers = data_manager.get_data_by_id(columns_for_comment, 'comment', answer_id, 'answer_id')
 """
 
+
 @app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
 def vote_up_questions(question_id):
         question = data_manager.get_question_by_id(question_id)
@@ -169,10 +170,11 @@ def vote_up_questions(question_id):
 
 @app.route('/answer/<int:answer_id>/vote-up', methods=['POST', 'GET'])
 def vote_up_answers(answer_id):
-        answer = data_manager.get_answer_by_id(answer_id)
+        columns = ['id', 'question_id']
+        answer = data_manager.get_data_by_id(columns, 'answer', answer_id, 'id')
         if request.method == 'POST':
             data_manager.increment_vote_number( 'answer', answer_id)
-        return redirect('/question/' + str(answer['question_id']))
+        return redirect('/question/' + str(answer[0]['question_id']))
 
 
 @app.route('/question/<int:question_id>/vote-down', methods=['POST', 'GET'])
@@ -185,12 +187,11 @@ def vote_down_questions(question_id):
 
 @app.route('/answer/<int:answer_id>/vote-down', methods=['POST', 'GET'])
 def vote_down_answers(answer_id):
-        answer = data_manager.get_answer_by_id(answer_id)
+        columns = ['id', 'question_id']
+        answer = data_manager.get_data_by_id(columns, 'answer', answer_id, 'id')
         if request.method == 'POST':
             data_manager.decrement_vote_number( 'answer', answer_id)
-        return redirect('/question/' + str(answer['question_id']))
-
-
+        return redirect('/question/' + str(answer[0]['question_id']))
 
 
 @app.route('/question/<int:question_id>/new-tag', methods=['POST', 'GET'])
