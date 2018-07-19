@@ -75,6 +75,7 @@ def delete_questions(question_id):
     for answer in answers:
         data_manager.delete('comment', answer['id'], 'answer_id')
     data_manager.delete('answer', question_id, 'question_id')
+    data_manager.delete('question_tag', question_id, 'question_id')
     data_manager.delete('question', question_id, 'id')
     return redirect('/')
 
