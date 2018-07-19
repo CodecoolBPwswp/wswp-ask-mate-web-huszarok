@@ -49,7 +49,7 @@ def search():
 def delete_comments(comment_id):
     columns = ['id', 'question_id']
     comment = data_manager.get_data_by_id(columns, 'comment', comment_id, 'id')
-    data_manager.delete('comment', comment_id)
+    data_manager.delete('comment', comment_id, 'id')
     return redirect('/question/' + str(comment[0]['question_id']))
 
 
