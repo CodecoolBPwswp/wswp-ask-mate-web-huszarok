@@ -85,6 +85,7 @@ def answer_edit(answer_id):
     if request.method == 'POST':
         message = request.form['message']
         data_manager.update_answer(answer_id, message)
+        data_manager.update_data('message', 'answer', message, answer_id)
         return redirect('/question/' + str(answer[0]['question_id']))
 
 
