@@ -4,17 +4,14 @@
 
 <h1 class="display">{{ question[0].title }}</h1>
 
-<form action="/question/{{ question[0].id }}/edit" method="POST">
-    <button class="add_button" type="submit">Edit</button>
-</form>
 
-<table class="display_table">
+<table class="table">
     <tr>
         <th>Submission time</th>
         <th>Message</th>
         <th>View number</th>
         <th>Vote number</th>
-        <th>Image</th>
+        <th>Actions</th>
     </tr>
 
     <tr>
@@ -22,7 +19,11 @@
         <td>{{ question[0].message }}</td>
         <td>{{ question[0].view_number }}</td>
         <td>{{ question[0].vote_number }}</td>
-        <td>{{ question[0].image }}</td>
+        <td>
+            <form action="/question/{{ question[0].id }}/edit" method="GET">
+                <button class="add_button" type="submit">Edit</button>
+            </form>
+        </td>
     </tr>
 </table>
 
@@ -50,7 +51,6 @@
 <br><br><br>
 
 
-
 <table id="comment_table">
     <col width=60%">
     <col width=25%>
@@ -62,6 +62,9 @@
         <td>{{ "Submitted: " + comment.submission_time|string }}</td>
         <td>{{ "Edited " + comment.edited_count|string + "0 times"}}</td>
         <td>
+            <form action="/comments/{{ comment.id }}/edit" method="GET">
+                <button class="add_button" type="submit">Edit</button>
+            </form>
             <form action="/comments/{{ comment.id }}/delete" method="POST">
                 <button class="add_button" type="submit">Delete</button>
             </form>
@@ -84,23 +87,23 @@
 {% if answers %}
 {% for answer in answers %}
 
-<form action="/answer/{{ answer.id}}/edit" method="POST">
-    <button class="add_button" type="submit">Edit</button>
-</form>
 
 <table class="display_table">
     <tr>
         <th>Submission time</th>
         <th>Message</th>
-        <th>Image</th>
         <th>Vote number</th>
+        <th>Actions</th>
     </tr>
 
     <tr>
-        <td width=20%>{{ answer.submission_time }}</td>
+        <td width=25%>{{ answer.submission_time }}</td>
         <td width=60% align="left">{{ answer.message }}</td>
-        <td width=10%>{{ answer.image}}</td>
-        <td width=10%>{{ answer.vote_number }}</td>
+        <td width=15%>{{ answer.vote_number }}</td>
+        <td>
+            <form action="/answer/{{ answer.id}}/edit" method="GET">
+                <button class="add_button" type="submit">Edit</button>
+            </form>
         </td>
     </tr>
 </table>
@@ -127,6 +130,9 @@
         <td>{{ "Submitted: " + comment.submission_time|string }}</td>
         <td>{{ "Edited " + comment.edited_count|string + "0 times"}}</td>
         <td>
+            <form action="/comments/{{ comment.id }}/edit" method="GET">
+                <button class="add_button" type="submit">Edit</button>
+            </form>
             <form action="/comments/{{ comment.id }}/delete" method="POST">
                 <button class="add_button" type="submit">Delete</button>
             </form>
