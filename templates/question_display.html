@@ -2,124 +2,149 @@
 
 {% block content %}
 
-    <h1 class="display">{{ question[0].title }}</h1>
+<h1 class="display">{{ question[0].title }}</h1>
 
-    <table class="display_table">
-        <tr>
-            <th>Submission time</th>
-            <th>Message</th>
-            <th>View number</th>
-            <th>Vote number</th>
-            <th>Image</th>
-        </tr>
+<form action="/question/{{ question[0].id }}/edit" method="POST">
+    <button class="add_button" type="submit">Edit</button>
+</form>
 
-        <tr>
-            <td>{{ question[0].submission_time }}</td>
-            <td>{{ question[0].message }}</td>
-            <td>{{ question[0].view_number }}</td>
-            <td>{{ question[0].vote_number }}</td>
-            <td>{{ question[0].image }}</td>
-        </tr>
-    </table>
+<table class="display_table">
+    <tr>
+        <th>Submission time</th>
+        <th>Message</th>
+        <th>View number</th>
+        <th>Vote number</th>
+        <th>Image</th>
+    </tr>
 
-    <form action="/question/{{ question[0].id }}/vote-up" method="POST">
-        <button class="vote" id="voteup" type="submit">Vote up</button>
-        <button class="vote" id="votedown" type="submit" formaction="/question/{{ question[0].id }}/vote-down">Vote down</button>
-    </form>
+    <tr>
+        <td>{{ question[0].submission_time }}</td>
+        <td>{{ question[0].message }}</td>
+        <td>{{ question[0].view_number }}</td>
+        <td>{{ question[0].vote_number }}</td>
+        <td>{{ question[0].image }}</td>
+    </tr>
+</table>
 
-    <form>
-        <button class="add_button", type="submit", formaction="/question/{{ question[0].id }}/new-tag">Add tag</button>
-        <ul>
-            {% for tag in tags  %}
-                {{ tag.name }}
-            {% endfor %}
-        </ul>
-    </form>
+<form action="/question/{{ question[0].id }}/vote-up" method="POST">
+    <button class="vote" id="voteup" type="submit">Vote up</button>
+    <button class="vote" id="votedown" type="submit" formaction="/question/{{ question[0].id }}/vote-down">Vote down
+    </button>
+</form>
 
-    <br>
-     <form>
-         <button class="add_button" type="submit" formaction={{ url_for('comment_question', question_id=question[0].id) }} > Add your comment </button>
-    </form>
-
-    <br><br><br>
-
-    <table id="comment_table">
-        <col width=60%">
-        <col width=25%>
-        <col width=15%>
-        {% for comment in comments %}
-            <tr>
-                <td align="left">{{ comment.message }}</td>
-                <td>{{ "Submitted:  " + comment.submission_time|string }}</td>
-                <td>{{ "Edited " + comment.edited_count|string + "0 times"}}</td>
-            </tr>
+<form>
+    <button class="add_button" , type="submit" , formaction="/question/{{ question[0].id }}/new-tag">Add tag</button>
+    <ul>
+        {% for tag in tags %}
+        {{ tag.name }}
         {% endfor %}
-    </table>
+    </ul>
+</form>
 
-    <br><br>
-    <hr><hr>
+<br>
+<form>
+    <button class="add_button" type="submit" formaction={{ url_for(
+    'comment_question', question_id=question[0].id) }} > Add your comment </button>
+</form>
 
-    <form>
-        <button class="add_button" type="submit" formaction="/question/{{id}}/new-answer">Answer this question</button>
-    </form>
-    <br><br>
-    <h1>Answers</h1>
+<br><br><br>
 
 
-        {% if answers %}
-            {% for answer in answers %}
 
-                <table class="display_table">
-                    <tr>
-                        <th>Submission time</th>
-                        <th>Message</th>
-                        <th>Image</th>
-                        <th>Vote number</th>
-                    </tr>
+<table id="comment_table">
+    <col width=60%">
+    <col width=25%>
+    <col width=15%>
+    {% for comment in comments %}
 
-                    <tr>
-                        <td width=20%>{{ answer.submission_time }}</td>
-                        <td width=60% align="left">{{ answer.message }}</td>
-                        <td width=10%>{{ answer.image}}</td>
-                        <td width=10%>{{ answer.vote_number }}</td>
-                        </td>
-                    </tr>
-                </table>
+    <tr>
+        <td align="left">{{ comment.message }}</td>
+        <td>{{ "Submitted: " + comment.submission_time|string }}</td>
+        <td>{{ "Edited " + comment.edited_count|string + "0 times"}}</td>
+        <td>
+            <form action="/comments/{{ comment.id }}/delete" method="POST">
+                <button class="add_button" type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
 
-                <form action="/answer/{{ answer.id}}/vote-up" method="POST">
-                    <button class="vote" id="voteup" type="submit">Vote up</button>
-                    <button class="vote" id="votedown" type="submit" formaction="/answer/{{ answer.id}}/vote-down">Vote down</button>
-                </form>
+<br><br>
+<hr>
+<hr>
 
-                 <form>
-                     <button class="add_button" type="submit" formaction={{ url_for('comment_answer', answer_id=answer.id) }}> Add your comment </button>
-                  </form>
+<form>
+    <button class="add_button" type="submit" formaction="/question/{{id}}/new-answer">Answer this question</button>
+</form>
+<br><br>
+<h1>Answers</h1>
 
-                <br><br><br>
-                {% if comments_of_answers[answer.id] %}
-                <table id="comment_table">
-                    <col width=60%">
-                    <col width=25%>
-                    <col width=15%>
-                    {% for comment in comments_of_answers[answer.id] %}
-                        <tr>
-                            <td align="left">{{ comment.message }}</td>
-                            <td>{{ "Submitted:  " + comment.submission_time|string }}</td>
-                            <td>{{ "Edited " + comment.edited_count|string + "0 times"}}</td>
-                        </tr>
-                    {% endfor %}
 
-                </table>
-                {% else %}
-                    <h3>There are no comments for this answer</h3>
-                {% endif %}
+{% if answers %}
+{% for answer in answers %}
 
-                <br><br>
-                <hr>
-            {% endfor %}
+<form action="/answer/{{ answer.id}}/edit" method="POST">
+    <button class="add_button" type="submit">Edit</button>
+</form>
 
-        {% else %}
-            <h3>There is no answer</h3>
-        {% endif %}
+<table class="display_table">
+    <tr>
+        <th>Submission time</th>
+        <th>Message</th>
+        <th>Image</th>
+        <th>Vote number</th>
+    </tr>
+
+    <tr>
+        <td width=20%>{{ answer.submission_time }}</td>
+        <td width=60% align="left">{{ answer.message }}</td>
+        <td width=10%>{{ answer.image}}</td>
+        <td width=10%>{{ answer.vote_number }}</td>
+        </td>
+    </tr>
+</table>
+
+<form action="/answer/{{ answer.id}}/vote-up" method="POST">
+    <button class="vote" id="voteup" type="submit">Vote up</button>
+    <button class="vote" id="votedown" type="submit" formaction="/answer/{{ answer.id}}/vote-down">Vote down</button>
+</form>
+
+<form>
+    <button class="add_button" type="submit" formaction={{ url_for(
+    'comment_answer', answer_id=answer.id) }}> Add your comment </button>
+</form>
+
+<br><br><br>
+{% if comments_of_answers[answer.id] %}
+<table id="comment_table">
+    <col width=60%">
+    <col width=25%>
+    <col width=15%>
+    {% for comment in comments_of_answers[answer.id] %}
+    <tr>
+        <td align="left">{{ comment.message }}</td>
+        <td>{{ "Submitted: " + comment.submission_time|string }}</td>
+        <td>{{ "Edited " + comment.edited_count|string + "0 times"}}</td>
+        <td>
+            <form action="/comments/{{ comment.id }}/delete" method="POST">
+                <button class="add_button" type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+
+</table>
+{% else %}
+<h3>There are no comments for this answer</h3>
+{% endif %}
+
+<br><br>
+<hr>
+{% endfor %}
+
+{% else %}
+<h3>There is no answer</h3>
+{% endif %}
 
 {% endblock %}
