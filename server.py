@@ -180,12 +180,14 @@ def display_question(question_id):
 
 @app.route('/question/<int:question_id>/new-comment', methods=['POST', 'GET'])
 def comment_question(question_id):
+    columns = ['id']
+    question = data_manager.get_data_by_id(columns, 'question', question_id, 'id')
+    if request.method == 'GET':
+        return render_template("question_comment.html", question_id=question_id)
     if request.method == 'POST':
         comment = request.form.get('comment')
         data_manager.add_comment_to_question(comment, question_id, 'comment')
-
-    return render_template("question_comment.html",
-                           question_id=question_id)
+        return redirect('/question/' + str(question[0]['id']))
 
 
 @app.route('/question/<int:answer_id>/new-comments', methods=['GET', 'POST'])
