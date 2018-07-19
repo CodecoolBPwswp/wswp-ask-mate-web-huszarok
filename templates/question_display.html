@@ -1,181 +1,125 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<link rel="stylesheet" href="{{ url_for('static', filename='question.css') }}">
-    <meta charset="UTF-8">
-    <title>Question</title>
-</head>
-<body>
-<form>
- <input type="submit" value="Home page" style="float: right"/>
-</form>
-        <h1>Display question</h1>
+{% extends "layout.html" %}
 
-        <form action="/question/{{ question.id}}/vote-up" method="POST">
-        <button class="button1" type="submit">Vote up</button>
-        <button class="button2" type="submit" formaction="/question/{{ question.id }}/vote-down">Vote down</button>
+{% block content %}
 
-        </form>
-    <!--Voting button ends here-->
-<table width="1000">
-     <col style="width:5%">
-	        <col style="width:10%">
-	        <col style="width:5%">
-            <col style="width:5%">
-	        <col style="width:20%">
-	        <col style="width:45%">
-            <col style="width:10%">
-    <tr>
-        <th>
-            ID
-        </th>
-        <th>
-            Submission time
-        </th>
-        <th>
-            View number
-        </th>
-        <th>
-            Vote number
-        </th>
-        <th>
-            Title
-        </th>
-        <th>
-            Message
-        </th>
-        <th>
-            Image
-        </th>
+    <h1 class="display">{{ question[0].title }}</h1>
 
-
-    </tr>
-
-    <tr>
-        <td align="center">
-            {{ question[0].id }}
-        </td>
-        <td align="center">
-            {{ question[0].submission_time }}
-        </td>
-        <td align="center">
-            {{ question[0].view_number }}
-        </td>
-        <td align="center">
-            {{ question[0].vote_number }}
-        </td>
-        <td align="center">
-            {{ question[0].title }}
-        </td>
-        <td align="center">
-            {{ question[0].message }}
-        </td>
-        <td align="center">
-            {{ question[0].image }}
-        </td>
-    </tr>
-
-</table>
-
-
-<h2>Comments</h2>
-<table width="1000" border="1">
-
-<col style="width:5%">
-    <col style="width:10%">
-    <col style="width:5%">
-    <col style="width:65%">
-    <col style="width:20%">
-    <tr>
-        <th>ID</th>
-        <th>Question ID</th>
-        <th>Answer ID</th>
-        <th>Message</th>
-        <th>Submission time</th>
-        <th>Edited</th>
-    </tr>
-    {% for comment in comments %}
+    <table class="display_table">
         <tr>
-        <td>{{ comment.id }}</td>
-        <td>{{ comment.question_id }}</td>
-        <td>{{ comment.answer_id }}</td>
-        <td>{{ comment.message }}</td>
-        <td>{{ comment.submission_time }}</td>
-        <td>{{ comment.edited_count }}</td>
-    </tr>
-    {% endfor %}
-
-</table>
-
-<a id="comment" class="comment-question" href= "{{ url_for('comment_question', question_id=question[0].id) }}">Comment</a>
-
-
-      </button><h1>Answers</h1>
-    <table border="0" width= 1400">
-    <col style="width:5%">
-    <col style="width:10%">
-    <col style="width:5%">
-    <col style="width:65%">
-    <col style="width:20%">
-    {% if answers %}
-    <tr>
-        <th>
-            Comment
-        </th>
-        <th>
-            Submission time
-        </th>
-
-        <th>
-            Vote number
-        </th>
-
-        <th>
-            Message
-        </th>
-        <th>
-            Image
-        </th>
-    </tr>
-
-
-    {% for answer in answers %}
-        <tr>
-
-            <td align="center">
-            <a id="comment-answer" class="comment-answer" href= "{{ url_for('comment_answer', answer_id=answer.id) }}">Comment</a>
-            </td>
-            <td align="center">{{ answer.submission_time }}</td>
-            <td align="center">{{ answer.vote_number }}</td>
-            <td align="center">{{ answer.message }}</td>
-            <td align="center">{{ answer.image}}</td>
+            <th>Submission time</th>
+            <th>Message</th>
+            <th>View number</th>
+            <th>Vote number</th>
+            <th>Image</th>
         </tr>
-    {% endfor %}
-    {% else %}
-        There is no answer
-    {% endif %}
-<tr>
-        <th>ID</th>
-        <th>Question ID</th>
-        <th>Answer ID</th>
-        <th>Message</th>
-        <th>Submission time</th>
-        <th>Edited</th>
-    </tr>
-    {% for comment in answer_comments %}
-        <tr>
-        <td>{{ comment.id }}</td>
-        <td>{{ comment.question_id }}</td>
-        <td>{{ comment.answer_id }}</td>
-        <td>{{ comment.message }}</td>
-        <td>{{ comment.submission_time }}</td>
-        <td>{{ comment.edited_count }}</td>
-    </tr>
-    {% endfor %}
-    </table>
-    <form action="/question/{{id}}/new-answer">
-            <input type="submit" value="Answer the question" style="float: right"/>
-        </form>
 
-</body>
-</html>
+        <tr>
+            <td>{{ question[0].submission_time }}</td>
+            <td>{{ question[0].message }}</td>
+            <td>{{ question[0].view_number }}</td>
+            <td>{{ question[0].vote_number }}</td>
+            <td>{{ question[0].image }}</td>
+        </tr>
+    </table>
+
+    <form action="/question/{{ question.id}}/vote-up" method="POST">
+        <button class="vote" id="voteup" type="submit">Vote up</button>
+        <button class="vote" id="votedown" type="submit" formaction="/question/{{ question.id }}/vote-down">Vote down</button>
+    </form>
+
+    <form>
+        <button class="add_button", type="submit", formaction="/question/{{ question.id }}/new-tag">Add tag</button>
+        <ul>
+            {% for tag in tags  %}
+                {{ tag.name }}
+            {% endfor %}
+        </ul>
+    </form>
+
+    <br>
+     <form>
+         <button class="add_button" type="submit" formaction={{ url_for('comment_question', question_id=question[0].id) }} > Add your comment </button>
+    </form>
+
+    <br><br><br>
+
+    <table id="comment_table">
+        <col width=60%">
+        <col width=25%>
+        <col width=15%>
+        {% for comment in comments %}
+            <tr>
+                <td align="left">{{ comment.message }}</td>
+                <td>{{ "Submitted:  " + comment.submission_time|string }}</td>
+                <td>{{ "Edited " + comment.edited_count|string + "0 times"}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <br><br>
+    <hr><hr>
+
+    <form>
+        <button class="add_button" type="submit" formaction="/question/{{id}}/new-answer">Answer this question</button>
+    </form>
+    <br><br>
+    <h1>Answers</h1>
+
+
+        {% if answers %}
+            {% for answer in answers %}
+
+                <table class="display_table">
+                    <tr>
+                        <th>Submission time</th>
+                        <th>Message</th>
+                        <th>Image</th>
+                        <th>Vote number</th>
+                    </tr>
+
+                    <tr>
+                        <td width=20%>{{ answer.submission_time }}</td>
+                        <td width=60% align="left">{{ answer.message }}</td>
+                        <td width=10%>{{ answer.image}}</td>
+                        <td width=10%>{{ answer.vote_number }}</td>
+                        </td>
+                    </tr>
+                </table>
+
+                <form action="/answer/{{ answer.id}}/vote-up" method="POST">
+                    <button class="vote" id="voteup" type="submit">Vote up</button>
+                    <button class="vote" id="votedown" type="submit" formaction="/answer/{{ answer.id}}/vote-down">Vote down</button>
+                </form>
+
+                 <form>
+                     <button class="add_button" type="submit" formaction={{ url_for('comment_answer', answer_id=answer.id) }}> Add your comment </button>
+                  </form>
+
+                <br><br><br>
+                {% if comments_of_answers[answer.id] %}
+                <table id="comment_table">
+                    <col width=60%">
+                    <col width=25%>
+                    <col width=15%>
+                    {% for comment in comments_of_answers[answer.id] %}
+                        <tr>
+                            <td align="left">{{ comment.message }}</td>
+                            <td>{{ "Submitted:  " + comment.submission_time|string }}</td>
+                            <td>{{ "Edited " + comment.edited_count|string + "0 times"}}</td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+                {% else %}
+                    <h3>There are no comments for this answer</h3>
+                {% endif %}
+
+                <br><br>
+                <hr>
+            {% endfor %}
+
+        {% else %}
+            <h3>There is no answer</h3>
+        {% endif %}
+
+{% endblock %}

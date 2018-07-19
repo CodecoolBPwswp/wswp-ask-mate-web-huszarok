@@ -52,17 +52,16 @@ def get_data_by_search(cursor, columns, table, phrase):
     phrase = '%' + phrase + '%'
     comprehension = [sql.SQL('.').join([sql.Identifier(table), sql.Identifier(n)]) for n in columns]
     used_columns = sql.SQL(', ').join(comprehension)
-    sql_query = sql.SQL("""SELECT {col}
+    cursor.execute(sql.SQL("""SELECT {col}
                            FROM question
-                           FULL JOIN answer ON question.id=answer.question_id
-                           WHERE (question.title LIKE lower({phrase}) OR 
-                           question.message LIKE lower({phrase}) OR
-                           answer.message LIKE lower({phrase})); """)\
-        .format(col=used_columns,
-                table=sql.Identifier(table),
-                phrase=sql.Literal(phrase))
-    print(sql_query.as_string(cursor))
-    cursor.execute(sql_query)
+                           JOIN answer ON question.id=answer.question_id
+                           WHERE question.title ILIKE %(phrase)s OR 
+                           question.message ILIKE %(phrase)s OR
+                           answer.message ILIKE %(phrase)s GROUP BY question.id; """)\
+                    .format(col=used_columns,
+                            table=sql.Identifier(table)),
+                   {'phrase': phrase}
+                   )
 
     data = cursor.fetchall()
 
@@ -134,7 +133,19 @@ def comment_update(cursor, messages, question_id, table):
                         question_id=question_id,
                         messages=messages),
                         [question_id, messages, 0]
-)\
+)
+
+@connection.connection_handler
+def answer_question(cursor, message, question_id, table):
+    query = """INSERT INTO {table} (id, submission_time, vote_number,
+                                                 question_id, message, image)
+                            VALUES (DEFAULT, now(), 0, {question_id}, %(text)s, NULL)
+                            """
+    composed_query = sql.SQL(query).format(
+                                         table=sql.Identifier(table),
+                                         question_id=sql.Literal(question_id))
+    cursor.execute(composed_query, {"text": message})
+
 
 @connection.connection_handler
 def answer_comment_update(cursor, messages, answer_id, table):
@@ -149,6 +160,62 @@ def answer_comment_update(cursor, messages, answer_id, table):
                         messages=messages),
                         [answer_id, messages, 0]
 )
+
+
+@connection.connection_handler
+def answer_question(cursor, message, question_id, table):
+    query = """INSERT INTO {table} (id, submission_time, vote_number,
+                                                 question_id, message, image)
+                            VALUES (DEFAULT, now(), 0, {question_id}, %(text)s, NULL)
+                            """
+    composed_query = sql.SQL(query).format(
+                                         table=sql.Identifier(table),
+                                         question_id=sql.Literal(question_id))
+    cursor.execute(composed_query, {"text": message})
+
+
+@connection.connection_handler
+def get_id_question_or_answer(cursor, q_id):
+    cursor.execute("""
+                    SELECT id 
+                    FROM answer
+                    WHERE question_id=%(q_id)s;
+                    """,
+                    {'q_id': q_id})
+    data = cursor.fetchall()
+
+    return data
+
+
+def append_answer_from_server(question_id, message):
+    answer_data = [util.generate_id('answer'),  # question id
+                   generate_timestamp(),        # submission time
+                   0,                           # vote number
+                   question_id,                 # question id
+                   message]                     # message
+    connection.append_data_to_file('sample_data/answer.csv', answer_data)
+    return answer_data[0]
+def add_tag(cursor, question_id, table, tag):
+    cursor.execute(
+        sql.SQL("""
+                        INSERT INTO {table} (id, name)
+                        VALUES (DEFAULT, %s)
+                        """)
+            .format(
+            table=sql.Identifier(table),
+            question_id=question_id,
+            tag=tag),
+                [tag])
+
+
+@connection.connection_handler
+def get_tags_name(cursor):
+    cursor.execute(
+        sql.SQL("""
+                SELECT name FROM tag""")
+    )
+    tags = cursor.fetchall()
+    return tags
 
 
 @connection.connection_handler
