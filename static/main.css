@@ -79,6 +79,7 @@ ul.menu .active {
 .table td, .table th {
         border: 1px solid #ddd;
         padding: 8px;
+        word-wrap: break-word;
         }
 
 .table tr:nth-child(even){background-color: #f2f2f2;}
@@ -175,6 +176,7 @@ h1.display {
         border: 1px solid #ddd;
         padding: 8px;
         background-color: #f2f2f2;
+        word-wrap: break-word;
         }
 
 .display_table tr:hover {background-color: #ddd;}
@@ -189,6 +191,7 @@ h1.display {
 
 #comment_table  td, #comment_table  th {
         padding: 8px 4px 8px 10px;
+        word-wrap: break-word;
         }
 
 #comment_table tr {
