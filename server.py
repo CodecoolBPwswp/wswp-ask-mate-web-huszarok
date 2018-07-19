@@ -90,11 +90,14 @@ def answer_edit(answer_id):
 
 @app.route('/comments/<comment_id>/edit', methods=['GET', 'POST'])
 def edit_comment(comment_id):
-    columns = ['id', 'question_id', 'answer_id', 'message']
-    comment = data_manager.get_data_by_id=(columns, 'comment', 'comment_id', 'id')
+    columns = ['id', 'question_id', 'message']
+    comment = data_manager.get_data_by_id(columns, 'comment', comment_id, 'id')
     if request.method == 'GET':
         return render_template('edit_comment.html', comment=comment)
-    #elif request.method == 'POST'
+    elif request.method == 'POST':
+        message = request.form['message']
+        data_manager.update_data('message', 'comment', message, comment_id)
+        return redirect('/question/' + str(comment[0]['question_id']))
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=['POST', 'GET'])
