@@ -174,9 +174,8 @@ h1.display {
 .display_table td, .display_table th {
         border: 1px solid #ddd;
         padding: 8px;
+        background-color: #f2f2f2;
         }
-
-.display_table tr:nth-child(even){background-color: #f2f2f2;}
 
 .display_table tr:hover {background-color: #ddd;}
 
@@ -184,7 +183,7 @@ h1.display {
         padding-top: 12px;
         padding-bottom: 12px;
         text-align: center;
-        background-color: rgba(217, 39, 39, 0.8);
+        background-color: rgba(35, 35, 35, 0.8);
         color: white;
         }
 
