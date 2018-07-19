@@ -157,32 +157,40 @@ def comment_answer(answer_id):
 """@app.route('/question/<question_id>', methods=['GET', 'POST'])
 def comment_on_answers(question_id>):
     comments_of_answers = data_manager.get_data_by_id(columns_for_comment, 'comment', answer_id, 'answer_id')
-
+"""
 
 @app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
 def vote_up_questions(question_id):
-        list_of_questions = data_manager.sort_questions_by_date('submission_time', True)
-        for question in list_of_questions:
-            if question['id'] == question_id:
-                question_data = question
+        question = data_manager.get_question_by_id(question_id)
         if request.method == 'POST':
-            question_data['vote_number'] += 1
-            data_manager.vote(question_data)
-        return redirect('/question/' + str(question_id))
+            data_manager.increment_vote_number( 'question', question_id)
+        return redirect('/question/' + str(question['id']))
+
+
+@app.route('/answer/<int:answer_id>/vote-up', methods=['POST', 'GET'])
+def vote_up_answers(answer_id):
+        answer = data_manager.get_answer_by_id(answer_id)
+        if request.method == 'POST':
+            data_manager.increment_vote_number( 'answer', answer_id)
+        return redirect('/question/' + str(answer['question_id']))
 
 
 @app.route('/question/<int:question_id>/vote-down', methods=['POST', 'GET'])
 def vote_down_questions(question_id):
-    list_of_questions = data_manager.sort_questions_by_date('submission_time', True)
-    for question in list_of_questions:
-        if question['id'] == question_id:
-            question_data = question
-    if request.method == 'POST':
-        question_data['vote_number'] -= 1
-        data_manager.vote(question_data)
-    return redirect('/question/' + str(question_id))
+        question = data_manager.get_question_by_id(question_id)
+        if request.method == 'POST':
+            data_manager.decrement_vote_number( 'question', question_id)
+        return redirect('/question/' + str(question['id']))
 
-"""
+
+@app.route('/answer/<int:answer_id>/vote-down', methods=['POST', 'GET'])
+def vote_down_answers(answer_id):
+        answer = data_manager.get_answer_by_id(answer_id)
+        if request.method == 'POST':
+            data_manager.decrement_vote_number( 'answer', answer_id)
+        return redirect('/question/' + str(answer['question_id']))
+
+
 
 
 @app.route('/question/<int:question_id>/new-tag', methods=['POST', 'GET'])

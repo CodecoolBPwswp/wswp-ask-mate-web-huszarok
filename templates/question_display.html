@@ -22,9 +22,9 @@
         </tr>
     </table>
 
-    <form action="/question/{{ question.id}}/vote-up" method="POST">
+    <form action="/question/{{ question[0].id }}/vote-up" method="POST">
         <button class="vote" id="voteup" type="submit">Vote up</button>
-        <button class="vote" id="votedown" type="submit" formaction="/question/{{ question.id }}/vote-down">Vote down</button>
+        <button class="vote" id="votedown" type="submit" formaction="/question/{{ question[0].id }}/vote-down">Vote down</button>
     </form>
 
     <form>

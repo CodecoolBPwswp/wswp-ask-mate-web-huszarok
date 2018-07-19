@@ -102,6 +102,17 @@ def get_answer_by_id(cursor, answer_id):
 
 
 @connection.connection_handler
+def get_question_by_id(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM question
+                    WHERE id = %(question_id)s;
+                    """,
+                   {'question_id': question_id})
+    question = cursor.fetchone()
+    return question
+
+
+@connection.connection_handler
 def delete_comments(cursor, table, data_id):
     cursor.execute(
         sql.SQL("""DELETE FROM {table}
@@ -208,3 +219,21 @@ def add_question(cursor, title, message):
     cursor.execute(query, {'title':title, 'message':message})
 
 
+@connection.connection_handler
+def increment_vote_number(cursor, table, data_id):
+    cursor.execute(
+        sql.SQL("""UPDATE {table} 
+                SET vote_number = vote_number + 1 
+                WHERE id = {data_id}""").format(table=sql.Identifier(table),
+                                                data_id=sql.Literal(data_id))
+    )
+
+
+@connection.connection_handler
+def decrement_vote_number(cursor, table, data_id):
+    cursor.execute(
+        sql.SQL("""UPDATE {table} 
+                SET vote_number = vote_number - 1 
+                WHERE id = {data_id}""").format(table=sql.Identifier(table),
+                                                data_id=sql.Literal(data_id))
+    )
