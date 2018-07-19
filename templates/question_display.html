@@ -19,9 +19,9 @@
         <td>{{ question[0].message }}</td>
         <td>{{ question[0].view_number }}</td>
         <td>{{ question[0].vote_number }}</td>
-        <td>
+        <td >
             <form action="/question/{{ question[0].id }}/edit" method="GET">
-                <button class="add_button" type="submit">Edit</button>
+                <button class="edit_button" type="submit">Edit</button>
             </form>
         </td>
     </tr>
@@ -52,21 +52,21 @@
 
 
 <table id="comment_table">
-    <col width=60%">
-    <col width=25%>
+    <col width=25%">
+    <col width=60%>
     <col width=15%>
     {% for comment in comments %}
 
     <tr>
-        <td align="left">{{ comment.message }}</td>
         <td>{{ "Submitted: " + comment.submission_time|string }}</td>
+        <td align="left">{{ comment.message }}</td>
         <td>{{ "Edited " + comment.edited_count|string + "0 times"}}</td>
         <td>
             <form action="/comments/{{ comment.id }}/edit" method="GET">
-                <button class="add_button" type="submit">Edit</button>
+                <button class="edit_button" type="submit">Edit</button>
             </form>
             <form action="/comments/{{ comment.id }}/delete" method="POST">
-                <button class="add_button" type="submit">Delete</button>
+                <button class="edit_button" type="submit">Delete</button>
             </form>
         </td>
     </tr>
@@ -102,7 +102,7 @@
         <td width=15%>{{ answer.vote_number }}</td>
         <td>
             <form action="/answer/{{ answer.id}}/edit" method="GET">
-                <button class="add_button" type="submit">Edit</button>
+                <button class="edit_button" type="submit">Edit</button>
             </form>
         </td>
     </tr>
@@ -121,20 +121,20 @@
 <br><br><br>
 {% if comments_of_answers[answer.id] %}
 <table id="comment_table">
-    <col width=60%">
-    <col width=25%>
+    <col width=25%">
+    <col width=60%>
     <col width=15%>
     {% for comment in comments_of_answers[answer.id] %}
     <tr>
-        <td align="left">{{ comment.message }}</td>
         <td>{{ "Submitted: " + comment.submission_time|string }}</td>
+        <td align="left">{{ comment.message }}</td>
         <td>{{ "Edited " + comment.edited_count|string + "0 times"}}</td>
         <td>
             <form action="/comments/{{ comment.id }}/edit" method="GET">
-                <button class="add_button" type="submit">Edit</button>
+                <button class="edit_button" type="submit">Edit</button>
             </form>
             <form action="/comments/{{ comment.id }}/delete" method="POST">
-                <button class="add_button" type="submit">Delete</button>
+                <button class="edit_button" type="submit">Delete</button>
             </form>
         </td>
     </tr>
