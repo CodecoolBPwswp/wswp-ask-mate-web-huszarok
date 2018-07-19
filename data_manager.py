@@ -2,7 +2,6 @@ import connection
 from psycopg2 import sql
 
 
-
 @connection.connection_handler
 def get_all_data_from_file(cursor, columns, table, order_column, order, limit):
     used_columns = sql.SQL(', ').join(sql.Identifier(n) for n in columns)
@@ -78,6 +77,28 @@ def update_data(cursor, column, table, value, data_id):
                                                 value=value),
                                                 data_id=sql.Literal(data_id)
     )
+
+
+@connection.connection_handler
+def update_answer(cursor, answer_id, message):
+    cursor.execute("""
+                    UPDATE answer
+                    SET message = %(message)s
+                    WHERE id = %(answer_id)s
+                   """,
+                   {'answer_id': answer_id, 'message': message}
+                   )
+
+
+@connection.connection_handler
+def get_answer_by_id(cursor, answer_id):
+    cursor.execute("""
+                    SELECT * FROM answer
+                    WHERE id = %(answer_id)s;
+                    """,
+                   {'answer_id': answer_id})
+    answer = cursor.fetchone()
+    return answer
 
 
 @connection.connection_handler
