@@ -4,8 +4,10 @@
 
     <form class="comment-text" id="comment-t" action="/question/{{ question_id }}/new-comment" method="POST" name="comment1">
         <textarea class="comment-textarea" id="comment1" name="comment" rows="8" cols="30"></textarea>
-        <button id="comment-submit" class="comment-submit1" type="submit", ><a href="/question/{{ question_id }}"></a> Submit Comment</button>
+        <br><br>
+        <button class="submit_button" type="submit", ><a href="/question/{{ question_id }}"></a> Submit Comment</button>
     </form>
+
     <a href="/question/{{ question_id }}">Back</a>
 
 {% endblock %}
