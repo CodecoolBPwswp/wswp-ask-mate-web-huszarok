@@ -53,7 +53,7 @@ def delete_comments(comment_id):
     return redirect('/question/' + str(comment[0]['question_id']))
 
 
-@app.route('/answer/<int:answers_id>/delete', methods=['GET'])
+@app.route('/answer/<int:answers_id>/delete', methods=['POST'])
 def delete_answers(answers_id):
     columns = ['id', 'question_id']
     answer = data_manager.get_data_by_id(columns, 'answer', answers_id, 'id')
@@ -180,12 +180,6 @@ def comment_answer(answer_id):
     return  render_template("answer_comment.html",
                             answer_id=answer_id,
                             )
-
-
-"""@app.route('/question/<question_id>', methods=['GET', 'POST'])
-def comment_on_answers(question_id>):
-    comments_of_answers = data_manager.get_data_by_id(columns_for_comment, 'comment', answer_id, 'answer_id')
-"""
 
 
 @app.route('/question/<int:question_id>/vote-up', methods=['POST', 'GET'])
