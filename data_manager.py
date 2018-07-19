@@ -30,14 +30,14 @@ def get_all_data_from_file(cursor, columns, table, order_column, order, limit):
 
 
 @connection.connection_handler
-def get_data_by_id(cursor, columns, table, question_id, id_type):
+def get_data_by_id(cursor, columns, table, data_id, id_type):
     used_columns = sql.SQL(', ').join(sql.Identifier(n) for n in columns)
     sql_query = sql.SQL("""SELECT {col}
                            FROM {table} 
                            WHERE {id_type} = {data_id} """)\
         .format(col=used_columns,
                 table=sql.Identifier(table),
-                data_id=sql.Literal(question_id),
+                data_id=sql.Literal(data_id),
                 id_type=sql.Identifier(id_type))
     cursor.execute(sql_query)
 
@@ -71,34 +71,23 @@ def get_data_by_search(cursor, columns, table, phrase):
 def update_data(cursor, column, table, value, data_id):
     cursor.execute(
         sql.SQL("""UPDATE {table} 
-                SET {col} = {value}
+                SET {col} = %(value)s
                 WHERE id = {data_id}""").format(col=sql.Identifier(column),
                                                 table=sql.Identifier(table),
-                                                value=value),
-                                                data_id=sql.Literal(data_id)
+                                                data_id=sql.Literal(data_id)),
+                                        {'value': value}
     )
 
 
 @connection.connection_handler
-def update_answer(cursor, answer_id, message):
+def get_question_by_id(cursor, question_id):
     cursor.execute("""
-                    UPDATE answer
-                    SET message = %(message)s
-                    WHERE id = %(answer_id)s
-                   """,
-                   {'answer_id': answer_id, 'message': message}
-                   )
-
-
-@connection.connection_handler
-def get_answer_by_id(cursor, answer_id):
-    cursor.execute("""
-                    SELECT * FROM answer
-                    WHERE id = %(answer_id)s;
+                    SELECT * FROM question
+                    WHERE id = %(question_id)s;
                     """,
-                   {'answer_id': answer_id})
-    answer = cursor.fetchone()
-    return answer
+                   {'question_id': question_id})
+    question = cursor.fetchone()
+    return question
 
 
 @connection.connection_handler
@@ -176,16 +165,7 @@ def get_id_question_or_answer(cursor, q_id):
     return data
 
 
-def append_answer_from_server(question_id, message):
-    answer_data = [util.generate_id('answer'),  # question id
-                   generate_timestamp(),        # submission time
-                   0,                           # vote number
-                   question_id,                 # question id
-                   message]                     # message
-    connection.append_data_to_file('sample_data/answer.csv', answer_data)
-    return answer_data[0]
-
-
+@connection.connection_handler
 def add_tag(cursor, question_id, table, tag):
     cursor.execute(
         sql.SQL("""
@@ -217,9 +197,21 @@ def add_question(cursor, title, message):
     cursor.execute(query, {'title':title, 'message':message})
 
 
-def vote(question_data):
-    for key in question_data:
-        if key == 'id':
-            question_data[key] = str(question_data[key])
+@connection.connection_handler
+def increment_vote_number(cursor, table, data_id):
+    cursor.execute(
+        sql.SQL("""UPDATE {table} 
+                SET vote_number = vote_number + 1 
+                WHERE id = {data_id}""").format(table=sql.Identifier(table),
+                                                data_id=sql.Literal(data_id))
+    )
 
-    connection.update_data_in_file('sample_data/question.csv', question_data)
+
+@connection.connection_handler
+def decrement_vote_number(cursor, table, data_id):
+    cursor.execute(
+        sql.SQL("""UPDATE {table} 
+                SET vote_number = vote_number - 1 
+                WHERE id = {data_id}""").format(table=sql.Identifier(table),
+                                                data_id=sql.Literal(data_id))
+    )

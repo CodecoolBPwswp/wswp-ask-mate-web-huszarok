@@ -1,20 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% extends "layout.html" %}
 
-    <meta charset="UTF-8">
-    <title>Comment</title>
-
-</head>
-<body>
-<h1>Comment on an answer</h1>
-<form class="comment-text" id="comment-t" action="/question/{{ answer_id }}/new-comments" method="POST" name="comment">
-    <textarea class="comment-textarea" id="comment1" name="comment_answer" rows="8" cols="30"></textarea>
-    <button id="comment-submit" class="comment-submit1" type="submit">Submit Your Comment</button>
-</form>
 {% block content %}
+    <h1>Comment on this answer</h1>
+    <form class="comment-text" id="comment-t" action="/question/{{ answer_id }}/new-comments" method="POST" name="comment">
+        <textarea class="comment-textarea" id="comment1" name="comment_answer" rows="8" cols="30"></textarea>
+        <br><br>
+        <button class="submit_button" type="submit">Submit Your Comment</button>
+    </form>
+
+    <a href="/">Back</a>
 
 {% endblock %}
-<a href="/">Back</a>
-</body>
-</html>
+
