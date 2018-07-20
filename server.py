@@ -67,7 +67,7 @@ def delete_answers(answers_id):
     return redirect('/question/' + str(answer[0]['question_id']))
 
 
-@app.route('/question/<int:question_id>/delete', methods=['GET'])
+@app.route('/question/<int:question_id>/delete', methods=['POST'])
 def delete_questions(question_id):
     data_manager.delete('comment', question_id, 'question_id')
     columns = ['id', 'question_id']

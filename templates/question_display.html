@@ -23,6 +23,9 @@
             <form action="/question/{{ question[0].id }}/edit" method="GET">
                 <button class="edit_button" type="submit">Edit</button>
             </form>
+            <form action="/question/{{ question[0].id }}/delete" method="POST">
+                <button class="edit_button" type="submit">Delete</button>
+            </form>
         </td>
     </tr>
 </table>
@@ -42,7 +45,7 @@
     </ul>
 </form>
 
-<br>
+<br><br><br>
 <form>
     <button class="add_button" type="submit" formaction={{ url_for(
     'comment_question', question_id=question[0].id) }} > Add your comment </button>
