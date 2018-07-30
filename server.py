@@ -251,6 +251,16 @@ def add_new_tag(question_id):
     return render_template('tag_question.html', question_id=question_id)
 
 
+@app.route('/registration', methods=['POST', 'GET'])
+def register():
+    if request.method == 'GET':
+        return render_template('registration.html')
+    if request.method == 'POST':
+        return redirect('/')
+
+
+
+
 if __name__ == '__main__':
     app.run(
         debug=True,

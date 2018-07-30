@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<form action="/registration" method="post">
+  <div class="register-form">
+    <h2>Register</h2>
+    <p>Please fill in this form to create an account.</p>
+    <hr>
+
+    <label for="user"><b>Username</b></label><br>
+    <input type="text" placeholder="Enter Username" name="username" required>
+    <br><br>
+    <label for="password"><b>Password</b></label><br>
+    <input type="password" placeholder="Enter Password" name="password" required>
+    <br><br>
+    <label for="password-repeat"><b>Repeat Password</b></label><br>
+    <input type="password" placeholder="Repeat Password" name="password-repeat" required>
+    <hr>
+    <br><br>
+    <button type="submit" class="submit_button">Register</button>
+  </div>
+
+</form>
+
+{% endblock %}
