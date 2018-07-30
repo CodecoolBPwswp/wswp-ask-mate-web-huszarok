@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<form action="/login" method="post">
+  <div class="register-form">
+    <h1>Login</h1>
+    <p>Please fill in this form to log in.</p>
+    <hr>
+    <br>
+    <label for="user"><b>Username</b></label><br>
+    <input class="input-box" type="text" placeholder="Enter Username" name="uname" required>
+    <br><br>
+    <label for="password"><b>Password</b></label><br>
+    <input class="input-box" type="password" placeholder="Enter Password" name="pwd" required>
+    <br><br>
+    <button type="submit" class="submit_button">Login</button>
+  </div>
+
+</form>
+
+{% endblock %}
