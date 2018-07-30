@@ -4,7 +4,7 @@
 
     <form action="/comments/{{ comment[0]['id'] }}/edit", method="post">
         <h2>Edit Comment</h2>
-        <textarea id="comment_input" name="message" rows="8" cols="80" required>{{ comment[0]['message'] }}</textarea>
+        <textarea class="input-textarea" name="message" rows="8" cols="80" required>{{ comment[0]['message'] }}</textarea>
         <br><br>
         <button class="submit_button"  type="submit">Submit comment</button>
     </form>

@@ -3,7 +3,7 @@
 {% block content %}
 
     <form class="comment-text" id="comment-t" action="/question/{{ question_id }}/new-comment" method="POST" name="comment1">
-        <textarea class="comment-textarea" name="comment" placeholder="Enter your comment here!" rows="8" cols="30"></textarea>
+        <textarea class="input-textarea" name="comment" placeholder="Enter your comment here!" rows="8" cols="30"></textarea>
         <br><br>
         <button class="submit_button" type="submit", ><a href="/question/{{ question_id }}"></a> Submit Comment</button>
     </form>

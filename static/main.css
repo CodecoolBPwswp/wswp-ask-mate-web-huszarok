@@ -250,7 +250,13 @@ h1.display {
 }
 
 
-.title_input {
-    width: 400px
-
+.input-box, .input-textarea {
+    width: 60%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border-radius: 4px;
 }
+
+
+
