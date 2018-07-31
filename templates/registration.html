@@ -19,6 +19,10 @@
     <br><br>
     <label for="password-repeat"><b>Repeat Password</b></label><br>
     <input class="input-box" type="password" placeholder="Repeat Password" name="password-repeat" required>
+    <br>
+    {% if verified is sameas false %}
+      Invalid password
+    {% endif %}
     <hr>
     <br>
     <button type="submit" class="submit_button">Register</button>

@@ -264,7 +264,11 @@ def register():
         verified_pw = data_manager.verify_password(repeat_password, hashed_pw)
         if verified_pw:
             data_manager.register(username, email, hashed_pw)
-        return redirect('/')
+            return redirect('/')
+        else:
+            verified = False
+            return render_template('registration.html', verified=verified)
+
 
 
 @app.route('/login', methods=['POST', 'GET'])
