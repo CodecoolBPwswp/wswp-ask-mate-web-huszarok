@@ -90,3 +90,24 @@ create table if not exists users
 )
 ;
 
+
+ALTER TABLE question
+  ADD column userid int;
+
+ALTER TABLE question
+ADD CONSTRAINT FK_userid FOREIGN KEY (userid) REFERENCES users(id);
+
+
+ALTER TABLE answer
+  ADD column userid int;
+
+ALTER TABLE answer
+ADD CONSTRAINT FK_userid FOREIGN KEY (userid) REFERENCES users(id);
+
+
+ALTER TABLE comment
+  ADD column userid int;
+
+ALTER TABLE comment
+ADD CONSTRAINT FK_userid FOREIGN KEY (userid) REFERENCES users(id);
+
