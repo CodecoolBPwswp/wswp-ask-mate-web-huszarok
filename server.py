@@ -263,8 +263,12 @@ def register():
         hashed_pw = data_manager.hash_password(plain_text_password)
         verified_pw = data_manager.verify_password(repeat_password, hashed_pw)
         if verified_pw:
-            data_manager.register(username, email, hashed_pw)
-            return redirect('/')
+            success_state = data_manager.register(username, email, hashed_pw)
+            if success_state:
+                return redirect('/')
+            else:
+                success = False
+                return render_template('registration.html', success=success)
         else:
             verified = False
             return render_template('registration.html', verified=verified)

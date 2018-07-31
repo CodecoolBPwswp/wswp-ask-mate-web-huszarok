@@ -1,5 +1,5 @@
 import connection
-from psycopg2 import sql
+from psycopg2 import sql, IntegrityError
 import bcrypt
 
 
@@ -240,8 +240,11 @@ def verify_password(plain_text_password, hashed_password):
 
 @connection.connection_handler
 def register(cursor, username, email, password):
-    cursor.execute(
-        sql.SQL("""INSERT INTO users
-                   VALUES (DEFAULT, %(username)s, %(email)s, %(password)s)
-                    """), {'username':username, 'email':email, 'password':password})
-
+    try:
+        cursor.execute(
+            sql.SQL("""INSERT INTO users
+                       VALUES (DEFAULT, %(username)s, %(email)s, %(password)s)
+                        """), {'username':username, 'email':email, 'password':password})
+        return True
+    except IntegrityError:
+        return False
