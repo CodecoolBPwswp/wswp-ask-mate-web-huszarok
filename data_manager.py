@@ -1,5 +1,7 @@
 import connection
 from psycopg2 import sql
+import bcrypt
+
 
 
 @connection.connection_handler
@@ -223,3 +225,23 @@ def decrement_vote_number(cursor, table, data_id):
                 WHERE id = {data_id}""").format(table=sql.Identifier(table),
                                                 data_id=sql.Literal(data_id))
     )
+
+
+
+def hash_password(plain_text_password):
+    hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())
+    return hashed_bytes.decode('utf-8')
+
+
+def verify_password(plain_text_password, hashed_password):
+    hashed_bytes_password = hashed_password.encode('utf-8')
+    return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)
+
+
+@connection.connection_handler
+def register(cursor, username, email, password):
+    cursor.execute(
+        sql.SQL("""INSERT INTO users
+                   VALUES (DEFAULT, %(username)s, %(email)s, %(password)s)
+                    """), {'username':username, 'email':email, 'password':password})
+

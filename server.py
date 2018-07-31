@@ -256,6 +256,14 @@ def register():
     if request.method == 'GET':
         return render_template('registration.html')
     if request.method == 'POST':
+        username = request.form.get('username')
+        email = request.form.get('email')
+        plain_text_password = request.form.get('password')
+        repeat_password = request.form.get('password-repeat')
+        hashed_pw = data_manager.hash_password(plain_text_password)
+        verified_pw = data_manager.verify_password(repeat_password, hashed_pw)
+        if verified_pw:
+            data_manager.register(username, email, hashed_pw)
         return redirect('/')
 
 
