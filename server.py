@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, session
 import data_manager
 
 app = Flask(__name__)
@@ -274,17 +274,33 @@ def register():
             return render_template('registration.html', verified=verified)
 
 
-
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':
-        return redirect('/')
+        username = request.form['uname']
+        password = request.form['pwd']
+        user_data = data_manager.get_user_data(username)
+        if not user_data:
+            return render_template('login.html')
+        else:
+            verified_pw = data_manager.verify_password(password, user_data['password'])
+            if verified_pw:
+                session['username'] = username
+                return redirect('/')
+            else:
+                return render_template('login.html')
 
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect('/')
 
 
 if __name__ == '__main__':
+    app.secret_key = 'bauxit'
     app.run(
         debug=True,
         port=5000

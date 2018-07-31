@@ -248,3 +248,14 @@ def register(cursor, username, email, password):
         return True
     except IntegrityError:
         return False
+
+
+@connection.connection_handler
+def get_user_data(cursor, username):
+    cursor.execute("""SELECT username, password
+                   FROM users
+                   WHERE username=%(username)s 
+                    """, {'username': username})
+
+    data = cursor.fetchone()
+    return data
