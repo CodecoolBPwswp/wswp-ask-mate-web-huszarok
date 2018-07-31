@@ -283,14 +283,16 @@ def login():
         password = request.form['pwd']
         user_data = data_manager.get_user_data(username)
         if not user_data:
-            return render_template('login.html')
+            success = False
+            return render_template('login.html', success=success)
         else:
             verified_pw = data_manager.verify_password(password, user_data['password'])
             if verified_pw:
                 session['username'] = username
                 return redirect('/')
             else:
-                return render_template('login.html')
+                success = False
+                return render_template('login.html', success=success)
 
 
 @app.route('/logout')
