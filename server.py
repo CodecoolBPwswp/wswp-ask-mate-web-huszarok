@@ -87,7 +87,8 @@ def add_question():
     if request.method == 'POST':
         title = request.form['title']
         message = request.form['message']
-        data_manager.add_question(title, message)
+        user_id = session['user_id']
+        data_manager.add_question(title, message, user_id)
         return redirect('/')
 
 
@@ -119,13 +120,15 @@ def answer_edit(answer_id):
 
 @app.route('/comments/<comment_id>/edit', methods=['GET', 'POST'])
 def edit_comment(comment_id):
-    columns = ['id', 'question_id', 'answer_id', 'message']
+    columns = ['id', 'question_id', 'answer_id', 'message', 'edited_count']
     comment = data_manager.get_data_by_id(columns, 'comment', comment_id, 'id')
     if request.method == 'GET':
         return render_template('edit_comment.html', comment=comment)
     elif request.method == 'POST':
         message = request.form['message']
+        edited_count = comment[0]['edited_count'] + 1
         data_manager.update_data('message', 'comment', message, comment_id)
+        data_manager.update_data('edited_count', 'comment', edited_count, comment_id)
         if comment[0]['question_id'] is None:
             columns_for_answer = ['id', 'question_id']
             question = data_manager.get_data_by_id(columns_for_answer, 'answer', comment[0]['answer_id'], 'id')
@@ -152,16 +155,17 @@ def answer_question(question_id):
                                answers=answers_of_question)
     elif request.method == 'POST':
         message = request.form.get('message')
-        data_manager.answer_question(message, question_id, 'answer')
+        user_id = session['user_id']
+        data_manager.answer_question(message, question_id, 'answer', user_id)
         return redirect(url_for('display_question', question_id=question_id))
 
 
 @app.route('/question/<int:question_id>', methods=['POST', 'GET'])
 def display_question(question_id):
     comments_of_answers={}
-    columns_for_questions = ['id', 'submission_time', 'title', 'message', 'view_number', 'vote_number']
-    columns_for_answers = ['id', 'submission_time', 'message', 'vote_number', 'question_id']
-    columns_for_comment = ['id', 'question_id', 'answer_id', 'message', 'submission_time', 'edited_count']
+    columns_for_questions = ['id', 'submission_time', 'title', 'message', 'view_number', 'vote_number', 'userid']
+    columns_for_answers = ['id', 'submission_time', 'message', 'vote_number', 'question_id', 'userid']
+    columns_for_comment = ['id', 'question_id', 'answer_id', 'message', 'submission_time', 'edited_count', 'userid']
 
     question = data_manager.get_data_by_id(columns_for_questions, 'question', question_id, 'id')
     comments_of_question = data_manager.get_data_by_id(columns_for_comment, 'comment', question_id, 'question_id')
@@ -190,7 +194,8 @@ def comment_question(question_id):
         return render_template("question_comment.html", question_id=question_id)
     if request.method == 'POST':
         comment = request.form.get('comment')
-        data_manager.add_comment_to_question(comment, question_id, 'comment')
+        user_id = session['user_id']
+        data_manager.add_comment_to_question(comment, question_id, 'comment', user_id)
         return redirect('/question/' + str(question[0]['id']))
 
 
@@ -202,7 +207,8 @@ def comment_answer(answer_id):
         return render_template("answer_comment.html", answer_id=answer_id)
     if request.method == 'POST':
         comment = request.form.get('comment_answer')
-        data_manager.add_comment_to_answer(comment, answer_id, 'comment')
+        user_id = session['user_id']
+        data_manager.add_comment_to_answer(comment, answer_id, 'comment', user_id)
 
     return redirect('/question/' + str(question[0]['question_id']))
 
@@ -299,6 +305,7 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('username', None)
+    session.pop('user_id', None)
     return redirect('/')
 
 
