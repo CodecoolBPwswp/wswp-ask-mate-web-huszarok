@@ -117,17 +117,15 @@ def answer_question(cursor, message, question_id, table, user_id):
 
 
 @connection.connection_handler
-def add_comment_to_answer(cursor, messages, answer_id, table):
+def add_comment_to_answer(cursor, messages, answer_id, table, user_id):
     cursor.execute(
             sql.SQL("""
                     INSERT INTO {table}
-                    VALUES (DEFAULT, NULL, %s, %s, now(), %s)
+                    VALUES (DEFAULT, NULL, %(answer_id)s, %(messages)s, now(), 0, %(user_id)s)
                     """)
                 .format(
-                        table=sql.Identifier(table),
-                        answer_id=answer_id,
-                        messages=messages),
-                        [answer_id, messages, 0]
+                        table=sql.Identifier(table)),
+                        {'answer_id': answer_id, "messages": messages, 'user_id': user_id}
 )
 
 

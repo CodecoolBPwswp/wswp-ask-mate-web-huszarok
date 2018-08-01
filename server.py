@@ -205,7 +205,8 @@ def comment_answer(answer_id):
         return render_template("answer_comment.html", answer_id=answer_id)
     if request.method == 'POST':
         comment = request.form.get('comment_answer')
-        data_manager.add_comment_to_answer(comment, answer_id, 'comment')
+        user_id = session['user_id']
+        data_manager.add_comment_to_answer(comment, answer_id, 'comment', user_id)
 
     return redirect('/question/' + str(question[0]['question_id']))
 
