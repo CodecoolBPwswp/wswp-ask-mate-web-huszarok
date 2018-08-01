@@ -2,8 +2,6 @@ import connection
 from psycopg2 import sql, IntegrityError
 import bcrypt
 
-
-
 @connection.connection_handler
 def get_all_data_from_file(cursor, columns, table, order_column, order, limit):
     used_columns = sql.SQL(', ').join(sql.Identifier(n) for n in columns)
@@ -259,3 +257,12 @@ def get_user_data(cursor, username):
 
     data = cursor.fetchone()
     return data
+
+
+@connection.connection_handler
+def get_user_profile_by_id(cursor, user_id):
+    cursor.execute("""SELECT username, email
+                   FROM users
+                   WHERE id=%(user_id)
+                    """, {'user_id': user_id})
+    return cursor.fetchone()
