@@ -3,7 +3,25 @@
     <title>All Users</title>
 </head>
 <body>
-{% for d in data %}
-{{ d.username + ' ' + d.email + ' ' + d.question + ' ' + d.answer + ' ' + d.comment }}
-{% endfor %}
+{% block content %}
+<table>
+<tr>
+    <th>Username</th>
+    <th>Email</th>
+    <th>Number of Questions</th>
+    <th>Number of Answers</th>
+    <th>Number of Comments</th>
+</tr>
+<tr>
+    {% for d in data %}
+        <td>{{ d.username }}</td>
+        <td>{{ d.email }}</td>
+        <td>{{ d.question }}</td>
+        <td>{{ d.answer }}</td>
+        <td>{{ d.comment }}</td>
+</tr>
+    {% endfor %}
+
+</table>
+{% endblock %}
 </body>
