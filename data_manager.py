@@ -90,56 +90,41 @@ def delete(cursor, table, data_id, id_type):
 
 
 @connection.connection_handler
-def add_comment_to_question(cursor, messages, question_id, table):
+def add_comment_to_question(cursor, messages, question_id, table, user_id):
     cursor.execute(
             sql.SQL("""
                     INSERT INTO {table}
-                    VALUES (DEFAULT, %s, NULL, %s, now(), %s)
+                    VALUES (DEFAULT, %(question_id)s, NULL, %(messages)s, now(), 0, %(user_id)s )
                     """)
                 .format(
-                        table=sql.Identifier(table),
-                        question_id=question_id,
-                        messages=messages),
-                        [question_id, messages, 0]
-)
-
-@connection.connection_handler
-def answer_question(cursor, message, question_id, table):
-    query = """INSERT INTO {table} (id, submission_time, vote_number,
-                                                 question_id, message, image)
-                            VALUES (DEFAULT, now(), 0, {question_id}, %(text)s, NULL)
-                            """
-    composed_query = sql.SQL(query).format(
-                                         table=sql.Identifier(table),
-                                         question_id=sql.Literal(question_id))
-    cursor.execute(composed_query, {"text": message})
-
-
-@connection.connection_handler
-def add_comment_to_answer(cursor, messages, answer_id, table):
-    cursor.execute(
-            sql.SQL("""
-                    INSERT INTO {table}
-                    VALUES (DEFAULT, NULL, %s, %s, now(), %s)
-                    """)
-                .format(
-                        table=sql.Identifier(table),
-                        answer_id=answer_id,
-                        messages=messages),
-                        [answer_id, messages, 0]
+                        table=sql.Identifier(table)),
+                        {'question_id':question_id, "messages": messages, 'user_id': user_id}
 )
 
 
 @connection.connection_handler
-def answer_question(cursor, message, question_id, table):
+def answer_question(cursor, message, question_id, table, user_id):
     query = """INSERT INTO {table} (id, submission_time, vote_number,
-                                                 question_id, message, image)
-                            VALUES (DEFAULT, now(), 0, {question_id}, %(text)s, NULL)
+                                                 question_id, message, image, userid)
+                            VALUES (DEFAULT, now(), 0, {question_id}, %(text)s, NULL, %(user_id)s)
                             """
     composed_query = sql.SQL(query).format(
                                          table=sql.Identifier(table),
                                          question_id=sql.Literal(question_id))
-    cursor.execute(composed_query, {"text": message})
+    cursor.execute(composed_query, {"text": message, 'user_id':user_id})
+
+
+@connection.connection_handler
+def add_comment_to_answer(cursor, messages, answer_id, table, user_id):
+    cursor.execute(
+            sql.SQL("""
+                    INSERT INTO {table}
+                    VALUES (DEFAULT, NULL, %(answer_id)s, %(messages)s, now(), 0, %(user_id)s)
+                    """)
+                .format(
+                        table=sql.Identifier(table)),
+                        {'answer_id': answer_id, "messages": messages, 'user_id': user_id}
+)
 
 
 @connection.connection_handler
@@ -198,11 +183,11 @@ def get_tags_name(cursor, question_id):
 
 
 @connection.connection_handler
-def add_question(cursor, title, message):
+def add_question(cursor, title, message, user_id):
     query = sql.SQL("""INSERT INTO question 
-            (id, submission_time, view_number, vote_number, title, message, image)
-            VALUES (DEFAULT, now(), 0, 0, %(title)s, %(message)s, NULL)""")
-    cursor.execute(query, {'title':title, 'message':message})
+            (id, submission_time, view_number, vote_number, title, message, image, userid)
+            VALUES (DEFAULT, now(), 0, 0, %(title)s, %(message)s, NULL, %(user_id)s)""")
+    cursor.execute(query, {'title':title, 'message':message, 'user_id':user_id})
 
 
 @connection.connection_handler
@@ -250,7 +235,7 @@ def register(cursor, username, email, password):
 
 @connection.connection_handler
 def get_user_data(cursor, username):
-    cursor.execute("""SELECT username, password
+    cursor.execute("""SELECT id, username, password
                    FROM users
                    WHERE username=%(username)s 
                     """, {'username': username})
