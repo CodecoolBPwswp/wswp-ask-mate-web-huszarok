@@ -225,6 +225,15 @@ def decrement_vote_number(cursor, table, data_id):
                                                 data_id=sql.Literal(data_id))
     )
 
+@connection.connection_handler
+def lose_reputation(cursor, table, data_id, user_id):
+    cursor.execute(sql.SQL("""UPDATE {table} 
+                SET reputation = reputation -2
+                WHERE id = {data_id} AND userid = %(user_id)s """).format(table=sql.Identifier(table),
+                                                                          data_id=sql.Literal(data_id)), \
+                   {'user_id': user_id}
+                   )
+
 
 def hash_password(plain_text_password):
     hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())

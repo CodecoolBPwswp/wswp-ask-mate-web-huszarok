@@ -239,8 +239,10 @@ def vote_up_answers(answer_id):
 def vote_down_questions(question_id):
     columns = ['id']
     question = data_manager.get_data_by_id(columns, 'question', question_id, 'id')
+    user_id = session['user_id']
     if request.method == 'POST':
         data_manager.decrement_vote_number('question', question_id)
+        data_manager.lose_reputation('question', question_id, user_id)
     return redirect('/question/' + str(question[0]['id']))
 
 
@@ -248,8 +250,10 @@ def vote_down_questions(question_id):
 def vote_down_answers(answer_id):
     columns = ['id', 'question_id']
     answer = data_manager.get_data_by_id(columns, 'answer', answer_id, 'id')
+    user_id = session['user_id']
     if request.method == 'POST':
         data_manager.decrement_vote_number('answer', answer_id)
+        data_manager.lose_reputation('answer', answer_id, user_id)
     return redirect('/question/' + str(answer[0]['question_id']))
 
 
