@@ -125,6 +125,14 @@ def answer_edit(answer_id):
         return redirect('/question/' + str(answer[0]['question_id']))
 
 
+@app.route('/answer/<int:answers_id>/accept', methods=['POST'])
+def answer_accept(answer_id):
+    columns = ['id', 'message', 'question_id']
+    answer = data_manager.get_data_by_id(columns, 'answer', answer_id, 'id')
+    data_manager.update_data('answer_state', 'answer', 'accepted', answer_id)
+    return redirect('/question/' + str(answer[0]['question_id']))
+
+
 @app.route('/comments/<comment_id>/edit', methods=['GET', 'POST'])
 def edit_comment(comment_id):
     columns = ['id', 'question_id', 'answer_id', 'message', 'edited_count']

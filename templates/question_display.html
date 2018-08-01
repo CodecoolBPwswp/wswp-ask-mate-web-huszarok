@@ -115,6 +115,9 @@
                 <form action="/answer/{{ answer.id}}/delete" method="POST">
                     <button class="edit_button" type="submit">Delete</button>
                 </form>
+                <form action="/answer/{{ answer.id}}/accept" method="POST">
+                    <button class="edit_button" type="submit">Accept</button>
+                </form>
             </td>
         {% endif %}
     </tr>
