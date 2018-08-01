@@ -244,3 +244,16 @@ def get_user_data(cursor, username):
 
     data = cursor.fetchone()
     return data
+
+
+@connection.connection_handler
+def get_all_tag_data(cursor):
+    cursor.execute("""SELECT tag.name, COUNT(t.question_id)
+                   FROM tag
+                   JOIN question_tag t on tag.id = t.tag_id
+                   GROUP BY tag.name
+                   ORDER BY COUNT(t.question_id) DESC
+                    """)
+
+    data = cursor.fetchall()
+    return data

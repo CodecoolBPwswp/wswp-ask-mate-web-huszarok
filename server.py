@@ -23,6 +23,13 @@ def list_questions():
                                list_of_questions=list_of_questions)
 
 
+@app.route('/tags')
+def list_tags():
+    list_of_tags = data_manager.get_all_tag_data()
+    return render_template('list_tags.html',
+                           list_of_tags=list_of_tags)
+
+
 @app.route('/search', methods=['POST', 'GET'])
 def search():
     if request.method == 'GET':
