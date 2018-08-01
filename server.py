@@ -125,7 +125,7 @@ def answer_edit(answer_id):
         return redirect('/question/' + str(answer[0]['question_id']))
 
 
-@app.route('/answer/<int:answers_id>/accept', methods=['POST'])
+@app.route('/answer/<int:answer_id>/accept', methods=['POST'])
 def answer_accept(answer_id):
     columns = ['id', 'message', 'question_id']
     answer = data_manager.get_data_by_id(columns, 'answer', answer_id, 'id')
@@ -179,7 +179,7 @@ def answer_question(question_id):
 def display_question(question_id):
     comments_of_answers={}
     columns_for_questions = ['id', 'submission_time', 'title', 'message', 'view_number', 'vote_number', 'userid']
-    columns_for_answers = ['id', 'submission_time', 'message', 'vote_number', 'question_id', 'userid']
+    columns_for_answers = ['id', 'submission_time', 'message', 'vote_number', 'question_id', 'userid', 'answer_state']
     columns_for_comment = ['id', 'question_id', 'answer_id', 'message', 'submission_time', 'edited_count', 'userid']
 
     question = data_manager.get_data_by_id(columns_for_questions, 'question', question_id, 'id')
