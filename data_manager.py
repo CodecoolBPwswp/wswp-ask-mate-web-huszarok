@@ -200,11 +200,11 @@ def get_tags_name(cursor, question_id):
 
 
 @connection.connection_handler
-def add_question(cursor, title, message):
+def add_question(cursor, title, message, user_id):
     query = sql.SQL("""INSERT INTO question 
-            (id, submission_time, view_number, vote_number, title, message, image)
-            VALUES (DEFAULT, now(), 0, 0, %(title)s, %(message)s, NULL)""")
-    cursor.execute(query, {'title':title, 'message':message})
+            (id, submission_time, view_number, vote_number, title, message, image, userid)
+            VALUES (DEFAULT, now(), 0, 0, %(title)s, %(message)s, NULL, %(user_id)s)""")
+    cursor.execute(query, {'title':title, 'message':message, 'user_id':user_id})
 
 
 @connection.connection_handler

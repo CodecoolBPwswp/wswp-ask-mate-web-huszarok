@@ -87,7 +87,8 @@ def add_question():
     if request.method == 'POST':
         title = request.form['title']
         message = request.form['message']
-        data_manager.add_question(title, message)
+        user_id = session['user_id']
+        data_manager.add_question(title, message, user_id)
         return redirect('/')
 
 
