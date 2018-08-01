@@ -209,7 +209,7 @@ def gain_reputation(cursor, table, data_id, user_id):
                        )
     if table == 'answer':
         cursor.execute(sql.SQL("""UPDATE {table} 
-                    SET reputation = reputation + +10 
+                    SET reputation = reputation + 10 
                     WHERE id = {data_id} AND userid = %(user_id)s """).format(table=sql.Identifier(table),
                                                                               data_id=sql.Literal(data_id)), \
                        {'user_id': user_id}
