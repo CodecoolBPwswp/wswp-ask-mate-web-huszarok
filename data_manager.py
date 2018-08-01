@@ -3,7 +3,6 @@ from psycopg2 import sql, IntegrityError
 import bcrypt
 
 
-
 @connection.connection_handler
 def get_all_data_from_file(cursor, columns, table, order_column, order, limit):
     used_columns = sql.SQL(', ').join(sql.Identifier(n) for n in columns)
@@ -12,7 +11,7 @@ def get_all_data_from_file(cursor, columns, table, order_column, order, limit):
             sql.SQL("""SELECT {col} FROM {table} 
                     ORDER BY {order_column} DESC
                     LIMIT {limit_value} """)
-                .format(col= used_columns,
+                .format(col=used_columns,
                         table=sql.Identifier(table),
                         order_column=sql.Identifier(order_column),
                         limit_value=sql.Literal(limit))
@@ -36,7 +35,7 @@ def get_data_by_id(cursor, columns, table, data_id, id_type):
     used_columns = sql.SQL(', ').join(sql.Identifier(n) for n in columns)
     sql_query = sql.SQL("""SELECT {col}
                            FROM {table} 
-                           WHERE {id_type} = {data_id} """)\
+                           WHERE {id_type} = {data_id} """) \
         .format(col=used_columns,
                 table=sql.Identifier(table),
                 data_id=sql.Literal(data_id),
@@ -58,9 +57,9 @@ def get_data_by_search(cursor, columns, table, phrase):
                            JOIN answer ON question.id=answer.question_id
                            WHERE question.title ILIKE %(phrase)s OR 
                            question.message ILIKE %(phrase)s OR
-                           answer.message ILIKE %(phrase)s GROUP BY question.id; """)\
-                    .format(col=used_columns,
-                            table=sql.Identifier(table)),
+                           answer.message ILIKE %(phrase)s GROUP BY question.id; """) \
+                   .format(col=used_columns,
+                           table=sql.Identifier(table)),
                    {'phrase': phrase}
                    )
 
@@ -77,7 +76,7 @@ def update_data(cursor, column, table, value, data_id):
                 WHERE id = {data_id}""").format(col=sql.Identifier(column),
                                                 table=sql.Identifier(table),
                                                 data_id=sql.Literal(data_id)),
-                                        {'value': value}
+        {'value': value}
     )
 
 
@@ -86,22 +85,22 @@ def delete(cursor, table, data_id, id_type):
     cursor.execute(
         sql.SQL("""DELETE FROM {table}
                     WHERE {id_type} = {data_id}""")
-                .format(table=sql.Identifier(table),
-                        data_id=sql.Literal(data_id),
-                        id_type=sql.Identifier(id_type)))
+            .format(table=sql.Identifier(table),
+                    data_id=sql.Literal(data_id),
+                    id_type=sql.Identifier(id_type)))
 
 
 @connection.connection_handler
 def add_comment_to_question(cursor, messages, question_id, table, user_id):
     cursor.execute(
-            sql.SQL("""
+        sql.SQL("""
                     INSERT INTO {table}
                     VALUES (DEFAULT, %(question_id)s, NULL, %(messages)s, now(), 0, %(user_id)s )
                     """)
-                .format(
-                        table=sql.Identifier(table)),
-                        {'question_id':question_id, "messages": messages, 'user_id': user_id}
-)
+            .format(
+            table=sql.Identifier(table)),
+        {'question_id': question_id, "messages": messages, 'user_id': user_id}
+    )
 
 
 @connection.connection_handler
@@ -111,22 +110,22 @@ def answer_question(cursor, message, question_id, table, user_id):
                             VALUES (DEFAULT, now(), 0, {question_id}, %(text)s, NULL, %(user_id)s)
                             """
     composed_query = sql.SQL(query).format(
-                                         table=sql.Identifier(table),
-                                         question_id=sql.Literal(question_id))
-    cursor.execute(composed_query, {"text": message, 'user_id':user_id})
+        table=sql.Identifier(table),
+        question_id=sql.Literal(question_id))
+    cursor.execute(composed_query, {"text": message, 'user_id': user_id})
 
 
 @connection.connection_handler
 def add_comment_to_answer(cursor, messages, answer_id, table, user_id):
     cursor.execute(
-            sql.SQL("""
+        sql.SQL("""
                     INSERT INTO {table}
                     VALUES (DEFAULT, NULL, %(answer_id)s, %(messages)s, now(), 0, %(user_id)s)
                     """)
-                .format(
-                        table=sql.Identifier(table)),
-                        {'answer_id': answer_id, "messages": messages, 'user_id': user_id}
-)
+            .format(
+            table=sql.Identifier(table)),
+        {'answer_id': answer_id, "messages": messages, 'user_id': user_id}
+    )
 
 
 @connection.connection_handler
@@ -136,7 +135,7 @@ def get_id_question_or_answer(cursor, q_id):
                     FROM answer
                     WHERE question_id=%(q_id)s;
                     """,
-                    {'q_id': q_id})
+                   {'q_id': q_id})
     data = cursor.fetchall()
 
     return data
@@ -156,7 +155,7 @@ def add_tag(cursor, question_id, table, tag):
             .format(
             table=sql.Identifier(table),
             question_id=sql.Literal(question_id)),
-            [tag])
+        [tag])
     tag_id = cursor.fetchone()['id']
     cursor.execute(
         sql.SQL("""
@@ -189,17 +188,32 @@ def add_question(cursor, title, message, user_id):
     query = sql.SQL("""INSERT INTO question 
             (id, submission_time, view_number, vote_number, title, message, image, userid)
             VALUES (DEFAULT, now(), 0, 0, %(title)s, %(message)s, NULL, %(user_id)s)""")
-    cursor.execute(query, {'title':title, 'message':message, 'user_id':user_id})
+    cursor.execute(query, {'title': title, 'message': message, 'user_id': user_id})
 
 
 @connection.connection_handler
 def increment_vote_number(cursor, table, data_id):
-    cursor.execute(
-        sql.SQL("""UPDATE {table} 
+    cursor.execute(sql.SQL("""UPDATE {table} 
                 SET vote_number = vote_number + 1 
                 WHERE id = {data_id}""").format(table=sql.Identifier(table),
-                                                data_id=sql.Literal(data_id))
-    )
+                                                data_id=sql.Literal(data_id)))
+
+@connection.connection_handler
+def gain_reputation(cursor, table, data_id, user_id):
+    if table == 'question':
+        cursor.execute(sql.SQL("""UPDATE {table} 
+                    SET reputation = reputation + 5 
+                    WHERE id = {data_id} AND userid = %(user_id)s """).format(table=sql.Identifier(table),
+                                                                              data_id=sql.Literal(data_id)), \
+                       {'user_id': user_id}
+                       )
+    if table == 'answer':
+        cursor.execute(sql.SQL("""UPDATE {table} 
+                    SET reputation = reputation + +10 
+                    WHERE id = {data_id} AND userid = %(user_id)s """).format(table=sql.Identifier(table),
+                                                                              data_id=sql.Literal(data_id)), \
+                       {'user_id': user_id}
+                       )
 
 
 @connection.connection_handler
@@ -210,7 +224,6 @@ def decrement_vote_number(cursor, table, data_id):
                 WHERE id = {data_id}""").format(table=sql.Identifier(table),
                                                 data_id=sql.Literal(data_id))
     )
-
 
 
 def hash_password(plain_text_password):
@@ -229,7 +242,7 @@ def register(cursor, username, email, password):
         cursor.execute(
             sql.SQL("""INSERT INTO users
                        VALUES (DEFAULT, %(username)s, %(email)s, %(password)s)
-                        """), {'username':username, 'email':email, 'password':password})
+                        """), {'username': username, 'email': email, 'password': password})
         return True
     except IntegrityError:
         return False
