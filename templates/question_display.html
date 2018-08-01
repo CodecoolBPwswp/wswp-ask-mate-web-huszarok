@@ -31,13 +31,13 @@
         {% endif %}
     </tr>
 </table>
-
-<form action="/question/{{ question[0].id }}/vote-up" method="POST">
-    <button class="vote" id="voteup" type="submit">Vote up</button>
-    <button class="vote" id="votedown" type="submit" formaction="/question/{{ question[0].id }}/vote-down">Vote down
-    </button>
-</form>
-
+{% if question[0].userid != session['user_id'] %}
+    <form action="/question/{{ question[0].id }}/vote-up" method="POST">
+        <button class="vote" id="voteup" type="submit">Vote up</button>
+        <button class="vote" id="votedown" type="submit" formaction="/question/{{ question[0].id }}/vote-down">Vote down
+        </button>
+    </form>
+{% endif %}
 <form>
     <button class="add_button" , type="submit" , formaction="/question/{{ question[0].id }}/new-tag">Add tag</button>
     <ul>
@@ -120,10 +120,12 @@
     </tr>
 </table>
 
-<form action="/answer/{{ answer.id}}/vote-up" method="POST">
-    <button class="vote" id="voteup" type="submit">Vote up</button>
-    <button class="vote" id="votedown" type="submit" formaction="/answer/{{ answer.id}}/vote-down">Vote down</button>
-</form>
+{% if answer.userid != session['user_id'] %}
+    <form action="/answer/{{ answer.id}}/vote-up" method="POST">
+        <button class="vote" id="voteup" type="submit">Vote up</button>
+        <button class="vote" id="votedown" type="submit" formaction="/answer/{{ answer.id}}/vote-down">Vote down</button>
+    </form>
+{% endif %}
 
 <form>
     <button class="add_button" type="submit" formaction={{ url_for(
