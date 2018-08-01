@@ -19,14 +19,16 @@
         <td>{{ question[0].message }}</td>
         <td>{{ question[0].view_number }}</td>
         <td>{{ question[0].vote_number }}</td>
-        <td >
-            <form action="/question/{{ question[0].id }}/edit" method="GET">
-                <button class="edit_button" type="submit">Edit</button>
-            </form>
-            <form action="/question/{{ question[0].id }}/delete" method="POST">
-                <button class="edit_button" type="submit">Delete</button>
-            </form>
-        </td>
+        {% if question[0].userid == session['user_id'] %}
+            <td >
+                <form action="/question/{{ question[0].id }}/edit" method="GET">
+                    <button class="edit_button" type="submit">Edit</button>
+                </form>
+                <form action="/question/{{ question[0].id }}/delete" method="POST">
+                    <button class="edit_button" type="submit">Delete</button>
+                </form>
+            </td>
+        {% endif %}
     </tr>
 </table>
 
@@ -64,14 +66,16 @@
         <td>{{ "Submitted: " + comment.submission_time|string }}</td>
         <td align="left">{{ comment.message }}</td>
         <td>{{ "Edited " + comment.edited_count|string + "0 times"}}</td>
-        <td>
-            <form action="/comments/{{ comment.id }}/edit" method="GET">
-                <button class="edit_button" type="submit">Edit</button>
-            </form>
-            <form action="/comments/{{ comment.id }}/delete" method="POST">
-                <button class="edit_button" type="submit">Delete</button>
-            </form>
-        </td>
+        {% if comment.userid == session['user_id'] %}
+            <td>
+                <form action="/comments/{{ comment.id }}/edit" method="GET">
+                    <button class="edit_button" type="submit">Edit</button>
+                </form>
+                <form action="/comments/{{ comment.id }}/delete" method="POST">
+                    <button class="edit_button" type="submit">Delete</button>
+                </form>
+            </td>
+        {% endif %}
     </tr>
     {% endfor %}
 </table>
@@ -103,14 +107,16 @@
         <td width=25%>{{ answer.submission_time }}</td>
         <td width=60% align="left">{{ answer.message }}</td>
         <td width=15%>{{ answer.vote_number }}</td>
-        <td>
-            <form action="/answer/{{ answer.id}}/edit" method="GET">
-                <button class="edit_button" type="submit">Edit</button>
-            </form>
-            <form action="/answer/{{ answer.id}}/delete" method="POST">
-                <button class="edit_button" type="submit">Delete</button>
-            </form>
-        </td>
+        {% if answer.userid == session['user_id'] %}
+            <td>
+                <form action="/answer/{{ answer.id}}/edit" method="GET">
+                    <button class="edit_button" type="submit">Edit</button>
+                </form>
+                <form action="/answer/{{ answer.id}}/delete" method="POST">
+                    <button class="edit_button" type="submit">Delete</button>
+                </form>
+            </td>
+        {% endif %}
     </tr>
 </table>
 
@@ -135,14 +141,16 @@
         <td>{{ "Submitted: " + comment.submission_time|string }}</td>
         <td align="left">{{ comment.message }}</td>
         <td>{{ "Edited " + comment.edited_count|string + "0 times"}}</td>
-        <td>
-            <form action="/comments/{{ comment.id }}/edit" method="GET">
-                <button class="edit_button" type="submit">Edit</button>
-            </form>
-            <form action="/comments/{{ comment.id }}/delete" method="POST">
-                <button class="edit_button" type="submit">Delete</button>
-            </form>
-        </td>
+        {% if comment.userid == session['user_id'] %}
+            <td>
+                <form action="/comments/{{ comment.id }}/edit" method="GET">
+                    <button class="edit_button" type="submit">Edit</button>
+                </form>
+                <form action="/comments/{{ comment.id }}/delete" method="POST">
+                    <button class="edit_button" type="submit">Delete</button>
+                </form>
+            </td>
+        {% endif %}
     </tr>
     {% endfor %}
 
