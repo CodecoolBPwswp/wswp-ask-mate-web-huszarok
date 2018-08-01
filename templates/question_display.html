@@ -65,7 +65,7 @@
     <tr>
         <td>{{ "Submitted: " + ((comment.submission_time).strftime('%Y-%m-%d %H:%M:%S'))|string }}</td>
         <td align="left">{{ comment.message }}</td>
-        <td>{{ "Edited " + comment.edited_count|string + "0 times"}}</td>
+        <td>{{ "Edited " + comment.edited_count|string + " times"}}</td>
         {% if comment.userid == session['user_id'] %}
             <td>
                 <form action="/comments/{{ comment.id }}/edit" method="GET">
@@ -140,7 +140,7 @@
     <tr>
         <td>{{ "Submitted: " + ((comment.submission_time).strftime('%Y-%m-%d %H:%M:%S'))|string }}</td>
         <td align="left">{{ comment.message }}</td>
-        <td>{{ "Edited " + comment.edited_count|string + "0 times"}}</td>
+        <td>{{ "Edited " + comment.edited_count|string + " times"}}</td>
         {% if comment.userid == session['user_id'] %}
             <td>
                 <form action="/comments/{{ comment.id }}/edit" method="GET">
