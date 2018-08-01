@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+<head>
+    <title>All Users</title>
+</head>
+<body>
+{% for d in data %}
+{{ d.username + ' ' + d.email + ' ' + d.question + ' ' + d.answer + ' ' + d.comment }}
+{% endfor %}
+</body>

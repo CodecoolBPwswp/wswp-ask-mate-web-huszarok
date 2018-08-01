@@ -259,3 +259,17 @@ def get_user_data(cursor, username):
 
     data = cursor.fetchone()
     return data
+
+@connection.connection_handler
+def get_all_user_data(cursor):
+    cursor.execute("""
+                    SELECT users.username, users.email, COUNT(question.userid) as question, COUNT(answer.userid) as answer, COUNT(comment.userid) as comment
+                    FROM users
+                    JOIN question ON question.userid = users.id
+                    JOIN answer ON answer.userid = users.id
+                    JOIN comment ON comment.userid=users.id
+                    GROUP BY users.id, question.userid, answer.userid, comment.userid""")
+
+    data = cursor.fetchall()
+
+    return data
