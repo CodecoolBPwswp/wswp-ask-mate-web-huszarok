@@ -263,6 +263,6 @@ def get_user_data(cursor, username):
 def get_user_profile_by_id(cursor, user_id):
     cursor.execute("""SELECT username, email
                    FROM users
-                   WHERE id=%(user_id)
+                   WHERE id=%(user_id)s
                     """, {'user_id': user_id})
     return cursor.fetchone()

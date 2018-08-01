@@ -305,7 +305,6 @@ def logout():
 def display_user_page(user_id):
     user_data = data_manager.get_user_profile_by_id(user_id)
     return render_template('user_page.html', user_data=user_data)
-    
 
 
 if __name__ == '__main__':
