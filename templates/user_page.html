@@ -4,5 +4,40 @@
         <p>{{ user_data.username }}</p>
         {{ user_data.email }}
 
+<h1 class="display">Questions asked by {{ user_data.username }}</h1>
+<table class="table">
+    <tr>
+        <th>Submission time</th>
+        <th>Title</th>
+        <th>View number</th>
+        <th>Vote number</th>
+    </tr>
+    {% for question in questions %}
+    <tr>
+        <td>{{ question.submission_time }}</td>
+        <td>{{ question.title }}</td>
+        <td>{{ question.view_number }}</td>
+        <td>{{ question.vote_number }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h1 class="display">Answers by {{ user_data.username }}</h1>
+<table class="table">
+    <tr>
+        <th>Submission time</th>
+        <th>Message</th>
+        <th>Question ID</th>
+        <th>Vote number</th>
+    </tr>
+    {% for answer in answers %}
+    <tr>
+        <td>{{ answer.submission_time }}</td>
+        <td>{{ answer.message }}</td>
+        <td>{{ answer.question_id }}</td>
+        <td>{{ answer.vote_number }}</td>
+    </tr>
+    {% endfor %}
+</table>
 
 {% endblock %}

@@ -2,6 +2,7 @@ import connection
 from psycopg2 import sql, IntegrityError
 import bcrypt
 
+
 @connection.connection_handler
 def get_all_data_from_file(cursor, columns, table, order_column, order, limit):
     used_columns = sql.SQL(', ').join(sql.Identifier(n) for n in columns)
@@ -210,7 +211,6 @@ def decrement_vote_number(cursor, table, data_id):
     )
 
 
-
 def hash_password(plain_text_password):
     hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())
     return hashed_bytes.decode('utf-8')
@@ -251,3 +251,11 @@ def get_user_profile_by_id(cursor, user_id):
                    WHERE id=%(user_id)s
                     """, {'user_id': user_id})
     return cursor.fetchone()
+
+
+@connection.connection_handler
+def get_user_activities(cursor):
+    cursor.execute("""SELECT 
+                   """)
+
+
