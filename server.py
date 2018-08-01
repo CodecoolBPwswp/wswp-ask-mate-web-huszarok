@@ -153,7 +153,8 @@ def answer_question(question_id):
                                answers=answers_of_question)
     elif request.method == 'POST':
         message = request.form.get('message')
-        data_manager.answer_question(message, question_id, 'answer')
+        user_id = session['user_id']
+        data_manager.answer_question(message, question_id, 'answer', user_id)
         return redirect(url_for('display_question', question_id=question_id))
 
 
@@ -191,7 +192,8 @@ def comment_question(question_id):
         return render_template("question_comment.html", question_id=question_id)
     if request.method == 'POST':
         comment = request.form.get('comment')
-        data_manager.add_comment_to_question(comment, question_id, 'comment')
+        user_id = session['user_id']
+        data_manager.add_comment_to_question(comment, question_id, 'comment', user_id)
         return redirect('/question/' + str(question[0]['id']))
 
 

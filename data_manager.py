@@ -92,29 +92,28 @@ def delete(cursor, table, data_id, id_type):
 
 
 @connection.connection_handler
-def add_comment_to_question(cursor, messages, question_id, table):
+def add_comment_to_question(cursor, messages, question_id, table, user_id):
     cursor.execute(
             sql.SQL("""
                     INSERT INTO {table}
-                    VALUES (DEFAULT, %s, NULL, %s, now(), %s)
+                    VALUES (DEFAULT, %(question_id)s, NULL, %(messages)s, now(), 0, %(user_id)s )
                     """)
                 .format(
-                        table=sql.Identifier(table),
-                        question_id=question_id,
-                        messages=messages),
-                        [question_id, messages, 0]
+                        table=sql.Identifier(table)),
+                        {'question_id':question_id, "messages": messages, 'user_id': user_id}
 )
 
+
 @connection.connection_handler
-def answer_question(cursor, message, question_id, table):
+def answer_question(cursor, message, question_id, table, user_id):
     query = """INSERT INTO {table} (id, submission_time, vote_number,
-                                                 question_id, message, image)
-                            VALUES (DEFAULT, now(), 0, {question_id}, %(text)s, NULL)
+                                                 question_id, message, image, userid)
+                            VALUES (DEFAULT, now(), 0, {question_id}, %(text)s, NULL, %(user_id)s)
                             """
     composed_query = sql.SQL(query).format(
                                          table=sql.Identifier(table),
                                          question_id=sql.Literal(question_id))
-    cursor.execute(composed_query, {"text": message})
+    cursor.execute(composed_query, {"text": message, 'user_id':user_id})
 
 
 @connection.connection_handler
@@ -130,18 +129,6 @@ def add_comment_to_answer(cursor, messages, answer_id, table):
                         messages=messages),
                         [answer_id, messages, 0]
 )
-
-
-@connection.connection_handler
-def answer_question(cursor, message, question_id, table):
-    query = """INSERT INTO {table} (id, submission_time, vote_number,
-                                                 question_id, message, image)
-                            VALUES (DEFAULT, now(), 0, {question_id}, %(text)s, NULL)
-                            """
-    composed_query = sql.SQL(query).format(
-                                         table=sql.Identifier(table),
-                                         question_id=sql.Literal(question_id))
-    cursor.execute(composed_query, {"text": message})
 
 
 @connection.connection_handler
