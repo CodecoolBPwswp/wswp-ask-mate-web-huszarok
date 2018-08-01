@@ -19,14 +19,16 @@
         <td>{{ question[0].message }}</td>
         <td>{{ question[0].view_number }}</td>
         <td>{{ question[0].vote_number }}</td>
-        <td >
-            <form action="/question/{{ question[0].id }}/edit" method="GET">
-                <button class="edit_button" type="submit">Edit</button>
-            </form>
-            <form action="/question/{{ question[0].id }}/delete" method="POST">
-                <button class="edit_button" type="submit">Delete</button>
-            </form>
-        </td>
+        {% if question[0].userid == session['user_id'] %}
+            <td >
+                <form action="/question/{{ question[0].id }}/edit" method="GET">
+                    <button class="edit_button" type="submit">Edit</button>
+                </form>
+                <form action="/question/{{ question[0].id }}/delete" method="POST">
+                    <button class="edit_button" type="submit">Delete</button>
+                </form>
+            </td>
+        {% endif %}
     </tr>
 </table>
 
