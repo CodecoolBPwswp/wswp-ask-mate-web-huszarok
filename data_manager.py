@@ -252,7 +252,7 @@ def register(cursor, username, email, password):
 
 @connection.connection_handler
 def get_user_data(cursor, username):
-    cursor.execute("""SELECT username, password
+    cursor.execute("""SELECT id, username, password
                    FROM users
                    WHERE username=%(username)s 
                     """, {'username': username})

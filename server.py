@@ -289,6 +289,7 @@ def login():
             verified_pw = data_manager.verify_password(password, user_data['password'])
             if verified_pw:
                 session['username'] = username
+                session['user_id'] = user_data['id']
                 return redirect('/')
             else:
                 success = False
