@@ -18,13 +18,16 @@
             <li><a class="active" href="/">Home</a></li>
             <li><a href="/list">List all questions</a></li>
             <li><a href="/add-question">Ask your question</a></li>
+            <li><a href="/users">All user</a></li>
             <li><a href="/search">Search</a></li>
             {% if session['username'] %}
                 <li><a href="/logout">Logout</a></li>
+                <li class="loggedin"> You are logged in as: {{ session['username'] }}</li>
             {% else %}
                 <li><a href="/registration">Register</a></li>
                 <li><a href="/login">Login</a></li>
             {% endif %}
+
         </ul>
 
         <div class="content-wrapper">

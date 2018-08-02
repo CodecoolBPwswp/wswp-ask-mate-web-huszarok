@@ -23,6 +23,13 @@ def list_questions():
                                list_of_questions=list_of_questions)
 
 
+@app.route('/tags')
+def list_tags():
+    list_of_tags = data_manager.get_all_tag_data()
+    return render_template('list_tags.html',
+                           list_of_tags=list_of_tags)
+
+
 @app.route('/search', methods=['POST', 'GET'])
 def search():
     if request.method == 'GET':
@@ -118,6 +125,15 @@ def answer_edit(answer_id):
         return redirect('/question/' + str(answer[0]['question_id']))
 
 
+@app.route('/answer/<int:answer_id>/accept', methods=['POST'])
+def answer_accept(answer_id):
+    columns = ['id', 'message', 'question_id']
+    answer = data_manager.get_data_by_id(columns, 'answer', answer_id, 'id')
+    data_manager.update_data('answer_state', 'answer', 'accepted', answer_id)
+    data_manager.gain_reputation('answer_accept', answer_id)
+    return redirect('/question/' + str(answer[0]['question_id']))
+
+
 @app.route('/comments/<comment_id>/edit', methods=['GET', 'POST'])
 def edit_comment(comment_id):
     columns = ['id', 'question_id', 'answer_id', 'message', 'edited_count']
@@ -164,7 +180,7 @@ def answer_question(question_id):
 def display_question(question_id):
     comments_of_answers={}
     columns_for_questions = ['id', 'submission_time', 'title', 'message', 'view_number', 'vote_number', 'userid']
-    columns_for_answers = ['id', 'submission_time', 'message', 'vote_number', 'question_id', 'userid']
+    columns_for_answers = ['id', 'submission_time', 'message', 'vote_number', 'question_id', 'userid', 'answer_state']
     columns_for_comment = ['id', 'question_id', 'answer_id', 'message', 'submission_time', 'edited_count', 'userid']
 
     question = data_manager.get_data_by_id(columns_for_questions, 'question', question_id, 'id')
@@ -219,6 +235,7 @@ def vote_up_questions(question_id):
     question = data_manager.get_data_by_id(columns, 'question', question_id, 'id')
     if request.method == 'POST':
         data_manager.increment_vote_number('question', question_id)
+        data_manager.gain_reputation('question', question_id)
     return redirect('/question/' + str(question[0]['id']))
 
 
@@ -228,6 +245,7 @@ def vote_up_answers(answer_id):
     answer = data_manager.get_data_by_id(columns, 'answer', answer_id, 'id')
     if request.method == 'POST':
         data_manager.increment_vote_number('answer', answer_id)
+        data_manager.gain_reputation('answer', answer_id)
     return redirect('/question/' + str(answer[0]['question_id']))
 
 
@@ -237,6 +255,7 @@ def vote_down_questions(question_id):
     question = data_manager.get_data_by_id(columns, 'question', question_id, 'id')
     if request.method == 'POST':
         data_manager.decrement_vote_number('question', question_id)
+        data_manager.lose_reputation('question', question_id)
     return redirect('/question/' + str(question[0]['id']))
 
 
@@ -246,15 +265,18 @@ def vote_down_answers(answer_id):
     answer = data_manager.get_data_by_id(columns, 'answer', answer_id, 'id')
     if request.method == 'POST':
         data_manager.decrement_vote_number('answer', answer_id)
+        data_manager.lose_reputation('answer', answer_id)
     return redirect('/question/' + str(answer[0]['question_id']))
 
 
 @app.route('/question/<int:question_id>/new-tag', methods=['POST', 'GET'])
 def add_new_tag(question_id):
+    if request.method == 'GET':
+        return render_template('tag_question.html', question_id=question_id)
     if request.method == 'POST':
         new_tags = request.form.get('tag')
         data_manager.add_tag(question_id, 'tag', new_tags)
-    return render_template('tag_question.html', question_id=question_id)
+        return redirect('/question/' + str(question_id))
 
 
 @app.route('/registration', methods=['POST', 'GET'])
@@ -307,6 +329,14 @@ def logout():
     session.pop('username', None)
     session.pop('user_id', None)
     return redirect('/')
+
+
+@app.route('/users')
+def list_all_users():
+    get_all_user_data = data_manager.get_and_count_all_user_personal_data()
+
+    return render_template('all_users.html',
+                           data = get_all_user_data)
 
 
 @app.route('/user/<user_id>')
