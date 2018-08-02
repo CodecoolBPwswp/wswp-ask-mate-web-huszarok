@@ -32,7 +32,7 @@
                 {% for question in list_of_questions %}
                     <tr>
                         <td><a href="/question/{{ question.id }}">{{ question.id }}</a></td>
-                        <td>{{ question.submission_time }}</td>
+                        <td>{{ (question.submission_time).strftime('%Y-%m-%d %H:%M:%S')  }}</td>
                         <td><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
                         <td>{{ question.view_number }}</td>
                         <td>{{ question.vote_number }}</td>
