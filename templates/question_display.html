@@ -31,7 +31,7 @@
         {% endif %}
     </tr>
 </table>
-{% if question[0].userid != session['user_id'] %}
+{% if question[0].userid != session['user_id'] and 'user_id' in session%}
     <form action="/question/{{ question[0].id }}/vote-up" method="POST">
         <button class="vote" id="voteup" type="submit">Vote up</button>
         <button class="vote" id="votedown" type="submit" formaction="/question/{{ question[0].id }}/vote-down">Vote down
@@ -127,7 +127,7 @@
     </tr>
 </table>
 
-{% if answer.userid != session['user_id'] %}
+{% if answer.userid != session['user_id'] and 'user_id' in session %}
     <form action="/answer/{{ answer.id}}/vote-up" method="POST">
         <button class="vote" id="voteup" type="submit">Vote up</button>
         <button class="vote" id="votedown" type="submit" formaction="/answer/{{ answer.id}}/vote-down">Vote down</button>
