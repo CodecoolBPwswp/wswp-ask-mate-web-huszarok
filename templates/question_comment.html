@@ -1,10 +1,11 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
+    <h1>Comment on this question</h1>
     <form class="comment-text" id="comment-t" action="/question/{{ question_id }}/new-comment" method="POST" name="comment1">
         <textarea class="input-textarea" name="comment" placeholder="Enter your comment here!" rows="8" cols="30"></textarea>
-        <button class="submit_button" type="submit", ><a href="/question/{{ question_id }}"></a> Submit Comment</button>
+        <br><br>
+        <button class="submit_button" type="submit", ><a href="/question/{{ question_id }}"></a>Submit Comment</button>
     </form>
 
 {% endblock %}
