@@ -283,7 +283,7 @@ def get_user_data(cursor, username):
 
 @connection.connection_handler
 def get_and_count_all_user_personal_data(cursor):
-    cursor.execute("""SELECT users.id, users.username, users.email,
+    cursor.execute("""SELECT users.id, users.username, users.email, users.reputation,
     (select count( *) as question from question where users.id = question.userid),
     (select count( *) as answer from answer  where users.id = answer.userid),
     (select count( *) as comment from comment  where users.id = comment.userid)

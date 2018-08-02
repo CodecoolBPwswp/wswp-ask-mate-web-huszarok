@@ -68,7 +68,12 @@ ul.menu .active {
     background-color: #d92727;
 }
 
+ul.menu li.loggedin {
+    float: right;
+    color: white;
+    margin: 12px;
 
+}
 
 .table {
         font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
