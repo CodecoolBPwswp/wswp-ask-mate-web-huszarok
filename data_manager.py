@@ -199,22 +199,28 @@ def increment_vote_number(cursor, table, data_id):
                                                 data_id=sql.Literal(data_id)))
 
 @connection.connection_handler
-def gain_reputation(cursor, table, data_id, user_id):
-    if table == 'question':
-        cursor.execute(sql.SQL("""UPDATE {table} 
-                    SET reputation = reputation + 5 
-                    WHERE id = {data_id} AND userid = %(user_id)s """).format(table=sql.Identifier(table),
-                                                                              data_id=sql.Literal(data_id)), \
-                       {'user_id': user_id}
-                       )
-    if table == 'answer':
-        cursor.execute(sql.SQL("""UPDATE {table} 
-                    SET reputation = reputation + 10 
-                    WHERE id = {data_id} AND userid = %(user_id)s """).format(table=sql.Identifier(table),
-                                                                              data_id=sql.Literal(data_id)), \
-                       {'user_id': user_id}
+def gain_reputation(cursor, reputation_gained_from, data_id):
+
+    if reputation_gained_from == 'question':
+        cursor.execute(sql.SQL("""UPDATE users
+                                SET reputation = reputation + 5
+                                FROM question
+                                WHERE question.id = {data_id} AND question.userid = users.id """).format(data_id=sql.Literal(data_id))
                        )
 
+    if reputation_gained_from == 'answer':
+        cursor.execute(sql.SQL("""UPDATE users
+                                SET reputation = reputation + 10
+                                FROM answer
+                                WHERE answer.id = {data_id} AND answer.userid = users.id """).format(data_id=sql.Literal(data_id))
+                       )
+
+    if reputation_gained_from == 'answer_accept':
+        cursor.execute(sql.SQL("""UPDATE users
+                                SET reputation = reputation + 15
+                                FROM answer
+                                WHERE answer.id = {data_id} AND answer.userid = users.id """).format(data_id=sql.Literal(data_id))
+                       )
 
 @connection.connection_handler
 def decrement_vote_number(cursor, table, data_id):
@@ -226,13 +232,21 @@ def decrement_vote_number(cursor, table, data_id):
     )
 
 @connection.connection_handler
-def lose_reputation(cursor, table, data_id, user_id):
-    cursor.execute(sql.SQL("""UPDATE {table} 
-                SET reputation = reputation -2
-                WHERE id = {data_id} AND userid = %(user_id)s """).format(table=sql.Identifier(table),
-                                                                          data_id=sql.Literal(data_id)), \
-                   {'user_id': user_id}
-                   )
+def lose_reputation(cursor, reputation_losed_from, data_id):
+
+    if reputation_losed_from == 'question':
+        cursor.execute(sql.SQL("""UPDATE users
+                                SET reputation = reputation - 2
+                                FROM question
+                                WHERE question.id = {data_id} AND question.userid = users.id """).format(data_id=sql.Literal(data_id))
+                       )
+
+    if reputation_losed_from == 'answer':
+        cursor.execute(sql.SQL("""UPDATE users
+                                SET reputation = reputation - 2
+                                FROM answer
+                                WHERE answer.id = {data_id} AND answer.userid = users.id """).format(data_id=sql.Literal(data_id))
+                       )
 
 
 def hash_password(plain_text_password):
