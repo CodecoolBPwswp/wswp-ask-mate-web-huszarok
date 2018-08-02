@@ -3,6 +3,7 @@ from psycopg2 import sql, IntegrityError
 import bcrypt
 
 
+
 @connection.connection_handler
 def get_all_data_from_file(cursor, columns, table, order_column, order, limit):
     used_columns = sql.SQL(', ').join(sql.Identifier(n) for n in columns)
@@ -44,6 +45,16 @@ def get_data_by_id(cursor, columns, table, data_id, id_type):
 
     data = cursor.fetchall()
 
+    return data
+
+
+@connection.connection_handler
+def get_all_user_data(cursor):
+    cursor.execute("""SELECT id, username
+                   FROM users
+                    """)
+
+    data = cursor.fetchall()
     return data
 
 
@@ -280,6 +291,16 @@ def get_user_data(cursor, username):
 
     data = cursor.fetchone()
     return data
+
+
+@connection.connection_handler
+def get_user_profile_by_id(cursor, user_id):
+    cursor.execute("""SELECT username, email, reputation
+                   FROM users
+                   WHERE id=%(user_id)s
+                    """, {'user_id': user_id})
+    return cursor.fetchone()
+
 
 @connection.connection_handler
 def get_and_count_all_user_personal_data(cursor):

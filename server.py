@@ -7,20 +7,24 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/list')
 def list_questions():
-    columns = ['id', 'submission_time', 'title', 'view_number', 'vote_number']
+    columns = ['id', 'submission_time', 'title', 'view_number', 'vote_number', 'userid']
     sortby = request.args.get('sortby','submission_time,DESC')
     sortby = sortby.split(',')
     rule = request.url_rule
     if '/list' in rule.rule:
         limit = None
         list_of_questions = data_manager.get_all_data_from_file(columns, 'question', sortby[0], sortby[1], limit)
+        usernames = data_manager.get_all_user_data()
         return render_template('list_all.html',
-                               list_of_questions=list_of_questions)
+                               list_of_questions=list_of_questions,
+                               usernames=usernames)
     else:
         limit = 5
         list_of_questions = data_manager.get_all_data_from_file(columns, 'question', sortby[0], sortby[1], limit)
+        usernames = data_manager.get_all_user_data()
         return render_template('list.html',
-                               list_of_questions=list_of_questions)
+                               list_of_questions=list_of_questions,
+                               usernames=usernames)
 
 
 @app.route('/tags')
@@ -184,6 +188,7 @@ def display_question(question_id):
     columns_for_comment = ['id', 'question_id', 'answer_id', 'message', 'submission_time', 'edited_count', 'userid']
 
     question = data_manager.get_data_by_id(columns_for_questions, 'question', question_id, 'id')
+    username_of_question = data_manager.get_user_name_by_id('question', question_id, 'id')
     comments_of_question = data_manager.get_data_by_id(columns_for_comment, 'comment', question_id, 'question_id')
     answers_of_question = data_manager.get_data_by_id(columns_for_answers, 'answer', question_id, 'question_id')
     answer_ids = data_manager.get_id_question_or_answer(question_id)
@@ -342,6 +347,25 @@ def list_all_users():
 @app.route('/please-login-or-register')
 def please_login_or_register():
     return render_template('sad_ninja.html')
+
+
+@app.route('/user/<user_id>')
+def display_user_page(user_id):
+    user_data = data_manager.get_user_profile_by_id(user_id)
+    columns_for_questions = ['id', 'submission_time', 'title', 'view_number', 'vote_number', 'userid']
+    columns_for_answers = ['id', 'submission_time', 'message', 'vote_number', 'question_id', 'userid']
+    columns_for_comment = ['id', 'question_id', 'answer_id', 'message', 'submission_time', 'edited_count', 'userid']
+
+    questions = data_manager.get_data_by_id(columns_for_questions, 'question', user_id, 'userid')
+    comments_of_question = data_manager.get_data_by_id(columns_for_comment, 'comment', user_id, 'userid')
+    answers_of_question = data_manager.get_data_by_id(columns_for_answers, 'answer', user_id, 'userid')
+
+    return render_template('user_page.html',
+                           user_data=user_data,
+                           user_id=user_id,
+                           questions=questions,
+                           answers=answers_of_question,
+                           comments=comments_of_question)
 
 
 if __name__ == '__main__':
