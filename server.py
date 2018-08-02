@@ -7,20 +7,24 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/list')
 def list_questions():
-    columns = ['id', 'submission_time', 'title', 'view_number', 'vote_number']
+    columns = ['id', 'submission_time', 'title', 'view_number', 'vote_number', 'userid']
     sortby = request.args.get('sortby','submission_time,DESC')
     sortby = sortby.split(',')
     rule = request.url_rule
     if '/list' in rule.rule:
         limit = None
         list_of_questions = data_manager.get_all_data_from_file(columns, 'question', sortby[0], sortby[1], limit)
+        usernames = data_manager.get_all_user_data()
         return render_template('list_all.html',
-                               list_of_questions=list_of_questions)
+                               list_of_questions=list_of_questions,
+                               usernames=usernames)
     else:
         limit = 5
         list_of_questions = data_manager.get_all_data_from_file(columns, 'question', sortby[0], sortby[1], limit)
+        usernames = data_manager.get_all_user_data()
         return render_template('list.html',
-                               list_of_questions=list_of_questions)
+                               list_of_questions=list_of_questions,
+                               usernames=usernames)
 
 
 @app.route('/tags')
@@ -184,6 +188,7 @@ def display_question(question_id):
     columns_for_comment = ['id', 'question_id', 'answer_id', 'message', 'submission_time', 'edited_count', 'userid']
 
     question = data_manager.get_data_by_id(columns_for_questions, 'question', question_id, 'id')
+    username_of_question = data_manager.get_user_name_by_id('question', question_id, 'id')
     comments_of_question = data_manager.get_data_by_id(columns_for_comment, 'comment', question_id, 'question_id')
     answers_of_question = data_manager.get_data_by_id(columns_for_answers, 'answer', question_id, 'question_id')
     answer_ids = data_manager.get_id_question_or_answer(question_id)

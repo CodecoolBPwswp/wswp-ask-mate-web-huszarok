@@ -36,6 +36,11 @@
                         <td><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
                         <td>{{ question.view_number }}</td>
                         <td>{{ question.vote_number }}</td>
+                        {% for username in usernames %}
+                            {% if username['id'] == question['userid'] %}
+                                <td>{{ username['username'] }}</td>
+                            {% endif %}
+                        {% endfor %}
                     </tr>
                 {% endfor %}
 

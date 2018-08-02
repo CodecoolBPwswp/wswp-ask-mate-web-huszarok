@@ -48,6 +48,16 @@ def get_data_by_id(cursor, columns, table, data_id, id_type):
 
 
 @connection.connection_handler
+def get_all_user_data(cursor):
+    cursor.execute("""SELECT id, username
+                   FROM users
+                    """)
+
+    data = cursor.fetchall()
+    return data
+
+
+@connection.connection_handler
 def get_data_by_search(cursor, columns, table, phrase):
     phrase = '%' + phrase + '%'
     comprehension = [sql.SQL('.').join([sql.Identifier(table), sql.Identifier(n)]) for n in columns]
