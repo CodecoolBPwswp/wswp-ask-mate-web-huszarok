@@ -2,7 +2,8 @@
 {% block content %}
     <h2>Profile Page</h2>
         <p>{{ user_data.username }}</p>
-        {{ user_data.email }}
+        <p>{{ user_data.email }}</p>
+        <p>Reputation: {{ user_data.reputation|string }}</p>
 
 
 <h1 class="display">Questions asked by {{ user_data.username }}</h1>

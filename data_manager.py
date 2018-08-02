@@ -285,18 +285,11 @@ def get_user_data(cursor, username):
 
 @connection.connection_handler
 def get_user_profile_by_id(cursor, user_id):
-    cursor.execute("""SELECT username, email
+    cursor.execute("""SELECT username, email, reputation
                    FROM users
                    WHERE id=%(user_id)s
                     """, {'user_id': user_id})
     return cursor.fetchone()
-
-
-@connection.connection_handler
-def get_user_activities(cursor):
-    cursor.execute("""SELECT 
-                   """)
-
 
 
 @connection.connection_handler
