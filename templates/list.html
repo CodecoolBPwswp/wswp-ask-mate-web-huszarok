@@ -1,43 +1,51 @@
 {% extends "layout.html" %}
 
 {% block content %}
-        <div class="last_questions">
-            <form action='/' method="get">
-                <button id="sort_button", type="submit">Sort</button>
-                <select id="sortby" name="sortby">
-                    <option value="id,ASC">ID - asc</option>
-                    <option value="id,DESC">ID - desc</option>
-                    <option value="submission_time,ASC" >Submission time - asc</option>
-                    <option value="submission_time,DESC" >Submission time - desc</option>
-                    <option value="view_number,ASC" >Number of views - asc</option>
-                    <option value="view_number,DESC" >Number of views - desc</option>
-                    <option value="vote_number,ASC" >Number of votes - asc</option>
-                    <option value="vote_number,DESC" >Number of votes - desc</option>
-                    <option value="title,ASC" >Title - asc</option>
-                    <option value="title,DESC" >Title - desc</option>
-                </select>
-            </form>
+<div class="last_questions">
+    <div><h1>Latest questions</h1></div>
+    <div class="sort">
+        <form action='/' method="get">
+            <button id="sort_button" , type="submit">Sort</button>
+            <select id="sortby" name="sortby">
+                <option value="id,ASC">ID - asc</option>
+                <option value="id,DESC">ID - desc</option>
+                <option value="submission_time,ASC">Submission time - asc</option>
+                <option value="submission_time,DESC">Submission time - desc</option>
+                <option value="view_number,ASC">Number of views - asc</option>
+                <option value="view_number,DESC">Number of views - desc</option>
+                <option value="vote_number,ASC">Number of votes - asc</option>
+                <option value="vote_number,DESC">Number of votes - desc</option>
+                <option value="title,ASC">Title - asc</option>
+                <option value="title,DESC">Title - desc</option>
+            </select>
+        </form>
+    </div>
+</div>
+
+<div class="question_display">
+    {% for question in list_of_questions %}
+        <div class="question_summary">
+            <div class="question_statistics">
+                <div class="views">
+                    <div class="vote_number">{{ question.view_number }}</div>
+                    <div class="vote_number">views</div>
+                </div>
+
+                <div class="votes">
+                    <div class="vote_number">{{ question.vote_number }}</div>
+                    <div class="vote_number">votes</div>
+                </div>
+
+            </div>
+            <div class="question_data">
+                <div class="question_id">
+                    <div>{{ "Question: " + question.id|string }}</div>
+                </div>
+                <div class="title"><a href="/question/{{ question.id }}">{{ question.title }}</a></div>
+                <div class="submission"> Submitted on {{ (question.submission_time).strftime('%Y-%m-%d %H:%M:%S') }} by (name comes here)</div>
+            </div>
         </div>
+    {% endfor %}
+</div>
 
-        <table class="table">
-            <tr>
-                <th><strong>Question</strong></th>
-                <th><strong>Submission time</strong></th>
-                <th><strong>Title</strong></th>
-                <th><strong>View number</strong></th>
-                <th><strong>Vote number</strong></th>
-
-            </tr>
-
-                {% for question in list_of_questions %}
-                    <tr>
-                        <td><a href="/question/{{ question.id }}">{{ question.id }}</a></td>
-                        <td>{{ (question.submission_time).strftime('%Y-%m-%d %H:%M:%S')  }}</td>
-                        <td><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
-                        <td>{{ question.view_number }}</td>
-                        <td>{{ question.vote_number }}</td>
-                    </tr>
-                {% endfor %}
-
-        </table>
 {% endblock %}
