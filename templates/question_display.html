@@ -15,7 +15,7 @@
     </tr>
 
     <tr>
-        <td>{{ question[0].submission_time }}</td>
+        <td>{{ (question[0].submission_time).strftime('%Y-%m-%d %H:%M:%S') }}</td>
         <td>{{ question[0].message }}</td>
         <td>{{ question[0].view_number }}</td>
         <td>{{ question[0].vote_number }}</td>
@@ -63,7 +63,7 @@
     {% for comment in comments %}
 
     <tr>
-        <td>{{ "Submitted: " + comment.submission_time|string }}</td>
+        <td>{{ "Submitted: " + ((comment.submission_time).strftime('%Y-%m-%d %H:%M:%S'))|string }}</td>
         <td align="left">{{ comment.message }}</td>
         <td>{{ "Edited " + comment.edited_count|string + " times"}}</td>
         {% if comment.userid == session['user_id'] %}
@@ -104,7 +104,7 @@
     </tr>
 
     <tr>
-        <td width=25%>{{ answer.submission_time }}</td>
+        <td width=25%>{{ (answer.submission_time).strftime('%Y-%m-%d %H:%M:%S') }}</td>
         <td width=60% align="left">{{ answer.message }}</td>
         <td width=15%>{{ answer.vote_number }}</td>
         {% if answer.userid == session['user_id'] %}
@@ -138,7 +138,7 @@
     <col width=15%>
     {% for comment in comments_of_answers[answer.id] %}
     <tr>
-        <td>{{ "Submitted: " + comment.submission_time|string }}</td>
+        <td>{{ "Submitted: " + ((comment.submission_time).strftime('%Y-%m-%d %H:%M:%S'))|string }}</td>
         <td align="left">{{ comment.message }}</td>
         <td>{{ "Edited " + comment.edited_count|string + " times"}}</td>
         {% if comment.userid == session['user_id'] %}
