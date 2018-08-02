@@ -107,14 +107,21 @@
         <td width=25%>{{ (answer.submission_time).strftime('%Y-%m-%d %H:%M:%S') }}</td>
         <td width=60% align="left">{{ answer.message }}</td>
         <td width=15%>{{ answer.vote_number }}</td>
-        {% if answer.userid == session['user_id'] %}
+        {% if answer.userid == session['user_id'] or question[0].userid == session['user_id'] %}
             <td>
-                <form action="/answer/{{ answer.id}}/edit" method="GET">
-                    <button class="edit_button" type="submit">Edit</button>
-                </form>
-                <form action="/answer/{{ answer.id}}/delete" method="POST">
-                    <button class="edit_button" type="submit">Delete</button>
-                </form>
+                {% if answer.userid == session['user_id'] %}
+                    <form action="/answer/{{ answer.id}}/edit" method="GET">
+                        <button class="edit_button" type="submit">Edit</button>
+                    </form>
+                    <form action="/answer/{{ answer.id}}/delete" method="POST">
+                        <button class="edit_button" type="submit">Delete</button>
+                    </form>
+                {% endif %}
+                {% if question[0].userid == session['user_id'] and answer.answer_state == 'not_accepted' %}
+                    <form action="/answer/{{ answer.id}}/accept" method="POST">
+                        <button class="edit_button" type="submit">Accept</button>
+                    </form>
+                {% endif %}
             </td>
         {% endif %}
     </tr>
