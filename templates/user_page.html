@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h2>Profile Page</h2>
+        <p>{{ user_data.username }}</p>
+        <p>{{ user_data.email }}</p>
+        <p>Reputation: {{ user_data.reputation|string }}</p>
+
+
+<h1 class="display">Questions asked by {{ user_data.username }}</h1>
+<table class="table">
+    <tr>
+        <th>Submission time</th>
+        <th>Title</th>
+        <th>View number</th>
+        <th>Vote number</th>
+    </tr>
+    {% for question in questions %}
+    <tr>
+        <td>{{ question.submission_time }}</td>
+        <td><a href="/question/{{ question.id }}">{{ question.title }}</td>
+        <td>{{ question.view_number }}</td>
+        <td>{{ question.vote_number }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h1 class="display">Answers by {{ user_data.username }}</h1>
+<table class="table">
+    <tr>
+        <th>Submission time</th>
+        <th>Message</th>
+        <th>Question ID</th>
+        <th>Vote number</th>
+    </tr>
+    {% for answer in answers %}
+    <tr>
+        <td>{{ answer.submission_time }}</td>
+        <td>{{ answer.message }}</td>
+        <td><a href="/question/{{ answer.question_id }}">{{ answer.question_id }}</td>
+        <td>{{ answer.vote_number }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h1 class="display">Comments by {{ user_data.username }}</h1>
+<table class="table">
+    <tr>
+        <th>Submission time</th>
+        <th>Message</th>
+        <th>ID</th>
+    </tr>
+    {% for comment in comments %}
+    <tr>
+        <td>{{ comment.submission_time }}</td>
+        <td>{{ comment.message }}</td>
+        {% if comment.question_id is none %}
+            {% for answer in answers %}
+                {% if answer.id == comment.answer_id %}
+                    <td><a href="/question/{{ answer.question_id }}">{{ answer.question_id }}</a></td>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <td><a href="/question/{{ comment.question_id }}">{{ comment.question_id }}</td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

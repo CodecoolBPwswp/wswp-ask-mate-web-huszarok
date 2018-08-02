@@ -1,12 +1,17 @@
 body {
     background-image:url(images/backgr2.jpg);
     color: black;
+    box-sizing: inherit;
 }
 
 
+div {
+    display: block;
+}
+
 .content-wrapper {
     padding: 3%;
-    background-color: rgba(158, 158, 158, 0.81);
+    background-color: rgba(193, 193, 193, 0.87);
     margin-top: 1%;
     margin-right: 15%;
     margin-left: 15%;
@@ -269,8 +274,119 @@ h1.display {
     font-size: 23px;
     font-weight: bolder;
     padding: 10px;
+}
+
+
+.question_summary {
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
+    padding: 20px;
+    float: none;
+    overflow: hidden;
+    font-size: 18px;
+    border-top: 1px solid rgba(239, 240, 241, 0.52);
+    font-family: monospace;
+}
+
+
+
+.question_summary:nth-child(even){background-color: rgba(192, 192, 192, 0.5);}
+
+.question_summary:hover {background-color: rgba(238, 238, 238, 0.85);}
+
+.question_statistics {
+    float: left;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    margin-right: 30px;
+    padding: 8px;
+    box-sizing: content-box;
 
 
 }
 
+
+.question_data {
+    text-align: left;
+    flex: 1 auto;
+    width: auto;
+    margin: 5px;
+    padding: 8px 8px 8px 33px;
+    overflow:hidden;
+    border-left: 1px solid rgba(239, 240, 241, 0.52);
+}
+
+
+.votes {
+    display: inline-block;
+    font-size: inherit;
+    height: 38px;
+    min-width: 38px;
+    margin: 0 3px 0 0;
+    padding: 5px 5px 6px;}
+
+.vote_number{
+    margin-top: 5px;
+}
+
+
+.question_id{
+    display: inline-block;
+    font-size: inherit;
+    min-width: 38px;
+    margin: 0 3px 0 0;
+    padding: 5px 5px;
+
+}
+
+.views {
+    display: inline-block;
+    height: 38px;
+    min-width: 40px;
+    margin: 0 7px 0 0;
+    font-size: inherit;
+    padding: 5px 5px 6px;}
+
+
+.title {
+    font-size: 25px;
+}
+
+.submission {
+    width: auto;
+    line-height: inherit;
+    padding-top: 12px;
+    float: right;
+    margin: 5px;
+    font-size: 15px;
+}
+
+
+.last_questions{
+    width: 100%;
+    float: none;
+    overflow: hidden;
+}
+
+.last_questions h1 {
+    float: left;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    box-sizing: content-box;
+    font-size: 42px;
+
+}
+
+.sort {
+    flex: 1 auto;
+    width: auto;
+    overflow:hidden;
+    -webkit-margin-before: 0.67em;
+    -webkit-margin-after: 0.67em;
+    -webkit-margin-start: 0 px;
+    -webkit-margin-end: 0 px;
+}
 
