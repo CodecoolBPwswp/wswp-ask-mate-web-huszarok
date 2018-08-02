@@ -44,7 +44,7 @@
                 <div class="title"><a href="/question/{{ question.id }}">{{ question.title }}</a></div>
                 {% for username in usernames %}
                     {% if username['id'] == question['userid'] %}
-                        <div class="submission"> Submitted on {{ (question.submission_time).strftime('%Y-%m-%d %H:%M:%S') }} by {{ username['username'] }}</div>
+                        <div class="submission"> Submitted on {{ (question.submission_time).strftime('%Y-%m-%d %H:%M:%S') }} by <a href="/user/{{ username['id'] }}">{{ username['username'] }}</a></div>
                     {% endif %}
                 {% endfor %}
             </div>
