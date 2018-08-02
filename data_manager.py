@@ -281,6 +281,16 @@ def get_user_data(cursor, username):
     data = cursor.fetchone()
     return data
 
+@connection.connection_handler
+def get_and_count_all_user_personal_data(cursor):
+    cursor.execute("""SELECT users.id, users.username, users.email,
+    (select count( *) as question from question where users.id = question.userid),
+    (select count( *) as answer from answer  where users.id = answer.userid),
+    (select count( *) as comment from comment  where users.id = comment.userid)
+    FROM users""")
+
+    return cursor.fetchall()
+
 
 @connection.connection_handler
 def get_all_tag_data(cursor):

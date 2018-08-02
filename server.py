@@ -329,6 +329,14 @@ def logout():
     return redirect('/')
 
 
+@app.route('/users')
+def list_all_users():
+    get_all_user_data = data_manager.get_and_count_all_user_personal_data()
+
+    return render_template('all_users.html',
+                           data = get_all_user_data)
+
+
 if __name__ == '__main__':
     app.secret_key = 'bauxit'
     app.run(
