@@ -339,6 +339,11 @@ def list_all_users():
                            data=get_all_user_data)
 
 
+@app.route('/please-login-or-register')
+def please_login_or_register():
+    return render_template('sad_ninja.html')
+
+
 if __name__ == '__main__':
     app.secret_key = 'bauxit'
     app.run(
