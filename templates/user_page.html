@@ -54,9 +54,13 @@
         <td>{{ comment.submission_time }}</td>
         <td>{{ comment.message }}</td>
         {% if comment.question_id is none %}
-            <td>{{ comment.answer_id }}</td>
+            {% for answer in answers %}
+                {% if answer.id == comment.answer_id %}
+                    <td><a href="/question/{{ answer.question_id }}">{{ answer.question_id }}</a></td>
+                {% endif %}
+            {% endfor %}
         {% else %}
-            <td>{{ comment.question_id }}</td>
+            <td><a href="/question/{{ comment.question_id }}">{{ comment.question_id }}</td>
         {% endif %}
     </tr>
     {% endfor %}
