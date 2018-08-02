@@ -1,9 +1,8 @@
 body {
-    background-image:url(images/backgr2.jpg);
+    background-image: url(images/backgr2.jpg);
     color: black;
     box-sizing: inherit;
 }
-
 
 div {
     display: block;
@@ -19,8 +18,6 @@ div {
     border: 2px solid black;
 }
 
-
-
 .header {
     background: linear-gradient(#0000007d, #ffffff);
     border: 2px double black;
@@ -28,9 +25,9 @@ div {
 }
 
 .header #logo {
-    width:410px;
-    height:125px;
-    background-image:url(images/logoforlayout.png)
+    width: 410px;
+    height: 125px;
+    background-image: url(images/logoforlayout.png)
 }
 
 .header #content {
@@ -42,7 +39,6 @@ div {
     top: 35px;
     right: 20px;
 }
-
 
 ul.menu {
     list-style-type: none;
@@ -81,29 +77,32 @@ ul.menu li.loggedin {
 }
 
 .table {
-        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-        }
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
 
 .table td, .table th {
-        border: 1px solid #ddd;
-        padding: 8px;
-        word-wrap: break-word;
-        }
+    border: 1px solid #ddd;
+    padding: 8px;
+    word-wrap: break-word;
+}
 
-.table tr:nth-child(even){background-color: #f2f2f2;}
+.table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
 
-.table tr:hover {background-color: #ddd;}
+.table tr:hover {
+    background-color: #ddd;
+}
 
 .table th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: center;
-        background-color: rgb(217, 39, 39);
-        color: white;
-        }
-
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: rgb(217, 39, 39);
+    color: white;
+}
 
 #sort_button {
     background-color: #d92727;
@@ -122,11 +121,11 @@ ul.menu li.loggedin {
 }
 
 #sort_button {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #sort_button:hover {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
 
 #sortby {
@@ -153,67 +152,68 @@ ul.menu li.loggedin {
     cursor: pointer;
     float: right;
     border-radius: 4px;
-    }
+}
 
 #voteup {
     background-color: #4CAF50;
 }
 
-
 #votedown {
     background-color: #f44336;
 }
 
-
 h1.display {
-        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-        font-size: 30px;
-        padding: 20px 20px 30px 20px;
-        text-align: center;
-        text-shadow: 1px 0 gray;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    padding: 20px 20px 30px 20px;
+    text-align: center;
+    text-shadow: 1px 0 gray;
 }
-
 
 .display_table {
-        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-        }
-
-
-
-.display_table td, .display_table th {
-        border: 1px solid #ddd;
-        padding: 8px;
-        background-color: #f2f2f2;
-        word-wrap: break-word;
-        }
-
-.display_table tr:hover {background-color: #ddd;}
-
-.display_table th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: center;
-        background-color: rgba(35, 35, 35, 0.8);
-        color: white;
-        }
-
-#comment_table  td, #comment_table  th {
-        padding: 8px 4px 8px 10px;
-        word-wrap: break-word;
-        }
-
-#comment_table tr {
-        background-color: rgba(220, 220, 220, 0.5);
-        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 80%;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
 }
 
-#comment_table tr:nth-child(even){background-color: rgba(192, 192, 192, 0.5);}
+.display_table td, .display_table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    background-color: #f2f2f2;
+    word-wrap: break-word;
+}
 
-#comment_table tr:hover {background-color: #eeeeee;}
+.display_table tr:hover {
+    background-color: #ddd;
+}
+
+.display_table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: rgba(35, 35, 35, 0.8);
+    color: white;
+}
+
+#comment_table td, #comment_table th {
+    padding: 8px 4px 8px 10px;
+    word-wrap: break-word;
+}
+
+#comment_table tr {
+    background-color: rgba(220, 220, 220, 0.5);
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 80%;
+}
+
+#comment_table tr:nth-child(even) {
+    background-color: rgba(192, 192, 192, 0.5);
+}
+
+#comment_table tr:hover {
+    background-color: #eeeeee;
+}
 
 .add_button {
     border: 1px solid black;
@@ -226,7 +226,7 @@ h1.display {
     cursor: pointer;
     border-radius: 4px;
     color: black;
-    float:left
+    float: left
 }
 
 .submit_button {
@@ -243,7 +243,6 @@ h1.display {
     float: center
 }
 
-
 .edit_button {
     width: 80px;
     border: 1px solid black;
@@ -259,7 +258,6 @@ h1.display {
     float: center
 }
 
-
 .input-box, .input-textarea {
     width: 60%;
     padding: 12px 20px;
@@ -269,13 +267,11 @@ h1.display {
     font-family: monospace;
 }
 
-
 .register-form {
     font-size: 23px;
     font-weight: bolder;
     padding: 10px;
 }
-
 
 .question_summary {
     width: 100%;
@@ -289,11 +285,13 @@ h1.display {
     font-family: monospace;
 }
 
+.question_summary:nth-child(even) {
+    background-color: rgba(192, 192, 192, 0.5);
+}
 
-
-.question_summary:nth-child(even){background-color: rgba(192, 192, 192, 0.5);}
-
-.question_summary:hover {background-color: rgba(238, 238, 238, 0.85);}
+.question_summary:hover {
+    background-color: rgba(238, 238, 238, 0.85);
+}
 
 .question_statistics {
     float: left;
@@ -304,9 +302,7 @@ h1.display {
     padding: 8px;
     box-sizing: content-box;
 
-
 }
-
 
 .question_data {
     text-align: left;
@@ -314,7 +310,7 @@ h1.display {
     width: auto;
     margin: 5px;
     padding: 8px 8px 8px 33px;
-    overflow:hidden;
+    overflow: hidden;
     border-left: 1px solid rgba(239, 240, 241, 0.52);
 }
 
@@ -324,7 +320,7 @@ h1.display {
     width: auto;
     margin: 5px;
     padding: 8px 8px 8px 33px;
-    float:right;
+    float: right;
     display: flex;
 }
 
@@ -334,14 +330,14 @@ h1.display {
     height: 38px;
     min-width: 38px;
     margin: 0 3px 0 0;
-    padding: 5px 5px 6px;}
+    padding: 5px 5px 6px;
+}
 
-.vote_number{
+.vote_number {
     margin-top: 5px;
 }
 
-
-.question_id{
+.question_id {
     display: inline-block;
     font-size: inherit;
     min-width: 38px;
@@ -356,8 +352,8 @@ h1.display {
     min-width: 40px;
     margin: 0 7px 0 0;
     font-size: inherit;
-    padding: 5px 5px 6px;}
-
+    padding: 5px 5px 6px;
+}
 
 .title {
     font-size: 25px;
@@ -372,8 +368,7 @@ h1.display {
     font-size: 15px;
 }
 
-
-.last_questions{
+.last_questions {
     width: 100%;
     float: none;
     overflow: hidden;
@@ -392,7 +387,7 @@ h1.display {
 .sort {
     flex: 1 auto;
     width: auto;
-    overflow:hidden;
+    overflow: hidden;
     -webkit-margin-before: 0.67em;
     -webkit-margin-after: 0.67em;
 }
