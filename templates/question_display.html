@@ -31,27 +31,30 @@
         {% endif %}
     </tr>
 </table>
-{% if question[0].userid != session['user_id'] %}
+{% if question[0].userid != session['user_id'] and 'user_id' in session %}
     <form action="/question/{{ question[0].id }}/vote-up" method="POST">
         <button class="vote" id="voteup" type="submit">Vote up</button>
         <button class="vote" id="votedown" type="submit" formaction="/question/{{ question[0].id }}/vote-down">Vote down
         </button>
     </form>
 {% endif %}
-<form>
-    <button class="add_button" , type="submit" , formaction="/question/{{ question[0].id }}/new-tag">Add tag</button>
-    <ul>
-        {% for tag in tags %}
-        {{ tag.name }}
-        {% endfor %}
-    </ul>
-</form>
-
+{% if question[0].userid == session['user_id'] %}
+    <form>
+        <button class="add_button" , type="submit" , formaction="/question/{{ question[0].id }}/new-tag">Add tag</button>
+        <ul>
+            {% for tag in tags %}
+            {{ tag.name }}
+            {% endfor %}
+        </ul>
+    </form>
+{% endif %}
 <br><br><br>
-<form>
-    <button class="add_button" type="submit" formaction={{ url_for(
-    'comment_question', question_id=question[0].id) }} > Add your comment </button>
-</form>
+{% if 'user_id' in session %}
+    <form>
+        <button class="add_button" type="submit" formaction={{ url_for(
+        'comment_question', question_id=question[0].id) }} > Add your comment </button>
+    </form>
+{% endif %}
 
 <br><br><br>
 
@@ -83,10 +86,11 @@
 <br><br>
 <hr>
 <hr>
-
-<form>
-    <button class="add_button" type="submit" formaction="/question/{{id}}/new-answer">Answer this question</button>
-</form>
+{% if 'user_id' in session %}
+    <form>
+        <button class="add_button" type="submit" formaction="/question/{{id}}/new-answer">Answer this question</button>
+    </form>
+{% endif %}
 <br><br>
 <h1>Answers</h1>
 
@@ -127,18 +131,18 @@
     </tr>
 </table>
 
-{% if answer.userid != session['user_id'] %}
+{% if answer.userid != session['user_id'] and 'user_id' in session %}
     <form action="/answer/{{ answer.id}}/vote-up" method="POST">
         <button class="vote" id="voteup" type="submit">Vote up</button>
         <button class="vote" id="votedown" type="submit" formaction="/answer/{{ answer.id}}/vote-down">Vote down</button>
     </form>
 {% endif %}
-
-<form>
-    <button class="add_button" type="submit" formaction={{ url_for(
-    'comment_answer', answer_id=answer.id) }}> Add your comment </button>
-</form>
-
+{% if 'user_id' in session %}
+    <form>
+        <button class="add_button" type="submit" formaction={{ url_for(
+        'comment_answer', answer_id=answer.id) }}> Add your comment </button>
+    </form>
+{% endif %}
 <br><br><br>
 {% if comments_of_answers[answer.id] %}
 <table id="comment_table">

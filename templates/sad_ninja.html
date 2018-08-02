@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h3>Please Login or Register</h3>
+    <br><img src="/static/images/sadninja.png">
+    <br><a class="submit_button" href="{{ url_for('login') }}">Login</a>
+    <a class="submit_button" href="{{ url_for('register') }}">Registration</a>
+
+{% endblock %}
