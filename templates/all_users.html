@@ -4,7 +4,7 @@
 </head>
 <body>
 {% block content %}
-<table>
+<table class="display_table">
 <tr>
     <th>Username</th>
     <th>Email</th>
@@ -12,8 +12,9 @@
     <th>Number of Answers</th>
     <th>Number of Comments</th>
 </tr>
-<tr>
+
     {% for d in data %}
+        <tr>
         <td>{{ d.username }}</td>
         <td>{{ d.email }}</td>
         <td>{{ d.question }}</td>
