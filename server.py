@@ -271,10 +271,12 @@ def vote_down_answers(answer_id):
 
 @app.route('/question/<int:question_id>/new-tag', methods=['POST', 'GET'])
 def add_new_tag(question_id):
+    if request.method == 'GET':
+        return render_template('tag_question.html', question_id=question_id)
     if request.method == 'POST':
         new_tags = request.form.get('tag')
         data_manager.add_tag(question_id, 'tag', new_tags)
-    return render_template('tag_question.html', question_id=question_id)
+        return redirect('/question/' + str(question_id))
 
 
 @app.route('/registration', methods=['POST', 'GET'])
