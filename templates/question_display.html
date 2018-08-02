@@ -6,6 +6,11 @@
 
 
 <table class="table">
+    <col width=15%">
+    <col width=53%">
+    <col width=12%">
+    <col width=10%">
+    <col width=10%">
     <tr>
         <th>Submission time</th>
         <th>Message</th>
@@ -27,6 +32,10 @@
                 <form action="/question/{{ question[0].id }}/delete" method="POST">
                     <button class="edit_button" type="submit">Delete</button>
                 </form>
+            </td>
+        {% else %}
+            <td>
+                No actions available
             </td>
         {% endif %}
     </tr>
@@ -60,9 +69,10 @@
 
 
 <table id="comment_table">
-    <col width=25%">
-    <col width=60%>
-    <col width=15%>
+    <col width=15%">
+    <col width=53%">
+    <col width=12%">
+    <col width=20%">
     {% for comment in comments %}
 
     <tr>
@@ -77,6 +87,10 @@
                 <form action="/comments/{{ comment.id }}/delete" method="POST">
                     <button class="edit_button" type="submit">Delete</button>
                 </form>
+            </td>
+        {% else %}
+            <td>
+                No actions available
             </td>
         {% endif %}
     </tr>
@@ -100,6 +114,10 @@
 
 
 <table class="display_table">
+    <col width=15%">
+    <col width=53%">
+    <col width=12%">
+    <col width=20%">
     <tr>
         <th>Submission time</th>
         <th>Message</th>
@@ -108,11 +126,11 @@
     </tr>
 
     <tr>
-        <td width=25%>{{ (answer.submission_time).strftime('%Y-%m-%d %H:%M:%S') }}</td>
-        <td width=60% align="left">{{ answer.message }}</td>
-        <td width=15%>{{ answer.vote_number }}</td>
+        <td>{{ (answer.submission_time).strftime('%Y-%m-%d %H:%M:%S') }}</td>
+        <td align="left">{{ answer.message }}</td>
+        <td>{{ answer.vote_number }}</td>
         {% if answer.userid == session['user_id'] or question[0].userid == session['user_id'] %}
-            <td>
+            <td width=10%>
                 {% if answer.userid == session['user_id'] %}
                     <form action="/answer/{{ answer.id}}/edit" method="GET">
                         <button class="edit_button" type="submit">Edit</button>
@@ -126,6 +144,10 @@
                         <button class="edit_button" type="submit">Accept</button>
                     </form>
                 {% endif %}
+            </td>
+        {% else %}
+            <td>
+                No actions available
             </td>
         {% endif %}
     </tr>
@@ -146,9 +168,10 @@
 <br><br><br>
 {% if comments_of_answers[answer.id] %}
 <table id="comment_table">
-    <col width=25%">
-    <col width=60%>
-    <col width=15%>
+    <col width=15%">
+    <col width=53%">
+    <col width=12%">
+    <col width=20%">
     {% for comment in comments_of_answers[answer.id] %}
     <tr>
         <td>{{ "Submitted: " + ((comment.submission_time).strftime('%Y-%m-%d %H:%M:%S'))|string }}</td>
@@ -162,6 +185,10 @@
                 <form action="/comments/{{ comment.id }}/delete" method="POST">
                     <button class="edit_button" type="submit">Delete</button>
                 </form>
+            </td>
+        {% else %}
+            <td>
+                No actions available
             </td>
         {% endif %}
     </tr>

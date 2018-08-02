@@ -317,6 +317,15 @@ h1.display {
     border-left: 1px solid rgba(239, 240, 241, 0.52);
 }
 
+.actions {
+    text-align: left;
+    flex: 1 auto;
+    width: auto;
+    margin: 5px;
+    padding: 8px 8px 8px 33px;
+    float:right;
+    display: flex;
+}
 
 .votes {
     display: inline-block;
