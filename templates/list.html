@@ -42,7 +42,11 @@
                     <div>{{ "Question: " + question.id|string }}</div>
                 </div>
                 <div class="title"><a href="/question/{{ question.id }}">{{ question.title }}</a></div>
-                <div class="submission"> Submitted on {{ (question.submission_time).strftime('%Y-%m-%d %H:%M:%S') }} by (name comes here)</div>
+                {% for username in usernames %}
+                    {% if username['id'] == question['userid'] %}
+                        <div class="submission"> Submitted on {{ (question.submission_time).strftime('%Y-%m-%d %H:%M:%S') }} by {{ username['username'] }}</div>
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
     {% endfor %}
