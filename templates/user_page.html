@@ -4,6 +4,7 @@
         <p>{{ user_data.username }}</p>
         {{ user_data.email }}
 
+
 <h1 class="display">Questions asked by {{ user_data.username }}</h1>
 <table class="table">
     <tr>
@@ -15,7 +16,7 @@
     {% for question in questions %}
     <tr>
         <td>{{ question.submission_time }}</td>
-        <td>{{ question.title }}</td>
+        <td><a href="/question/{{ question.id }}">{{ question.title }}</td>
         <td>{{ question.view_number }}</td>
         <td>{{ question.vote_number }}</td>
     </tr>
@@ -34,8 +35,28 @@
     <tr>
         <td>{{ answer.submission_time }}</td>
         <td>{{ answer.message }}</td>
-        <td>{{ answer.question_id }}</td>
+        <td><a href="/question/{{ answer.question_id }}">{{ answer.question_id }}</td>
         <td>{{ answer.vote_number }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h1 class="display">Comments by {{ user_data.username }}</h1>
+<table class="table">
+    <tr>
+        <th>Submission time</th>
+        <th>Message</th>
+        <th>ID</th>
+    </tr>
+    {% for comment in comments %}
+    <tr>
+        <td>{{ comment.submission_time }}</td>
+        <td>{{ comment.message }}</td>
+        {% if comment.question_id is none %}
+            <td>{{ comment.answer_id }}</td>
+        {% else %}
+            <td>{{ comment.question_id }}</td>
+        {% endif %}
     </tr>
     {% endfor %}
 </table>
